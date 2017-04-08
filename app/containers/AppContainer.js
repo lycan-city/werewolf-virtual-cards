@@ -1,17 +1,27 @@
-import React, { Component } from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { ActionCreators } from '../actions';
+import { addNavigationHelpers, StackNavigator } from 'react-navigation';
+
 import Home from './Home';
+import Party from './Party';
 
-class AppContainer extends Component {
-    render() {
-        return <Home {...this.props}/>
-    }
-}
+const AppNavigator = StackNavigator({
+    Home: { screen: Home },
+    Party: { screen: Party }
+});
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators(ActionCreators, dispatch);
-}
+const AppContainer = ({ dispatch, navigation }) => (
+    <AppNavigator
+        navigation={addNavigationHelpers({ dispatch, state: navigation })} />
+);
 
-export default connect(() => ({}), mapDispatchToProps)(AppContainer);
+AppContainer.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    navigation: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    navigation: state.navigation
+});
+
+export default connect(mapStateToProps)(AppContainer);
