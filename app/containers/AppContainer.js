@@ -5,10 +5,7 @@ import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 import Home from './Home';
 import Party from './Party';
 
-const AppNavigator = StackNavigator({
-    Home: { screen: Home },
-    Party: { screen: Party }
-});
+import AppNavigator from '../navigators/AppNavigator';
 
 const AppContainer = ({ dispatch, navigation }) => (
     <AppNavigator

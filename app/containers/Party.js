@@ -4,9 +4,11 @@ import { View, Text } from 'react-native';
 
 class Party extends Component {
     render() {
-        return <View>
-            <Text> Party </Text>
-        </View>;
+        return (
+            <View>
+                <Text> Party </Text>
+            </View>
+        );
     }
 }
 
