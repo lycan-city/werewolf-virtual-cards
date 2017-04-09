@@ -11,7 +11,6 @@ const initialNavigationState = {
 };
 
 export const navigation = createReducer(initialNavigationState, {}, function (state, action) {
-    console.log(AppNavigator.router)
     const newState = AppNavigator.router && AppNavigator.router.getStateForAction(action, state);
     return (newState ? newState : state);
 });
