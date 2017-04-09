@@ -14,8 +14,6 @@ class Home extends Component {
     render() {
         return (
              <View>
-                <Text> {this.props.counter} </Text>
-                <Button onPress={() => this.props.incrementCounter()} title={"Increment"} > </Button>
                 <Button onPress={() => this.props.hostParty()} title={"Host Part"}/>
             </View>
         );
@@ -23,9 +21,7 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-    return {
-        counter: state.counter
-    };
+    return { };
 }
 
 const mapDispatchToProps = dispatch =>

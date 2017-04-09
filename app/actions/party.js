@@ -1,5 +1,5 @@
 import * as types from './types';
-import Party from '../party';
+import Party from '../services/party';
 import { NavigationActions } from 'react-navigation';
 
 export function hostParty() {
