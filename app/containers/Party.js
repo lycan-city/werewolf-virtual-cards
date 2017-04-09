@@ -13,11 +13,15 @@ class Party extends Component {
         super(props);
     }
 
+    kickPlayer(id) {
+        console.log(`player id ${id} kicked`);
+    }
+
     render() {
         const players = (
             this.props.party &&
             this.props.party.players  || []
-        ).map(player => <Player key={player.id} {...player} />);
+        ).map(player => <Player key={player.id} {...player} onKick={this.kickPlayer}/>);
 
         return (
             <View>
