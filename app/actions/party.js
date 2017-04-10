@@ -40,7 +40,7 @@ export function setUserJoined(user) {
     };
 }
 
-export function setUserFled(id) {
+export function setUserFled({id}) {
     return {
         type: types.USER_FLED,
         id
