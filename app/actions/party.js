@@ -16,6 +16,26 @@ export function hostParty() {
     };
 }
 
+export function joinParty(id) {
+    return (dispatch, getState) => {
+        dispatch(NavigationActions.navigate({ routeName: 'Party' }))
+        const { user } = getState();
+        Party.join({ id, user })
+            .then(party => {
+                dispatch(subscribeToParty(party))
+                return party;
+            })
+            .then(party => dispatch(setPartyRecieved(party)))
+            .catch(e => console.log(e));
+    };
+}
+
+export function getPartyInfo() {
+    return dispatch => {
+        dispatch(NavigationActions.navigate({routeName: 'JoinParty'}));
+    }
+}
+
 export function setPartyRecieved(party) {
     return {
         type: types.PARTY_RECIEVED,
@@ -33,11 +53,16 @@ export function subscribeToParty({id}) {
     };
 }
 
-export function setUserJoined(user) {
-    return {
-        type: types.USER_JOINED,
-        user
-    };
+export function setUserJoined(joinedUser) {
+    return (dispatch, getState) => {
+        const { user } = getState();
+        if(joinedUser.id === user.id)
+            return;
+        dispatch({
+            type: types.USER_JOINED,
+            user: joinedUser
+        });
+    }
 }
 
 export function setUserFled({id}) {

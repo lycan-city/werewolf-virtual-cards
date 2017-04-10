@@ -20,7 +20,7 @@ class NameInput extends Component {
     }
 
     render() {
-        return <View style={{flexDirection: "row"}}>
+        return <View style={{flexDirection: "row", padding: 20}}>
             <TextInput
                 defaultValue={this.props.userName}
                 editable={this.state.editting}
@@ -30,8 +30,9 @@ class NameInput extends Component {
                 returnKeyType={"go"}
                 underlineColorAndroid={(this.state.error == true)? "red": "black"}
                 style={{flex: 0.7}} />
-            {this._renderButton()}
-
+            <View style={{paddingLeft: 10, paddingTop:10}}>
+                {this._renderButton()}
+            </View>
         </View>;
     }
 

@@ -16,6 +16,10 @@ class Party extends RestClient {
     host = (user) =>
         this.POST('/host', { user });
 
+    join = ({id, user}) =>
+        this.POST('/join', {user, partyId: id});
+
+
     subscribe = (partyId, onJoined, onFled) => {
         const channel = this.pusher.subscribe(partyId);
         channel.bind('joined', ({id, name}) => onJoined({id,name}));

@@ -24,7 +24,10 @@ class Home extends Component {
                 <NameInput
                     userName={this.props.userName}
                     onNameUpdated={name => this.props.getUserInfo(name)} />
-                <Button onPress={() => this.props.hostParty()} title={"Host Part"} />
+                <View style={{padding: 20, flexDirection: "row", justifyContent:"space-around"}}>
+                    <Button onPress={() => this.props.hostParty()} title={"Host Party"} />
+                    <Button onPress={() => this.props.getPartyInfo()} title={"Join Party"} />
+                </View>
             </View>
         );
     }
