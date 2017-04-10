@@ -13,6 +13,7 @@
     "pusher-js": "^4.0.0",
     "react": "16.0.0-alpha.6",
     "react-native": "0.43.2",
+    "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
     "react-native-device-info": "^0.10.2",
     "react-native-qrcode": "^0.2.3",
     "react-native-rest-client": "^0.1.1",
