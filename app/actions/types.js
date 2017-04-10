@@ -1,1 +1,2 @@
 export const PARTY_RECIEVED = 'PARTY_RECIEVED';
+export const USER_INFO_UPDATED = 'USER_INFO_UPDATED';

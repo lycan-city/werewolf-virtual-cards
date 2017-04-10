@@ -1,16 +1,24 @@
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { addNavigationHelpers, StackNavigator } from 'react-navigation';
-
-import Home from './Home';
-import Party from './Party';
-
+import React, { PropTypes, Component } from 'react';
+import { connectAdvanced } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from '../actions';
+import { addNavigationHelpers } from 'react-navigation';
+import shallowEqual from '../lib/shallowEqual';
 import AppNavigator from '../navigators/AppNavigator';
 
-const AppContainer = ({ dispatch, navigation }) => (
-    <AppNavigator
-        navigation={addNavigationHelpers({ dispatch, state: navigation })} />
-);
+class AppContainer extends Component {
+    componentDidMount() {
+        this.props.getUserInfo();
+    }
+
+    render = () => <AppNavigator
+        navigation={
+            addNavigationHelpers({
+                dispatch: this.props.dispatch,
+                state: this.props.navigation
+            })
+        } />;
+}
 
 AppContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -21,4 +29,21 @@ const mapStateToProps = state => ({
     navigation: state.navigation
 });
 
-export default connect(mapStateToProps)(AppContainer);
+const selectorFactory = dispatch => {
+    let state = {};
+    let ownProps = {};
+    let result = {};
+    const actions = bindActionCreators(ActionCreators, dispatch);
+
+    return (nextState, nextOwnProps) => {
+        const nextMappedState  = mapStateToProps(nextState);
+        const nextResult = { ...nextOwnProps, ...nextMappedState, ...actions, dispatch };
+        state = nextState;
+        ownProps = nextOwnProps;
+        if(!shallowEqual(result, nextResult))
+            result = nextResult;
+        return result;
+    };
+};
+
+export default connectAdvanced(selectorFactory)(AppContainer);

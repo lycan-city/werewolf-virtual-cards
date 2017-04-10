@@ -7,13 +7,8 @@ class Party extends RestClient {
         super(API_URL);
     }
 
-    host() {
-        var userId = DeviceInfo.getUniqueID();
-
-        return this.POST('/host', {
-            userId: userId
-        });
-    }
+    host = (user) =>
+        this.POST('/host', { user });
 }
 
 export default new Party();

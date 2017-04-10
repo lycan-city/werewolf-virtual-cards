@@ -5,7 +5,9 @@ import { NavigationActions } from 'react-navigation';
 export function hostParty() {
     return (dispatch, getState) => {
         dispatch(NavigationActions.navigate({ routeName: 'Party' }))
-        Party.host()
+        const user = getState().user;
+        Party.host(user)
+            // TODO: handle errors
             .then(party => dispatch(setPartyRecieved(party)))
             .catch(e => console.log(e));
     };
