@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {
     View,
     Button,
     TextInput,
+    TouchableOpacity,
  } from 'react-native';
 
 class NameInput extends Component {
@@ -20,7 +22,7 @@ class NameInput extends Component {
     }
 
     render() {
-        return <View style={{flexDirection: "row", padding: 20}}>
+        return <View style={{flexDirection: "row", padding: 30}}>
             <TextInput
                 defaultValue={this.props.userName}
                 editable={this.state.editting}
@@ -30,8 +32,10 @@ class NameInput extends Component {
                 returnKeyType={"go"}
                 underlineColorAndroid={(this.state.error == true)? "red": "black"}
                 style={{flex: 0.7}} />
-            <View style={{paddingLeft: 10, paddingTop:10}}>
-                {this._renderButton()}
+            <View style={{ paddingLeft:20, paddingTop: 10, flexDirection: "column", justifyContent: "center"}}>
+                <View>
+                    {this._renderButton()}
+                </View>
             </View>
         </View>;
     }
@@ -55,15 +59,13 @@ class NameInput extends Component {
 
     _renderButton() {
         if(this.state.editting)
-            return <Button
-                title={"Done"}
-                onPress={ this._donePressed.bind(this) }
-                style={{flex: 0.3}}/>
+            return <TouchableOpacity onPress={this._donePressed.bind(this)}>
+                    <Icon name="check" size={20}/>
+                </TouchableOpacity>;
 
-        return <Button
-            title={"edit"}
-            onPress={ () => this.setState({editting: true}) }
-            style={{flex: 0.3}}/>
+        return <TouchableOpacity onPress={() => this.setState({editting: true})}>
+                <Icon name="pencil"  size={25}/>
+            </TouchableOpacity>;
     }
 }
 
