@@ -22,7 +22,7 @@ class Party extends Component {
         const players = (
             this.props.party &&
             this.props.party.players  || []
-        ).map(player => <Player key={player.id} {...player} onKick={this.kickPlayer}/>);
+        ).map(player => <Player key={`${player.id}${player.name}`} {...player} onKick={this.kickPlayer}/>);
 
         var { width } = Dimensions.get('window');
 

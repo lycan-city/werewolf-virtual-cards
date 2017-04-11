@@ -4,21 +4,20 @@ import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 import {
     View,
-    Text,
-    ScrollView,
-    Dimensions,
-    StyleSheet
+    StyleSheet,
+    Vibration,
 } from 'react-native';
 import Camera from 'react-native-camera';
 
 class Party extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            scanning: false
+        };
     }
 
     render() {
-       var { width } = Dimensions.get('window');
-
         return (
             <View style={styles.container}>
                 <Camera
@@ -31,7 +30,11 @@ class Party extends Component {
     }
 
     _barCodeRead({type, data}) {
-        this.props.joinParty(data)
+        if(this.state.scanning)
+            return;
+        Vibration.vibrate(40);
+        this.setState({scanning: true});
+        this.props.joinParty(data);
     }
 }
 
