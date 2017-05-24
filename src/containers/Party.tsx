@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import {
     View,
@@ -7,9 +7,9 @@ import {
     Dimensions
 } from 'react-native';
 import QRCode from 'react-native-qrcode';
-import Player from '../components/Player';
+import { Player } from '../components/Player';
 
-class Party extends Component {
+class Party extends React.Component<any, any> {
     constructor(props) {
         super(props);
     }
@@ -24,7 +24,7 @@ class Party extends Component {
             this.props.party.players  || []
         ).map(player => <Player key={`${player.id}${player.name}`} {...player} onKick={this.kickPlayer}/>);
 
-        var { width } = Dimensions.get('window');
+        const { width } = Dimensions.get('window');
 
         return (
             <View>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Camera from 'react-native-camera';
 
-class Party extends Component {
+class Party extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -29,10 +29,10 @@ class Party extends Component {
         );
     }
 
-    _barCodeRead({type, data}) {
+    _barCodeRead({ data}) {
         if(this.state.scanning)
             return;
-        Vibration.vibrate(40);
+        Vibration.vibrate(40, false);
         this.setState({scanning: true});
         this.props.joinParty(data);
     }
@@ -50,12 +50,12 @@ const styles = StyleSheet.create({
     },
 });
 
-function mapStateToProps(state) {
+function mapStateToProps() {
     return { };
 }
 
 const mapDispatchToProps = dispatch =>
-    bindActionCreators(ActionCreators, dispatch);
+    bindActionCreators(ActionCreators as any, dispatch);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Party);

@@ -4,10 +4,21 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "tsc": "tsc",
+    "clean": "rimraf build",
+    "build": "npm run clean && npm run tsc --",
+    "lint": "tslint src/**/*.ts",
+    "watch": "npm run build -- -w",
+    "ios": "npm run build && concurrently -r 'npm run watch' 'react-native run-ios'",
+    "android": "npm run build && concurrently -r 'npm run watch' 'react-native run-android'"
   },
   "dependencies": {
+    "@types/jest": "^19.2.3",
+    "@types/react": "^15.0.24",
+    "@types/react-native": "^0.44.3",
     "babel-plugin-transform-inline-environment-variables": "0.0.2",
+    "concurrently": "^3.4.0",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.6",
     "pusher-js": "^4.0.0",
@@ -23,6 +34,9 @@
     "redux": "^3.6.0",
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.2.0",
+    "rimraf": "^2.6.1",
+    "tslint": "^5.3.2",
+    "typescript": "^2.3.3",
     "uuid": "^3.0.1"
   },
   "devDependencies": {

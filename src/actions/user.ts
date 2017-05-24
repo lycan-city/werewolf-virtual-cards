@@ -3,7 +3,7 @@ import DeviceInfo  from 'react-native-device-info';
 
 export function getUserInfo(userName) {
     return (dispatch, getState) => {
-        var id = getState().user.id || DeviceInfo.getUniqueID();
+        const id = getState().user.id || DeviceInfo.getUniqueID();
         return dispatch({
             type: types.USER_INFO_UPDATED,
             user: {

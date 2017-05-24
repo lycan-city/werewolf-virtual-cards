@@ -20,4 +20,4 @@ export const party = createReducer({}, {
             ]
         });
     }
-});
+}, null);

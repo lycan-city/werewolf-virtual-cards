@@ -7,4 +7,4 @@ export default combineReducers(Object.assign(
   PartyReducer,
   NavigationReducer,
   UserReducer
-));
+) as any);

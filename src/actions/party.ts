@@ -44,7 +44,7 @@ export function setPartyRecieved(party) {
 }
 
 export function subscribeToParty({id}) {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         Party.subscribe(
             id,
             user => dispatch(setUserJoined(user)),

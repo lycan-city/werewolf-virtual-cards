@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
     View,
-    Button,
     TextInput,
     TouchableOpacity,
  } from 'react-native';
 
-class NameInput extends Component {
+export class NameInput extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -26,11 +24,11 @@ class NameInput extends Component {
             <TextInput
                 defaultValue={this.props.userName}
                 editable={this.state.editting}
-                onChangeText={text => this._textChanged(text)}
+                onChangeText={text => this.textChanged(text)}
                 onSubmitEditing={this._donePressed.bind(this)}
                 placeholder={"Name"}
                 returnKeyType={"go"}
-                underlineColorAndroid={(this.state.error == true)? "red": "black"}
+                underlineColorAndroid={(this.state.error === true)? "red": "black"}
                 style={{flex: 0.7}} />
             <View style={{ paddingLeft:20, paddingTop: 10, flexDirection: "column", justifyContent: "center"}}>
                 <View>
@@ -40,7 +38,7 @@ class NameInput extends Component {
         </View>;
     }
 
-    _textChanged(name) {
+    private textChanged(name) {
         this.setState({
             userName: name,
             error: false
@@ -68,10 +66,3 @@ class NameInput extends Component {
             </TouchableOpacity>;
     }
 }
-
-NameInput.propTypes = {
-    userName: PropTypes.string,
-    onNameUpdated: PropTypes.func.isRequired
-};
-
-export default NameInput;

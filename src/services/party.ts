@@ -6,6 +6,9 @@ import { PUSHER_KEY } from '../config';
 Pusher.logToConsole = true;
 
 class Party extends RestClient {
+    pusher: any;
+    POST: (url: string, data: any) => Promise<any>;
+
     constructor() {
         super(API_URL);
         this.pusher = new Pusher(PUSHER_KEY, {

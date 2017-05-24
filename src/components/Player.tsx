@@ -5,9 +5,9 @@ import {
     Button
 } from 'react-native';
 
-export default Player = ({id, name, onKick}) => (
+export const Player = ({id, name, onKick}: any) =>
     <View style={{ flex:1 , flexDirection: 'row', justifyContent: 'space-between' }}>
         <Text>{name}</Text>
         <Button title={"Kick"} onPress={() => onKick(id)}/>
     </View>
-);
+;

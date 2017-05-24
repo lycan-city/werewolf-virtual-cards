@@ -1,7 +1,5 @@
 import createReducer from '../lib/createReducer';
-import * as types from '../actions/types';
-import { NavigationActions } from 'react-navigation';
-import AppNavigator from '../navigators/AppNavigator';
+import { AppNavigator } from '../navigators/AppNavigator';
 
 const initialNavigationState = {
     index: 0,

@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     View,
     Button,
  } from 'react-native';
-import NameInput from '../components/NameInput';
+import { NameInput } from '../components/NameInput';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 import { connect } from 'react-redux';
 
-class Home extends Component {
+class Home extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {};
@@ -38,6 +38,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-    bindActionCreators(ActionCreators, dispatch);
+    bindActionCreators(ActionCreators as any, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
