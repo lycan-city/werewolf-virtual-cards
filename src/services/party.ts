@@ -1,7 +1,6 @@
 import RestClient from 'react-native-rest-client'
-import { API_URL } from '../config'
+import { config } from '../config';
 import Pusher from 'pusher-js/react-native';
-import { PUSHER_KEY } from '../config';
 
 Pusher.logToConsole = true;
 
@@ -10,8 +9,8 @@ class Party extends RestClient {
     POST: (url: string, data: any) => Promise<any>;
 
     constructor() {
-        super(API_URL);
-        this.pusher = new Pusher(PUSHER_KEY, {
+        super(config.API_URL);
+        this.pusher = new Pusher(config.PUSHER_KEY, {
             encrypted: true
         });
     }
@@ -19,14 +18,32 @@ class Party extends RestClient {
     host = (user) =>
         this.POST('/host', { user });
 
-    join = ({id, user}) =>
-        this.POST('/join', {user, partyId: id});
+    join = ({ id, user }) =>
+        this.POST('/join', { user, partyId: id });
+
+    kickPlayer = ({ curentPartyId, kickedId, currentUserId }) =>
+        this.POST('/kick', {
+            partyId: curentPartyId,
+            userId: kickedId,
+            hostId: currentUserId
+        });
+
+    promotePlayer = ({ curentPartyId, kickedId, currentUserId }) =>
+        this.POST('/promote', {
+            partyId: curentPartyId,
+            userId: kickedId,
+            hostId: currentUserId
+        }).catch(err => {
+            console.log(err);
+        });
 
 
-    subscribe = (partyId, onJoined, onFled) => {
+    subscribe = (partyId, onJoined, onFled, onKicked, onPromoted) => {
         const channel = this.pusher.subscribe(partyId);
-        channel.bind('joined', ({id, name}) => onJoined({id,name}));
-        channel.bind('fled', ({id}) => onFled({id}));
+        channel.bind('joined', ({ id, name }) => onJoined({ id, name }));
+        channel.bind('fled', ({ id }) => onFled({ id }));
+        channel.bind('kicked', ({id}) => onKicked({id}));
+        channel.bind('promote', ({id}) => onPromoted({id}));
     };
 }
 

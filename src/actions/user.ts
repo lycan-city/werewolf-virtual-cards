@@ -1,15 +1,15 @@
-import * as types from './types';
-import DeviceInfo  from 'react-native-device-info';
+import { ActionTypes } from './types';
+import DeviceInfo from 'react-native-device-info';
 
-export function getUserInfo(userName) {
+export const getUserInfo = (userName) => {
     return (dispatch, getState) => {
         const id = getState().user.id || DeviceInfo.getUniqueID();
         return dispatch({
-            type: types.USER_INFO_UPDATED,
+            type: ActionTypes.USER_INFO_UPDATED,
             user: {
                 id,
                 name: userName
             }
         });
-    };
-}
+    }
+};

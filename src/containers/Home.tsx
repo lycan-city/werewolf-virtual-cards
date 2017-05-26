@@ -2,20 +2,22 @@ import React from 'react';
 import {
     View,
     Button,
- } from 'react-native';
+} from 'react-native';
 import { NameInput } from '../components/NameInput';
 import { bindActionCreators } from 'redux';
-import { ActionCreators } from '../actions';
 import { connect } from 'react-redux';
+import { ActionCreators } from '../actions/index';
 
-class Home extends React.Component<any, any> {
+interface HomeProps {
+    hostParty: () => void;
+    joinParty: () => void;
+    getPartyInfo: () => void;
+    getUserInfo: (name: string) => void;
+    userName: string
+}
+class Home extends React.Component<HomeProps, any> {
     constructor(props) {
         super(props);
-        this.state = {};
-    }
-
-    nameTextInputUpdated(name) {
-        this.setState({name: name});
     }
 
     render() {
@@ -24,7 +26,7 @@ class Home extends React.Component<any, any> {
                 <NameInput
                     userName={this.props.userName}
                     onNameUpdated={name => this.props.getUserInfo(name)} />
-                <View style={{padding: 20, flexDirection: "row", justifyContent:"space-around"}}>
+                <View style={{ padding: 20, flexDirection: "row", justifyContent: "space-around" }}>
                     <Button onPress={() => this.props.hostParty()} title={"Host Party"} />
                     <Button onPress={() => this.props.getPartyInfo()} title={"Join Party"} />
                 </View>

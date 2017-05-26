@@ -7,21 +7,14 @@ import shallowEqual from '../lib/shallowEqual';
 import { AppNavigator } from '../navigators/AppNavigator';
 
 class AppContainer extends React.Component<any, void> {
-    constructor(props: any) {
-        super(props);
-    }
-    componentDidMount() {
-        this.props.getUserInfo();
-    }
-
-    render(){
-     return <AppNavigator
-        navigation={
-            addNavigationHelpers({
-                dispatch: this.props.dispatch,
-                state: this.props.navigation
-            })
-        } />;
+    render() {
+        return <AppNavigator
+            navigation={
+                addNavigationHelpers({
+                    dispatch: this.props.dispatch,
+                    state: this.props.navigation
+                })
+            } />;
     }
 }
 
@@ -36,11 +29,11 @@ const selectorFactory = dispatch => {
     const actions = bindActionCreators(ActionCreators as any, dispatch);
 
     return (nextState, nextOwnProps) => {
-        const nextMappedState  = mapStateToProps(nextState);
+        const nextMappedState = mapStateToProps(nextState);
         const nextResult = { ...nextOwnProps, ...nextMappedState, ...actions, dispatch };
         state = nextState;
         ownProps = nextOwnProps;
-        if(!shallowEqual(result, nextResult))
+        if (!shallowEqual(result, nextResult))
             result = nextResult;
         return result;
     };

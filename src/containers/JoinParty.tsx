@@ -23,13 +23,13 @@ class Party extends React.Component<any, any> {
                 <Camera
                     style={styles.preview}
                     aspect={Camera.constants.Aspect.fill}
-                    onBarCodeRead={this._barCodeRead.bind(this)} >
+                    onBarCodeRead={(data) => this.barCodeRead(data)} >
                 </Camera>
             </View>
         );
     }
 
-    _barCodeRead({ data}) {
+    private barCodeRead({ data }) {
         if(this.state.scanning)
             return;
         Vibration.vibrate(40, false);

@@ -52,3 +52,4 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
 build
+src/config.ts

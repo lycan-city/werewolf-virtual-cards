@@ -19,6 +19,7 @@ function configureStore(initialState) {
 }
 
 const store = configureStore({});
+
 export class App extends React.Component<any, void> {
   render() {
     return<Provider store={store}>

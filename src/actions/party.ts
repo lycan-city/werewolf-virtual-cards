@@ -1,22 +1,40 @@
-import * as types from './types';
+import { ActionTypes } from './types';
 import Party from '../services/party';
 import { NavigationActions } from 'react-navigation';
 
-export function hostParty() {
+const makeAction = (type: string, ...params) => {
+    return {
+        type: ActionTypes[type],
+        ...params
+    }
+}
+
+export const hostParty = () => {
     return (dispatch, getState) => {
         dispatch(NavigationActions.navigate({ routeName: 'Party' }))
         const user = getState().user;
         Party.host(user)
             .then(party => {
-                dispatch(subscribeToParty(party))
+                dispatch(this.subscribeToParty(party))
                 return party;
             })
-            .then(party => dispatch(setPartyRecieved(party)))
+            .then(party => dispatch(this.setPartyRecieved(party)))
             .catch(e => console.log(e));
     };
 }
 
-export function joinParty(id) {
+const subscribeToParty = ({ id }) => {
+    return (dispatch) => {
+        Party.subscribe(id,
+            user => dispatch(this.setUserJoined(user)),
+            id => dispatch(makeAction(ActionTypes.USER_FLED, id)),
+            id => dispatch(makeAction(ActionTypes.USER_KICKED, id)),
+            id => dispatch(makeAction(ActionTypes.USER_PROMOTE, id))
+        );
+    };
+};
+
+export const joinParty = (id) => {
     return (dispatch, getState) => {
         dispatch(NavigationActions.navigate({ routeName: 'Party' }))
         const { user } = getState();
@@ -25,49 +43,38 @@ export function joinParty(id) {
                 dispatch(subscribeToParty(party))
                 return party;
             })
-            .then(party => dispatch(setPartyRecieved(party)))
+            .then(party =>
+                dispatch(makeAction(ActionTypes.PARTY_RECIEVED, party)))
             .catch(e => console.log(e));
     };
 }
 
-export function getPartyInfo() {
+export const getPartyInfo = () => {
     return dispatch => {
-        dispatch(NavigationActions.navigate({routeName: 'JoinParty'}));
+        dispatch(NavigationActions.navigate({ routeName: 'JoinParty' }));
     }
 }
 
-export function setPartyRecieved(party) {
-    return {
-        type: types.PARTY_RECIEVED,
-        party: party
-    };
-}
+export const kickPlayer = (id) => {
+    return getState => {
+        const { user, party } = getState();
 
-export function subscribeToParty({id}) {
-    return (dispatch) => {
-        Party.subscribe(
-            id,
-            user => dispatch(setUserJoined(user)),
-            userId => dispatch(setUserFled(userId))
-        );
-    };
-}
-
-export function setUserJoined(joinedUser) {
-    return (dispatch, getState) => {
-        const { user } = getState();
-        if(joinedUser.id === user.id)
-            return;
-        dispatch({
-            type: types.USER_JOINED,
-            user: joinedUser
+        Party.kickPlayer({
+            curentPartyId: party.id,
+            kickedId: id,
+            currentUserId: user.id
         });
     }
 }
 
-export function setUserFled({id}) {
-    return {
-        type: types.USER_FLED,
-        id
-    };
-}
+export const promotePlayer = (id) => {
+    return getState => {
+        const { user, party } = getState();
+
+        Party.promotePlayer({
+            curentPartyId: party.id,
+            kickedId: id,
+            currentUserId: user.id
+        });
+    }
+};
