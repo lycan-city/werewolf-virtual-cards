@@ -4,7 +4,8 @@
   "scripts": {
     "clean": "rimraf build",
     "lint": "tslint src/**/*.ts",
-    "start": "concurrently  -p \"{name}\" -c \"magenta,cyan\" -n \"packager ,     tsc \" \"react-native start\" \"tsc -w\""
+    "start": "concurrently  -p \"{name}\" -c \"magenta,cyan\" -n \"packager ,     tsc \" \"npm run start:packager\" \"tsc -w\"",
+    "start:packager": "node -r dotenv/config ./node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
     "lodash": "^4.17.4",
@@ -28,6 +29,7 @@
     "@types/react": "^15.0.24",
     "@types/react-native": "^0.44.3",
     "concurrently": "^3.4.0",
+    "dotenv": "^4.0.0",
     "jest": "19.0.2",
     "react-test-renderer": "16.0.0-alpha.6",
     "rimraf": "^2.6.1",
