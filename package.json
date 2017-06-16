@@ -7,9 +7,7 @@
     "start": "concurrently  -p \"{name}\" -c \"magenta,cyan\" -n \"packager ,     tsc \" \"react-native start\" \"tsc -w\""
   },
   "dependencies": {
-    "concurrently": "^3.4.0",
     "lodash": "^4.17.4",
-    "prop-types": "^15.5.6",
     "pusher-js": "^4.0.0",
     "react": "16.0.0-alpha.6",
     "react-native": "0.43.2",
@@ -23,17 +21,18 @@
     "redux": "^3.6.0",
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.2.0",
-    "rimraf": "^2.6.1",
-    "tslint": "^5.3.2",
-    "typescript": "^2.3.3",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
     "@types/jest": "^19.2.3",
     "@types/react": "^15.0.24",
     "@types/react-native": "^0.44.3",
+    "concurrently": "^3.4.0",
     "jest": "19.0.2",
-    "react-test-renderer": "16.0.0-alpha.6"
+    "react-test-renderer": "16.0.0-alpha.6",
+    "rimraf": "^2.6.1",
+    "tslint": "^5.4.3",
+    "typescript": "^2.3.3"
   },
   "jest": {
     "preset": "react-native"
