@@ -28,6 +28,7 @@
     "@types/jest": "^19.2.3",
     "@types/react": "^15.0.24",
     "@types/react-native": "^0.44.3",
+    "babel-plugin-transform-inline-environment-variables": "^0.1.1",
     "concurrently": "^3.4.0",
     "dotenv": "^4.0.0",
     "jest": "19.0.2",
