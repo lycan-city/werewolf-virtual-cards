@@ -31,11 +31,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RNDeviceInfo()
       );
     }
-
-    @Override
-    protected String getJSMainModuleName() {
-      return "build/index.android";
-    }
   };
 
   @Override
