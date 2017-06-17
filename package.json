@@ -6,8 +6,8 @@
     "lint": "tslint src/**/*.ts",
     "start": "concurrently  -p \"{name}\" -c \"magenta,cyan\" -n \"packager ,     tsc \" \"npm run start:packager\" \"tsc -w\"",
     "start:packager": "node -r dotenv/config ./node_modules/react-native/local-cli/cli.js start",
-    "run:android": "react-native run-android",
-    "run:ios": "react-native run-ios"
+    "android": "react-native run-android",
+    "ios": "react-native run-ios"
   },
   "dependencies": {
     "lodash": "^4.17.4",
