@@ -1,46 +1,26 @@
 {
   "name": "werewolf-virtual-cards",
-  "version": "0.0.1",
-  "scripts": {
-    "clean": "rimraf build",
-    "lint": "tslint src/**/*.ts",
-    "start": "concurrently  -p \"{name}\" -c \"magenta,cyan\" -n \"packager ,     tsc \" \"npm run start:packager\" \"tsc -w\"",
-    "start:packager": "node -r dotenv/config ./node_modules/react-native/local-cli/cli.js start",
-    "android": "react-native run-android",
-    "ios": "react-native run-ios"
-  },
-  "dependencies": {
-    "lodash": "^4.17.4",
-    "pusher-js": "^4.0.0",
-    "react": "16.0.0-alpha.6",
-    "react-native": "0.43.2",
-    "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
-    "react-native-device-info": "^0.10.2",
-    "react-native-qrcode": "^0.2.3",
-    "react-native-rest-client": "^0.1.1",
-    "react-native-vector-icons": "^4.0.1",
-    "react-navigation": "git+https://github.com/react-community/react-navigation.git#7edd9a7",
-    "react-redux": "^5.0.3",
-    "redux": "^3.6.0",
-    "redux-logger": "^3.0.1",
-    "redux-thunk": "^2.2.0",
-    "uuid": "^3.0.1"
-  },
+  "version": "0.1.0",
+  "private": true,
   "devDependencies": {
-    "@types/jest": "^19.2.3",
-    "@types/react": "^15.0.24",
-    "@types/react-native": "^0.44.3",
-    "babel-plugin-transform-inline-environment-variables": "^0.1.1",
-    "concurrently": "^3.4.0",
-    "dotenv": "^4.0.0",
-    "jest": "19.0.2",
-    "react-test-renderer": "16.0.0-alpha.6",
-    "rimraf": "^2.6.1",
-    "tslint": "^5.4.3",
-    "typescript": "^2.3.3"
+    "react-native-scripts": "1.14.0",
+    "jest-expo": "~27.0.0",
+    "react-test-renderer": "16.3.1"
+  },
+  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "scripts": {
+    "start": "react-native-scripts start",
+    "eject": "react-native-scripts eject",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios",
+    "test": "jest"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "jest-expo"
   },
-  "private": true
+  "dependencies": {
+    "expo": "^27.0.1",
+    "react": "16.3.1",
+    "react-native": "~0.55.2"
+  }
 }
