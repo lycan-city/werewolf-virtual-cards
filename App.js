@@ -2,11 +2,22 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default class App extends React.Component {
+  state = {
+    fontsLoaded: false,
+  }
+  async componentWillMount() {
+    await Expo.Font.loadAsync({
+      'Roboto': require('native-base/Fonts/Roboto.ttf'),
+      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+    });
+
+    this.setState({ fontsLoaded: true });
+  }
+
   render() {
+    if (!this.state.fontsLoaded) return null;
     return (
-      <View style={styles.container}>
-        <Text>Werewolf</Text>
-      </View>
+      null
     );
   }
 }
