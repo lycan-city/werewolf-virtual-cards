@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { Container, Header, Content, Card as NativeBaseCard, CardItem, Body, Text } from 'native-base';
 
 export default class Card extends Component {
@@ -7,14 +7,10 @@ export default class Card extends Component {
     return (
       <Container>
         <Header />
-        <Content>
+        <Content scrollEnabled={false}>
           <NativeBaseCard>
             <CardItem>
-              <Body>
-                <Text>
-                  //Your text here
-                </Text>
-              </Body>
+              <Image source={require('../assets/prince.jpeg')} resizeMode='contain' style={styles.cardImage} />
             </CardItem>
           </NativeBaseCard>
         </Content>
@@ -24,13 +20,9 @@ export default class Card extends Component {
 }
 
 const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button: {
-    marginTop: 10
+  cardImage: {
+    width: '100%',
+    height: 600
   },
 });
+
