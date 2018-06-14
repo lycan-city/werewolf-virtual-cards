@@ -18,7 +18,7 @@ export default class Game extends Component {
             </ListItem>
             <ListItem avatar>
               <Left>
-                <Thumbnail source={require('../thumbnails/full-moon.jpg')} />
+                <Thumbnail source={require('../assets/full-moon.jpg')} />
               </Left>
               <Body>
                 <Text style={styles.name}>Steve</Text>
@@ -32,7 +32,7 @@ export default class Game extends Component {
             </ListItem>
 						<ListItem avatar>
               <Left>
-                <Thumbnail source={require('../thumbnails/full-moon.jpg')} />
+                <Thumbnail source={require('../assets/full-moon.jpg')} />
               </Left>
               <Body>
                 <Text style={styles.name} >Jane</Text>
@@ -46,7 +46,7 @@ export default class Game extends Component {
             </ListItem>
             <ListItem avatar>
               <Left>
-                <Thumbnail source={require('../thumbnails/full-moon.jpg')} />
+                <Thumbnail source={require('../assets/full-moon.jpg')} />
               </Left>
               <Body>
                 <Text style={styles.name} >Bill</Text>
@@ -60,7 +60,7 @@ export default class Game extends Component {
             </ListItem>
             <ListItem avatar>
               <Left>
-                <Thumbnail source={require('../thumbnails/full-moon.jpg')} />
+                <Thumbnail source={require('../assets/full-moon.jpg')} />
               </Left>
               <Body>
                 <Text style={styles.name} >Mike</Text>
@@ -74,7 +74,7 @@ export default class Game extends Component {
             </ListItem>
             <ListItem avatar>
               <Left>
-                <Thumbnail source={require('../thumbnails/full-moon.jpg')} />
+                <Thumbnail source={require('../assets/full-moon.jpg')} />
               </Left>
               <Body>
                 <Text style={styles.name} >Paco</Text>
