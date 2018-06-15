@@ -1,8 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Card from './src/views/Card';
-import Lobby from './src/views/Lobby';
-import Prepare from './src/views/Prepare';
 
 export default class App extends React.Component {
   state = {
@@ -20,7 +17,7 @@ export default class App extends React.Component {
   render() {
     if (!this.state.fontsLoaded) return null;
     return (
-      <Prepare />
+      null
     );
   }
 }
