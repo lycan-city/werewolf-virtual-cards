@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { Container, Header, Body, Title, Content, Item, Input, Label, Button, Text, Icon, View, Separator, ListItem } from 'native-base';
 import QRCode from 'react-native-qrcode';
+import styles from './styles'
 
 export default class Join extends Component {
 
@@ -66,23 +67,3 @@ export default class Join extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  qrContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 15,
-    marginBottom: 15,
-  },
-  qrLabel: {
-    fontSize: 20,
-    marginBottom: 5,
-  },
-  button: {
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-});

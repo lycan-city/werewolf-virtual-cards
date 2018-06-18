@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
 import { Container, Header, Body, Title, Content, Item, Input, Label, Button, Text } from 'native-base';
+import styles from './styles';
 
 export default class Home extends Component {
   render() {
@@ -27,15 +27,3 @@ export default class Home extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button: {
-    marginTop: 10
-  },
-});

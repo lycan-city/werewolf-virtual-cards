@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
 import { Container, Header, Body, Title, Content, Thumbnail, Button, List, ListItem, Left, Icon, Right, Text } from 'native-base';
+import styles from './styles'
 
 export default class Game extends Component {
   render() {
@@ -18,7 +18,7 @@ export default class Game extends Component {
             </ListItem>
             <ListItem avatar>
               <Left>
-                <Thumbnail source={require('../assets/full-moon.jpg')} />
+                <Thumbnail source={require('../../assets/full-moon.jpg')} />
               </Left>
               <Body>
                 <Text style={styles.name}>Steve</Text>
@@ -32,7 +32,7 @@ export default class Game extends Component {
             </ListItem>
 						<ListItem avatar>
               <Left>
-                <Thumbnail source={require('../assets/full-moon.jpg')} />
+                <Thumbnail source={require('../../assets/full-moon.jpg')} />
               </Left>
               <Body>
                 <Text style={styles.name} >Jane</Text>
@@ -46,7 +46,7 @@ export default class Game extends Component {
             </ListItem>
             <ListItem avatar>
               <Left>
-                <Thumbnail source={require('../assets/full-moon.jpg')} />
+                <Thumbnail source={require('../../assets/full-moon.jpg')} />
               </Left>
               <Body>
                 <Text style={styles.name} >Bill</Text>
@@ -60,7 +60,7 @@ export default class Game extends Component {
             </ListItem>
             <ListItem avatar>
               <Left>
-                <Thumbnail source={require('../assets/full-moon.jpg')} />
+                <Thumbnail source={require('../../assets/full-moon.jpg')} />
               </Left>
               <Body>
                 <Text style={styles.name} >Mike</Text>
@@ -74,7 +74,7 @@ export default class Game extends Component {
             </ListItem>
             <ListItem avatar>
               <Left>
-                <Thumbnail source={require('../assets/full-moon.jpg')} />
+                <Thumbnail source={require('../../assets/full-moon.jpg')} />
               </Left>
               <Body>
                 <Text style={styles.name} >Paco</Text>
@@ -104,15 +104,3 @@ export default class Game extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  icon: {
-    fontSize: 34,
-  },
-  name: {
-    fontSize: 22,
-  },
-  role:{
-    fontSize: 17,
-  }
-});

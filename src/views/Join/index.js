@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
 import { Container, Header, Body, Title, Content, Item, Input, Label, Button, Text, Icon, View } from 'native-base';
+import styles from './styles';
 
 export default class Join extends Component {
   render() {
@@ -16,7 +16,7 @@ export default class Join extends Component {
             <Label> Party Code </Label>
             <Input />
           </Item>
-          <Button iconRight block bordered info style={styles.button}>
+          <Button iconRight block bordered info style={styles.buttonBlock}>
             <Text> Scan </Text>
             <Icon name='md-qr-scanner' />
           </Button>
@@ -35,19 +35,3 @@ export default class Join extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  row: {
-    flexDirection: 'row'
-  },
-  button: {
-    marginTop: 10,
-    marginRight: 20
-  },
-});

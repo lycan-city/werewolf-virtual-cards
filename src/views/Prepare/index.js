@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { Container, Header, Body, Title, Content, View, Button, Icon, Text, Form, Picker, List, ListItem, Left, Right, Switch } from 'native-base';
+import styles from './styles'
 
 export default class Prepare extends Component {
   constructor(props) {
@@ -248,23 +249,3 @@ export default class Prepare extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  button: {
-    marginTop: 10,
-    marginRight: 6,
-    marginLeft: 6,
-    marginBottom: 10,
-  },
-  row: {
-    flexDirection: 'row',    
-  },
-  center: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  templateText: {
-    fontSize: 20,
-    marginLeft: 5,
-  }
-});
