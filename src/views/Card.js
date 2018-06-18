@@ -14,12 +14,8 @@ export default class Card extends Component {
         </Header>
         <Content scrollEnabled={false}>
           <FlipCard
-            friction={6}
-            perspective={1000}
             flipHorizontal={true}
             flipVertical={false}
-            flip={false}
-            clickable={true}
           >
             <NativeBaseCard>
               <CardItem style={styles.card}>
