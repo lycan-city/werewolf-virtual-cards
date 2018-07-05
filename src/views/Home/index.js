@@ -3,14 +3,13 @@ import { Container, Header, Body, Title, Content, Item, Input, Label, Button, Te
 import styles from './styles';
 
 export default class Home extends Component {
+  static navigationOptions = {
+    title: 'Virtual Cards',
+  };
+
   render() {
     return (
       <Container>
-        <Header> 
-          <Body>
-              <Title>Virtual Cards</Title>
-          </Body>
-        </Header>
         <Content contentContainerStyle={styles.content} scrollEnabled={false}>
           <Item floatingLabel>
             <Label> Nombre </Label>

@@ -5,15 +5,13 @@ import QRCode from 'react-native-qrcode';
 import styles from './styles'
 
 export default class Join extends Component {
+  static navigationOptions = {
+    title: 'Moe\'s Party',
+  };
 
   render() {
     return (
       <Container>
-        <Header> 
-          <Body>
-              <Title>Moe's Party</Title>
-          </Body>
-        </Header>
         <Content>
           <View style={styles.qrContainer}>
             <Label style={styles.qrLabel}> A93F32A </Label>

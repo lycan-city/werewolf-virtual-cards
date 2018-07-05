@@ -3,14 +3,13 @@ import { Container, Header, Body, Title, Content, Item, Input, Label, Button, Te
 import styles from './styles';
 
 export default class Join extends Component {
+  static navigationOptions = {
+    title: 'Virtual Cards',
+  };
+
   render() {
     return (
       <Container>
-        <Header> 
-          <Body>
-              <Title>Virtual Cards</Title>
-          </Body>
-        </Header>
         <Content scrollEnabled={false} contentContainerStyle={styles.content}>
           <Item floatingLabel >
             <Label> Party Code </Label>

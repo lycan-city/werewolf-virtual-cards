@@ -20,6 +20,10 @@ export default class Prepare extends Component {
     };
   };
 
+  static navigationOptions = {
+    title: 'Virtual Cards',
+  };
+
   onTemplateChange(template){
     this.setState({template});
   };
@@ -54,11 +58,6 @@ export default class Prepare extends Component {
   render() {
     return (
       <Container>
-        <Header> 
-          <Body>
-						<Title>Virtual Cards</Title>
-          </Body>
-        </Header>
         <Content>
           <Form>
             <Button
