@@ -61,7 +61,14 @@ export default class Prepare extends Component {
         </Header>
         <Content>
           <Form>
-            <Button iconLeft block bordered success style={styles.button}>
+            <Button
+              iconLeft
+              block
+              bordered
+              success
+              style={styles.button}
+              onPress={() => this.props.navigation.goBack()}
+            >
               <Icon name='arrow-back'/>
               <Text> Done </Text>
             </Button>

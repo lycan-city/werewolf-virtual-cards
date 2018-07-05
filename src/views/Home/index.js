@@ -16,10 +16,22 @@ export default class Home extends Component {
             <Label> Nombre </Label>
             <Input />
           </Item>
-          <Button block bordered success style={styles.button}>
+          <Button
+            block 
+            bordered
+            success
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('Lobby')}
+          >
             <Text>Create</Text>
           </Button>
-          <Button block bordered info style={styles.button}>
+          <Button
+            block
+            bordered
+            info
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('Join')}
+          >
             <Text>Join</Text>
           </Button>
         </Content>

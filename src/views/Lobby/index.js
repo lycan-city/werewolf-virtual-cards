@@ -53,13 +53,31 @@ export default class Join extends Component {
               <Icon type="FontAwesome" name="ban" />
             </Button>
           </ListItem>
-          <Button block bordered warning style={styles.button}>
+          <Button
+            block
+            bordered
+            warning
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('Prepare')}
+          >
             <Text>Prepare</Text>
           </Button>
-          <Button block bordered success style={styles.button}>
+          <Button
+            block
+            bordered
+            success
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('Game')}
+          >
             <Text>Start</Text>
           </Button>
-          <Button block bordered danger style={styles.button}>
+          <Button
+            block
+            bordered
+            danger
+            style={styles.button}
+            onPress={() => this.props.navigation.goBack()}
+          >
             <Text>Flee</Text>
           </Button>
         </Content>
