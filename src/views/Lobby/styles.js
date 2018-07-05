@@ -9,6 +9,9 @@ export default StyleSheet.create({
       marginTop: 15,
       marginBottom: 15,
     },
+    content: {
+      backgroundColor: '#fff',
+    },
     qrLabel: {
       fontSize: 20,
       marginBottom: 5,

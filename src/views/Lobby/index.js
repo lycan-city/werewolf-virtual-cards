@@ -12,7 +12,7 @@ export default class Join extends Component {
   render() {
     return (
       <Container>
-        <Content>
+        <Content contentContainerStyle={styles.content}>
           <View style={styles.qrContainer}>
             <Label style={styles.qrLabel}> A93F32A </Label>
             <QRCode

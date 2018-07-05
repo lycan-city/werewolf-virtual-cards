@@ -58,7 +58,7 @@ export default class Prepare extends Component {
   render() {
     return (
       <Container>
-        <Content>
+        <Content contentContainerStyle={styles.content}>
           <Form>
             <Button
               iconLeft

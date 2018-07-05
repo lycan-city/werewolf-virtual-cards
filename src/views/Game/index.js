@@ -10,7 +10,7 @@ export default class Game extends Component {
   render() {
     return (
       <Container>
-        <Content>
+        <Content contentContainerStyle={styles.content}>
 					<List>
             <ListItem itemHeader first>
               <Text>Players</Text>
