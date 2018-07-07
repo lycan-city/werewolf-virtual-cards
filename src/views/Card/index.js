@@ -5,14 +5,13 @@ import FlipCard from 'react-native-flip-card'
 import styles from './styles'
 
 export default class Card extends Component {
+  static navigationOptions = {
+    title: 'Virtual Cards',
+  };
+
   render() {
     return (
       <Container>
-        <Header> 
-          <Body>
-						<Title>Virtual Cards</Title>
-          </Body>
-        </Header>
         <Content scrollEnabled={false}>
           <FlipCard
             flipHorizontal={true}

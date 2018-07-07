@@ -3,15 +3,14 @@ import { Container, Header, Body, Title, Content, Thumbnail, Button, List, ListI
 import styles from './styles'
 
 export default class Game extends Component {
+  static navigationOptions = {
+    title: 'Virtual Cards',
+  };
+
   render() {
     return (
       <Container>
-        <Header> 
-          <Body>
-						<Title>Virtual Cards</Title>
-          </Body>
-        </Header>
-        <Content>
+        <Content contentContainerStyle={styles.content}>
 					<List>
             <ListItem itemHeader first>
               <Text>Players</Text>

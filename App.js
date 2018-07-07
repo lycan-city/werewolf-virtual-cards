@@ -1,7 +1,28 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { YellowBox } from 'react-native';
+import { createStackNavigator } from 'react-navigation';
+import Card from './src/views/Card'
+import Game from './src/views/Game'
+import Home from './src/views/Home'
+import Join from './src/views/Join'
+import Lobby from './src/views/Lobby'
+import Prepare from './src/views/Prepare'
 
-export default class App extends React.Component {
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
+
+const Root = createStackNavigator(
+  { 
+    Card,
+    Game,
+    Home,
+    Join,
+    Lobby,
+    Prepare
+  },
+  { initialRouteName: 'Home'}
+);
+
+export default class App extends Component {
   state = {
     fontsLoaded: false,
   }
@@ -10,23 +31,13 @@ export default class App extends React.Component {
       'Roboto': require('native-base/Fonts/Roboto.ttf'),
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
     });
-
     this.setState({ fontsLoaded: true });
   }
 
   render() {
     if (!this.state.fontsLoaded) return null;
     return (
-      null
+      <Root />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
