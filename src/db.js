@@ -2,10 +2,10 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { Constants } from 'expo';
 
-import { firebase } from './app.config';
+import envVars from './.env.json';
 export default class Db {
   constructor() {
-    firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(envVars.firebase);
     this.db = firebase.firestore();
     this.db.settings({
       timestampsInSnapshots: true,
