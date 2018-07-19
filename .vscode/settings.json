@@ -1,3 +1,10 @@
 {
+<<<<<<< HEAD
   "editor.formatOnSave": true
+=======
+  "editor.formatOnSave": true,
+  "javascript.format.enable": false,
+  "prettier.eslintIntegration": true,
+  "eslint.packageManager": "yarn"
+>>>>>>> editor-config
 }
