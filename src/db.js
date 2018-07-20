@@ -3,7 +3,9 @@ import 'firebase/firestore';
 import { Constants } from 'expo';
 
 import envVars from './.env.json';
-export default class Db {
+
+let instance = null;
+class Db {
   constructor() {
     firebase.initializeApp(envVars.firebase);
     this.db = firebase.firestore();
@@ -34,4 +36,23 @@ export default class Db {
 
     return party;
   }
+
+  async getPartyById(id) {
+    return this.db
+      .collection('parties')
+      .doc(id)
+      .get()
+      .then(ref => ref.data())
+      .catch(() => null);
+  }
 }
+
+export default {
+  get: () => {
+    if (!instance) {
+      instance = new Db();
+    }
+
+    return instance;
+  },
+};
