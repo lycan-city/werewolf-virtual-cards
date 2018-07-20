@@ -13,10 +13,17 @@ export default class Db {
   }
 
   createParty(name) {
+    const createdAt = new Date();
+    const slug = createdAt
+      .getTime()
+      .toString(32)
+      .toUpperCase();
+
     return this.db.collection('parties').add({
       name,
       moderator: Constants.deviceId,
-      createdAt: new Date(),
+      createdAt,
+      slug,
     });
   }
 }
