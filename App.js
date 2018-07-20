@@ -27,11 +27,7 @@ export default class App extends Component {
     fontsLoaded: false,
   };
 
-  navigatorRef = {
-    dispatch: () => {
-      alert('pero mamanema');
-    },
-  };
+  navigatorRef = null;
 
   _handleOpenURL = url => {
     const partyId = Expo.Linking.parse(url).queryParams.id;
