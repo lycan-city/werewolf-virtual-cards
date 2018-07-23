@@ -1,56 +1,45 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-import { Container, Header, Body, Title, Content, Item, Input, Label, Button, Text, Icon, View, Separator, ListItem } from 'native-base';
-import QRCode from 'react-native-qrcode';
-import styles from './styles'
+import propTypes from 'prop-types';
 
-export default class Join extends Component {
-  static navigationOptions = {
-    title: 'Moe\'s Party',
-  };
+import {
+  Container,
+  Content,
+  Label,
+  Button,
+  Text,
+  Icon,
+  View,
+  Separator,
+  ListItem,
+} from 'native-base';
+import QRCode from 'react-native-qrcode';
+import styles from './styles';
+
+class Lobby extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.state.params.party.name,
+  });
 
   render() {
+    const { id, players } = this.props.navigation.state.params.party;
+    const currentPlayers = Object.values(players);
+
     return (
       <Container>
         <Content contentContainerStyle={styles.content}>
           <View style={styles.qrContainer}>
-            <Label style={styles.qrLabel}> A93F32A </Label>
+            <Label style={styles.qrLabel}>{id}</Label>
             <QRCode
-              value={'wwvc://A93F32A'}
+              value={`wwvc://${id}`}
               size={200}
-              bgColor='black'
-              fgColor='white'/>
+              bgColor="black"
+              fgColor="white"
+            />
           </View>
-           <Separator bordered>
+          <Separator bordered>
             <Text>Players</Text>
           </Separator>
-          <ListItem >
-            <Text>Aaron Bennet</Text>
-            <Button iconLeft transparent danger>
-              <Icon type="FontAwesome" name="ban" />
-            </Button>
-            <Button iconLeft transparent warning>
-              <Icon type="Foundation" name="crown" />
-            </Button>
-          </ListItem>
-          <ListItem>
-            <Text>Claire Barclay</Text>
-            <Button iconLeft transparent danger>
-              <Icon type="FontAwesome" name="ban" />
-            </Button>
-          </ListItem>
-          <ListItem last>
-            <Text>Kelso Brittany</Text>
-            <Button iconLeft transparent danger>
-              <Icon type="FontAwesome" name="ban" />
-            </Button>
-          </ListItem>
-          <ListItem>
-            <Text>Caroline Arts</Text>
-            <Button iconLeft transparent danger>
-              <Icon type="FontAwesome" name="ban" />
-            </Button>
-          </ListItem>
+          {currentPlayers}
           <Button
             block
             bordered
@@ -83,3 +72,9 @@ export default class Join extends Component {
     );
   }
 }
+
+Lobby.propTypes = {
+  navigation: propTypes.object.isRequired,
+};
+
+export default Lobby;

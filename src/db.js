@@ -12,11 +12,26 @@ export default class Db {
     });
   }
 
-  createParty(name) {
-    return this.db.collection('parties').add({
+  async createParty(name) {
+    const createdAt = new Date();
+
+    const id = (createdAt.getTime() % (1000 * 60 * 60 * 24))
+      .toString(36)
+      .toUpperCase();
+
+    const party = {
+      id,
       name,
       moderator: Constants.deviceId,
-      createdAt: new Date(),
-    });
+      createdAt,
+      players: {},
+    };
+
+    await this.db
+      .collection('parties')
+      .doc(id)
+      .set(party);
+
+    return party;
   }
 }
