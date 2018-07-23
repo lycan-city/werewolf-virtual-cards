@@ -21,7 +21,7 @@ export default class Home extends Component {
       name: '',
     };
 
-    this.db = new Db();
+    this.db = Db.get();
   }
 
   createParty = async e => {

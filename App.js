@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-import { YellowBox } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import { Linking } from 'react-native';
+import Expo from 'expo';
+
+import { createStackNavigator, NavigationActions } from 'react-navigation';
 import Card from './src/views/Card';
 import Game from './src/views/Game';
 import Home from './src/views/Home';
 import Join from './src/views/Join';
 import Lobby from './src/views/Lobby';
 import Prepare from './src/views/Prepare';
-
-YellowBox.ignoreWarnings([
-  'Warning: isMounted(...) is deprecated',
-  'Module RCTImageLoader',
-]);
 
 const Root = createStackNavigator(
   {
@@ -30,6 +27,25 @@ export default class App extends Component {
     fontsLoaded: false,
   };
 
+  navigatorRef = null;
+
+  _handleOpenURL = url => {
+    const partyId = Expo.Linking.parse(url).queryParams.id;
+
+    if (!partyId) {
+      return null;
+    }
+
+    setTimeout(() => {
+      this.navigatorRef.dispatch(
+        NavigationActions.navigate({
+          routeName: 'Join',
+          params: { partyId },
+        })
+      );
+    }, 500);
+  };
+
   async componentWillMount() {
     await Expo.Font.loadAsync({
       Roboto: require('native-base/Fonts/Roboto.ttf'),
@@ -38,8 +54,23 @@ export default class App extends Component {
     this.setState({ fontsLoaded: true });
   }
 
+  componentDidMount() {
+    Linking.addEventListener('url', ({ url }) => this._handleOpenURL(url));
+    Linking.getInitialURL().then(this._handleOpenURL);
+  }
+
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this._handleOpenURL);
+  }
+
   render() {
     if (!this.state.fontsLoaded) return null;
-    return <Root />;
+    return (
+      <Root
+        ref={navigatorRef => {
+          this.navigatorRef = navigatorRef;
+        }}
+      />
+    );
   }
 }

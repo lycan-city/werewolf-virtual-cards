@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Linking } from 'expo';
 import propTypes from 'prop-types';
 
 import {
@@ -30,7 +31,7 @@ class Lobby extends Component {
           <View style={styles.qrContainer}>
             <Label style={styles.qrLabel}>{id}</Label>
             <QRCode
-              value={`wwvc://${id}`}
+              value={Linking.makeUrl('/', { id })}
               size={200}
               bgColor="black"
               fgColor="white"
