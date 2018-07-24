@@ -1,31 +1,22 @@
 import React, { Component } from 'react';
-import { Linking } from 'expo';
+import { Linking, Camera, Permissions } from 'expo';
 import {
-  Container,
-  Header,
-  Body,
-  Title,
-  Content,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
-  Icon,
-  View,
+  Container, Content, Item, Input, Label, Button, Text, Icon, View
 } from 'native-base';
-
-import { Camera, Permissions } from 'expo';
+import propTypes from 'prop-types';
 import { TouchableOpacity, Alert } from 'react-native';
 import styles from './styles';
 import Db from '../../db';
 
-export default class Join extends Component {
+class Join extends Component {
+  static navigationOptions = {
+    title: 'Virtual Cards',
+  };
+
   constructor() {
     super();
     this.state = {
       partyId: '',
-      hasCameraPermission: null,
       openCamera: false,
       invalidCameraState: false,
     };
@@ -33,56 +24,28 @@ export default class Join extends Component {
     this.db = Db.get();
   }
 
-  static navigationOptions = {
-    title: 'Virtual Cards',
-  };
-
   componentDidMount() {
+    const { partyId } = this.state;
+    const { navigation } = this.props;
     this.setState(
       {
-        partyId: this.props.navigation.state.params.partyId || '',
+        partyId: navigation.state.params.partyId || '',
       },
       () => {
-        if (this.state.partyId) this.getParty();
+        if (partyId) this.getParty();
       }
     );
   }
 
-  onChangeText = partyId => {
+  onChangeText = (partyId) => {
     this.setState({
       partyId,
     });
   };
 
-  getParty = async () => {
-    const { partyId } = this.state;
-    const party = await this.db.getPartyById(partyId);
-
-    if (!party) {
-      alert(`No party with id ${partyId}`);
-      return;
-    }
-
-    this.props.navigation.navigate('Lobby', { party });
-  };
-
-  openCamera = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-
-    if (status !== 'granted') {
-      alert(
-        'Camera permissions have been denied. Go into your settings and allow camera access.'
-      );
-    }
-
-    this.setState({
-      hasCameraPermission: status === 'granted',
-      openCamera: status === 'granted',
-    });
-  };
-
-  onBarCodeRead = qr => {
-    if (this.state.invalidCameraState) {
+  onBarCodeRead = (qr) => {
+    const { invalidCameraState } = this.state;
+    if (invalidCameraState) {
       return;
     }
 
@@ -108,8 +71,36 @@ export default class Join extends Component {
     );
   };
 
+  getParty = async () => {
+    const { partyId } = this.state;
+    const { navigation } = this.props;
+    const party = await this.db.getPartyById(partyId);
+
+    if (!party) {
+      // alert(`No party with id ${partyId}`);
+      return;
+    }
+
+    navigation.navigate('Lobby', { party });
+  };
+
+  openCamera = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+
+    if (status !== 'granted') {
+      // eslint-disable-next-line no-alert
+      alert('Camera permissions have been denied. Go into your settings and allow camera access.');
+    }
+
+    this.setState({
+      openCamera: status === 'granted',
+    });
+  };
+
   render() {
-    if (this.state.openCamera) {
+    const { openCamera, type, partyId } = this.state;
+    const { navigation } = this.props;
+    if (openCamera) {
       return (
         <Camera
           type={Camera.Constants.Type.back}
@@ -121,7 +112,7 @@ export default class Join extends Component {
               onPress={() => {
                 this.setState({
                   type:
-                    this.state.type === Camera.Constants.Type.back
+                    type === Camera.Constants.Type.back
                       ? Camera.Constants.Type.front
                       : Camera.Constants.Type.back,
                 });
@@ -137,11 +128,7 @@ export default class Join extends Component {
         <Content scrollEnabled={false} contentContainerStyle={styles.content}>
           <Item floatingLabel>
             <Label>Party Code</Label>
-            <Input
-              value={this.state.partyId}
-              onChangeText={this.onChangeText}
-              required
-            />
+            <Input value={partyId} onChangeText={this.onChangeText} required />
           </Item>
           <Button
             iconRight
@@ -160,18 +147,12 @@ export default class Join extends Component {
               bordered
               dark
               style={styles.button}
-              onPress={() => this.props.navigation.goBack()}
+              onPress={() => navigation.goBack()}
             >
               <Icon name="arrow-back" />
               <Text>Back</Text>
             </Button>
-            <Button
-              iconRight
-              bordered
-              success
-              style={styles.button}
-              onPress={this.getParty}
-            >
+            <Button iconRight bordered success style={styles.button} onPress={this.getParty}>
               <Text>Join</Text>
               <Icon name="add" />
             </Button>
@@ -181,3 +162,11 @@ export default class Join extends Component {
     );
   }
 }
+
+Join.propTypes = {
+  navigation: propTypes.shape({
+    navigate: propTypes.func,
+  }).isRequired,
+};
+
+export default Join;
