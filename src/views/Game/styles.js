@@ -12,7 +12,7 @@ export default StyleSheet.create({
   name: {
     fontSize: 22,
   },
-  role:{
+  role: {
     fontSize: 17,
-  }
+  },
 });
