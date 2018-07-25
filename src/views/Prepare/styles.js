@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   content: {
@@ -14,7 +14,7 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   row: {
-    flexDirection: 'row',    
+    flexDirection: 'row',
   },
   center: {
     justifyContent: 'center',
@@ -23,6 +23,5 @@ export default StyleSheet.create({
   templateText: {
     fontSize: 20,
     marginLeft: 5,
-  }
+  },
 });
-  
