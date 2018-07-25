@@ -17,9 +17,7 @@ class Db {
   async createParty(name) {
     const createdAt = new Date();
 
-    const id = (createdAt.getTime() % (1000 * 60 * 60 * 24))
-      .toString(36)
-      .toUpperCase();
+    const id = (createdAt.getTime() % (1000 * 60 * 60 * 24)).toString(36).toUpperCase();
 
     const party = {
       id,
