@@ -27,9 +27,15 @@ class Join extends Component {
   componentDidMount() {
     const { partyId } = this.state;
     const { navigation } = this.props;
+    let id = partyId;
+
+    if (navigation.state.params) {
+      const { params } = navigation.state;
+      id = params.partyId;
+    }
     this.setState(
       {
-        partyId: navigation.state.params.partyId || '',
+        partyId: id,
       },
       () => {
         if (partyId) this.getParty();
