@@ -25,22 +25,12 @@ class Join extends Component {
   }
 
   componentDidMount() {
-    const { partyId } = this.state;
     const { navigation } = this.props;
-    let id = partyId;
-
-    if (navigation.state.params) {
-      const { params } = navigation.state;
-      id = params.partyId;
+    const { params = {} } = navigation.state;
+    if (params.partyId) {
+      const { partyId } = navigation.state.params;
+      this.setState({ partyId }, () => this.getParty);
     }
-    this.setState(
-      {
-        partyId: id,
-      },
-      () => {
-        if (partyId) this.getParty();
-      }
-    );
   }
 
   onChangeText = (partyId) => {
