@@ -43,6 +43,18 @@ class Db {
       .then(ref => ref.data())
       .catch(() => null);
   }
+
+  async joinParty(party) {
+    const { deviceId } = Constants;
+    const timestamp = Date.now();
+    const updatedParty = { ...party };
+    updatedParty.players[deviceId] = { timestamp };
+    await this.db
+      .collection('parties')
+      .doc(party.id)
+      .set(updatedParty);
+    return updatedParty;
+  }
 }
 
 export default {

@@ -73,10 +73,12 @@ class Join extends Component {
     const party = await this.db.getPartyById(partyId);
 
     if (!party) {
-      // alert(`No party with id ${partyId}`);
+      // eslint-disable-next-line no-alert
+      alert(`No party with id ${partyId}`);
       return;
     }
 
+    await this.db.joinParty(party);
     navigation.navigate('Lobby', { party });
   };
 

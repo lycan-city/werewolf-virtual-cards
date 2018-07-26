@@ -16,7 +16,7 @@ class Lobby extends Component {
   render() {
     const { navigation } = this.props;
     const { id, players } = navigation.state.params.party;
-    const currentPlayers = Object.values(players);
+    const currentPlayers = Object.keys(players).map(k => <Text key={k}>{k}</Text>);
 
     return (
       <Container>
@@ -33,7 +33,7 @@ class Lobby extends Component {
           <Separator bordered>
             <Text>Players</Text>
           </Separator>
-          {currentPlayers}
+          <View>{currentPlayers}</View>
           <Button
             block
             bordered
