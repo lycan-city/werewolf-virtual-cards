@@ -55,6 +55,15 @@ class Db {
       .set(updatedParty);
     return updatedParty;
   }
+
+  subscribeToParty(id, callback) {
+    this.db
+      .collection('parties')
+      .doc(id)
+      .onSnapshot((d) => {
+        callback(d.data());
+      });
+  }
 }
 
 export default {
