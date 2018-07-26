@@ -23,13 +23,30 @@ const Root = createStackNavigator(
 );
 
 export default class App extends Component {
+  navigatorRef = null;
+
   state = {
     fontsLoaded: false,
   };
 
-  navigatorRef = null;
+  async componentWillMount() {
+    await Expo.Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+    });
+    this.setState({ fontsLoaded: true });
+  }
 
-  _handleOpenURL = url => {
+  componentDidMount() {
+    Linking.addEventListener('url', ({ url }) => this.handleOpenURL(url));
+    Linking.getInitialURL().then(this.handleOpenURL);
+  }
+
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.handleOpenURL);
+  }
+
+  handleOpenURL = (url) => {
     const partyId = Expo.Linking.parse(url).queryParams.id;
 
     if (!partyId) {
@@ -44,30 +61,16 @@ export default class App extends Component {
         })
       );
     }, 500);
+
+    return null;
   };
 
-  async componentWillMount() {
-    await Expo.Font.loadAsync({
-      Roboto: require('native-base/Fonts/Roboto.ttf'),
-      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-    });
-    this.setState({ fontsLoaded: true });
-  }
-
-  componentDidMount() {
-    Linking.addEventListener('url', ({ url }) => this._handleOpenURL(url));
-    Linking.getInitialURL().then(this._handleOpenURL);
-  }
-
-  componentWillUnmount() {
-    Linking.removeEventListener('url', this._handleOpenURL);
-  }
-
   render() {
-    if (!this.state.fontsLoaded) return null;
+    const { fontsLoaded } = this.state;
+    if (!fontsLoaded) return null;
     return (
       <Root
-        ref={navigatorRef => {
+        ref={(navigatorRef) => {
           this.navigatorRef = navigatorRef;
         }}
       />

@@ -3,15 +3,7 @@ import { Linking } from 'expo';
 import propTypes from 'prop-types';
 
 import {
-  Container,
-  Content,
-  Label,
-  Button,
-  Text,
-  Icon,
-  View,
-  Separator,
-  ListItem,
+  Container, Content, Label, Button, Text, View, Separator
 } from 'native-base';
 import QRCode from 'react-native-qrcode';
 import styles from './styles';
@@ -22,7 +14,8 @@ class Lobby extends Component {
   });
 
   render() {
-    const { id, players } = this.props.navigation.state.params.party;
+    const { navigation } = this.props;
+    const { id, players } = navigation.state.params.party;
     const currentPlayers = Object.values(players);
 
     return (
@@ -46,7 +39,7 @@ class Lobby extends Component {
             bordered
             warning
             style={styles.button}
-            onPress={() => this.props.navigation.navigate('Prepare')}
+            onPress={() => navigation.navigate('Prepare')}
           >
             <Text>Prepare</Text>
           </Button>
@@ -55,17 +48,11 @@ class Lobby extends Component {
             bordered
             success
             style={styles.button}
-            onPress={() => this.props.navigation.navigate('Game')}
+            onPress={() => navigation.navigate('Game')}
           >
             <Text>Start</Text>
           </Button>
-          <Button
-            block
-            bordered
-            danger
-            style={styles.button}
-            onPress={() => this.props.navigation.goBack()}
-          >
+          <Button block bordered danger style={styles.button} onPress={() => navigation.goBack()}>
             <Text>Flee</Text>
           </Button>
         </Content>
@@ -75,7 +62,10 @@ class Lobby extends Component {
 }
 
 Lobby.propTypes = {
-  navigation: propTypes.object.isRequired,
+  navigation: propTypes.shape({
+    navigate: propTypes.func,
+    state: propTypes.object,
+  }).isRequired,
 };
 
 export default Lobby;

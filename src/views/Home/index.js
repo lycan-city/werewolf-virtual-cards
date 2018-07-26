@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import {
-  Container,
-  Content,
-  Item,
-  Input,
-  Label,
-  Button,
-  Text,
+  Container, Content, Item, Input, Label, Button, Text
 } from 'native-base';
+import propTypes from 'prop-types';
 import styles from './styles';
+
 import Db from '../../db';
-export default class Home extends Component {
+
+class Home extends Component {
   static navigationOptions = {
     title: 'Virtual Cards',
   };
@@ -24,14 +21,20 @@ export default class Home extends Component {
     this.db = Db.get();
   }
 
-  createParty = async e => {
-    const party = await this.db.createParty(this.state.name);
-    alert(`Party Id: ${party.id}`);
-    this.props.navigation.navigate('Lobby', { party });
+  onNameChange = (name) => {
+    this.setState({ name });
   };
 
-  onNameChange = name => {
-    this.setState({ name });
+  onJoin = () => {
+    const { navigation } = this.props;
+    navigation.navigate('Join');
+  };
+
+  createParty = async () => {
+    const { name } = this.state;
+    const { navigation } = this.props;
+    const party = await this.db.createParty(name);
+    navigation.navigate('Lobby', { party });
   };
 
   render() {
@@ -42,22 +45,10 @@ export default class Home extends Component {
             <Label>Name</Label>
             <Input onChangeText={this.onNameChange} />
           </Item>
-          <Button
-            block
-            bordered
-            success
-            style={styles.button}
-            onPress={this.createParty}
-          >
+          <Button block bordered success style={styles.button} onPress={this.createParty}>
             <Text>Create</Text>
           </Button>
-          <Button
-            block
-            bordered
-            info
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate('Join')}
-          >
+          <Button block bordered info style={styles.button} onPress={this.onJoin}>
             <Text>Join</Text>
           </Button>
         </Content>
@@ -65,3 +56,11 @@ export default class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  navigation: propTypes.shape({
+    navigate: propTypes.func,
+  }).isRequired,
+};
+
+export default Home;

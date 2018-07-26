@@ -1,9 +1,28 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-import { Container, Header, Body, Title, Content, View, Button, Icon, Text, Form, Picker, List, ListItem, Left, Right, Switch } from 'native-base';
-import styles from './styles'
+import {
+  Container,
+  Body,
+  Content,
+  View,
+  Button,
+  Icon,
+  Text,
+  Form,
+  Picker,
+  List,
+  ListItem,
+  Left,
+  Right,
+  Switch,
+} from 'native-base';
+import propTypes from 'prop-types';
+import styles from './styles';
 
-export default class Prepare extends Component {
+class Prepare extends Component {
+  static navigationOptions = {
+    title: 'Virtual Cards',
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -18,44 +37,44 @@ export default class Prepare extends Component {
         lycan: 1,
       },
     };
-  };
-
-  static navigationOptions = {
-    title: 'Virtual Cards',
-  };
-
-  onTemplateChange(template){
-    this.setState({template});
-  };
-
-  onLangChange(lang){
-    this.setState({lang});
-  };
-
-  setModeTo(mode){
-    this.setState({mode});
-  };
-
-  increaseCard(card){
-    let deck = this.state.deck;
-    if(deck[card] > 0) deck[card]++;
-    this.setState({deck});
   }
 
-  decreaseCard(card){
-    let deck = this.state.deck;
-    if(deck[card] > 1) deck[card]--;
-    this.setState({deck});
+  onTemplateChange(template) {
+    this.setState({ template });
   }
 
-  cardToggle(card){
-    let deck = this.state.deck;
-    if(deck[card] > 0) deck[card] = 0;
+  onLangChange(lang) {
+    this.setState({ lang });
+  }
+
+  setModeTo(mode) {
+    this.setState({ mode });
+  }
+
+  increaseCard(card) {
+    const { deck } = this.state;
+    if (deck[card] > 0) deck[card] += 1;
+    this.setState({ deck });
+  }
+
+  decreaseCard(card) {
+    const { deck } = this.state;
+    if (deck[card] > 1) deck[card] -= 1;
+    this.setState({ deck });
+  }
+
+  cardToggle(card) {
+    const { deck } = this.state;
+    if (deck[card] > 0) deck[card] = 0;
     else deck[card] = 1;
-    this.setState({deck});
+    this.setState({ deck });
   }
-  
+
   render() {
+    const { navigation } = this.props;
+    const {
+      template, lang, mode, deck
+    } = this.state;
     return (
       <Container>
         <Content contentContainerStyle={styles.content}>
@@ -66,9 +85,9 @@ export default class Prepare extends Component {
               bordered
               success
               style={styles.button}
-              onPress={() => this.props.navigation.goBack()}
+              onPress={() => navigation.goBack()}
             >
-              <Icon name='arrow-back'/>
+              <Icon name="arrow-back" />
               <Text> Done </Text>
             </Button>
             <View style={styles.row}>
@@ -79,8 +98,8 @@ export default class Prepare extends Component {
                 iosHeader="Template"
                 mode="dropdown"
                 inlineLabel
-                selectedValue={this.state.template}
-                onValueChange={this.onTemplateChange.bind(this)}
+                selectedValue={template}
+                onValueChange={() => this.onTemplateChange()}
               >
                 <Picker.Item label="All" value="all" />
                 <Picker.Item label="Amateur" value="amateur" />
@@ -100,8 +119,8 @@ export default class Prepare extends Component {
                 iosHeader="Template"
                 mode="dropdown"
                 inlineLabel
-                selectedValue={this.state.lang}
-                onValueChange={this.onLangChange.bind(this)}
+                selectedValue={lang}
+                onValueChange={() => this.onLangChange()}
               >
                 <Picker.Item label="English" value="en" />
                 <Picker.Item label="Spanish" value="es" />
@@ -111,23 +130,23 @@ export default class Prepare extends Component {
               <View style={styles.center}>
                 <Text style={styles.templateText}> Mode: </Text>
               </View>
-              <Button 
+              <Button
                 iconLeft
-                danger 
+                danger
                 style={styles.button}
-                bordered={this.state.mode !== 'chaos'}
+                bordered={mode !== 'chaos'}
                 onPress={() => this.setModeTo('chaos')}
-                >
-                <Icon type="MaterialIcons" name="whatshot"/>
+              >
+                <Icon type="MaterialIcons" name="whatshot" />
                 <Text> Chaos </Text>
               </Button>
               <Button
                 iconLeft
                 info
                 style={styles.button}
-                bordered={this.state.mode !== 'normal'}
+                bordered={mode !== 'normal'}
                 onPress={() => this.setModeTo('normal')}
-                >
+              >
                 <Icon type="FontAwesome" name="balance-scale" />
                 <Text> Normal </Text>
               </Button>
@@ -142,9 +161,9 @@ export default class Prepare extends Component {
               <ListItem icon>
                 <Left>
                   <Switch
-                    value={this.state.deck['apprentice_seer'] > 0}
+                    value={deck.apprentice_seer > 0}
                     onValueChange={() => this.cardToggle('apprentice_seer')}
-                    />
+                  />
                 </Left>
                 <Body>
                   <Text>Apprentice Seer</Text>
@@ -153,7 +172,7 @@ export default class Prepare extends Component {
                   <Button transparent danger onPress={() => this.decreaseCard('apprentice_seer')}>
                     <Icon type="Feather" name="minus-square" />
                   </Button>
-                  <Text> {this.state.deck['apprentice_seer']} </Text>
+                  <Text> {deck.apprentice_seer} </Text>
                   <Button transparent success onPress={() => this.increaseCard('apprentice_seer')}>
                     <Icon type="Feather" name="plus-square" />
                   </Button>
@@ -161,10 +180,10 @@ export default class Prepare extends Component {
               </ListItem>
               <ListItem icon>
                 <Left>
-                  <Switch 
-                    value={this.state.deck['aura_seer'] > 0}
+                  <Switch
+                    value={deck.aura_seer > 0}
                     onValueChange={() => this.cardToggle('aura_seer')}
-                    />
+                  />
                 </Left>
                 <Body>
                   <Text>Aura Seer</Text>
@@ -173,7 +192,7 @@ export default class Prepare extends Component {
                   <Button transparent danger onPress={() => this.decreaseCard('aura_seer')}>
                     <Icon type="Feather" name="minus-square" />
                   </Button>
-                  <Text> {this.state.deck['aura_seer']} </Text>
+                  <Text> {deck.aura_seer} </Text>
                   <Button transparent success onPress={() => this.increaseCard('aura_seer')}>
                     <Icon type="Feather" name="plus-square" />
                   </Button>
@@ -184,10 +203,10 @@ export default class Prepare extends Component {
               </ListItem>
               <ListItem icon>
                 <Left>
-                  <Switch 
-                    value={this.state.deck['bodyguard'] > 0}
+                  <Switch
+                    value={deck.bodyguard > 0}
                     onValueChange={() => this.cardToggle('bodyguard')}
-                    />
+                  />
                 </Left>
                 <Body>
                   <Text>Bodyguard</Text>
@@ -196,7 +215,7 @@ export default class Prepare extends Component {
                   <Button transparent danger onPress={() => this.decreaseCard('bodyguard')}>
                     <Icon type="Feather" name="minus-square" />
                   </Button>
-                  <Text> {this.state.deck['bodyguard']} </Text>
+                  <Text> {deck.bodyguard} </Text>
                   <Button transparent success onPress={() => this.increaseCard('bodyguard')}>
                     <Icon type="Feather" name="plus-square" />
                   </Button>
@@ -207,10 +226,10 @@ export default class Prepare extends Component {
               </ListItem>
               <ListItem icon>
                 <Left>
-                  <Switch 
-                    value={this.state.deck['cult_leader'] > 0}
+                  <Switch
+                    value={deck.cult_leader > 0}
                     onValueChange={() => this.cardToggle('cult_leader')}
-                    />
+                  />
                 </Left>
                 <Body>
                   <Text>Cult Leader</Text>
@@ -219,7 +238,7 @@ export default class Prepare extends Component {
                   <Button transparent danger onPress={() => this.decreaseCard('cult_leader')}>
                     <Icon type="Feather" name="minus-square" />
                   </Button>
-                  <Text> {this.state.deck['cult_leader']} </Text>
+                  <Text> {deck.cult_leader} </Text>
                   <Button transparent success onPress={() => this.increaseCard('cult_leader')}>
                     <Icon type="Feather" name="plus-square" />
                   </Button>
@@ -230,10 +249,7 @@ export default class Prepare extends Component {
               </ListItem>
               <ListItem icon>
                 <Left>
-                  <Switch 
-                    value={this.state.deck['lycan'] > 0}
-                    onValueChange={() => this.cardToggle('lycan')}
-                    />
+                  <Switch value={deck.lycan > 0} onValueChange={() => this.cardToggle('lycan')} />
                 </Left>
                 <Body>
                   <Text>Lycan</Text>
@@ -242,7 +258,7 @@ export default class Prepare extends Component {
                   <Button transparent danger onPress={() => this.decreaseCard('lycan')}>
                     <Icon type="Feather" name="minus-square" />
                   </Button>
-                  <Text> {this.state.deck['lycan']} </Text>
+                  <Text> {deck.lycan} </Text>
                   <Button transparent success onPress={() => this.increaseCard('lycan')}>
                     <Icon type="Feather" name="plus-square" />
                   </Button>
@@ -255,3 +271,11 @@ export default class Prepare extends Component {
     );
   }
 }
+
+Prepare.propTypes = {
+  navigation: propTypes.shape({
+    navigate: propTypes.func,
+  }).isRequired,
+};
+
+export default Prepare;

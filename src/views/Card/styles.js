@@ -7,5 +7,5 @@ export default StyleSheet.create({
   },
   card: {
     backgroundColor: '#101f21',
-  }
+  },
 });

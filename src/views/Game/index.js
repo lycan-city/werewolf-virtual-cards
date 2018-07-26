@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {
   Container,
-  Header,
   Body,
-  Title,
   Content,
   Thumbnail,
   Button,
