@@ -46,9 +46,15 @@ class Db {
 
   async joinParty(party) {
     const { deviceId } = Constants;
-    const timestamp = Date.now();
-    const updatedParty = { ...party };
-    updatedParty.players[deviceId] = { timestamp };
+    const joinedAt = Date.now();
+    const updatedParty = {
+      ...party,
+      players: {
+        ...party.players,
+        [deviceId]: { joinedAt },
+      },
+    };
+
     await this.db
       .collection('parties')
       .doc(party.id)

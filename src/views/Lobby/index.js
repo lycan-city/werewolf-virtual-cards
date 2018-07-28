@@ -18,7 +18,7 @@ class Lobby extends Component {
     super();
     this.state = {
       id: '',
-      players: {},
+      players: [],
     };
 
     this.db = Db.get();
@@ -29,20 +29,20 @@ class Lobby extends Component {
     const { party = {} } = navigation.state.params;
     if (party) {
       const { id, players } = party;
-      this.setState({ id, players });
+      this.setState({ id, players: Object.keys(players) });
       this.db.subscribeToParty(id, p => this.updateState(p));
     }
   }
 
   updateState(party) {
     const { id, players } = party;
-    this.setState({ id, players });
+    this.setState({ id, players: Object.keys(players) });
   }
 
   render() {
     const { navigation } = this.props;
     const { id, players } = this.state;
-    const currentPlayers = Object.keys(players).map(k => <Text key={k}>{k}</Text>);
+    const currentPlayers = players.map(k => <Text key={k}>{k}</Text>);
 
     return (
       <Container>
