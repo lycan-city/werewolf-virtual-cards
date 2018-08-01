@@ -30,9 +30,15 @@ class Lobby extends Component {
     if (party) {
       const { id, players } = party;
       this.setState({ id, players: Object.keys(players) });
-      this.db.subscribeToParty(id, p => this.updateState(p));
+      this.unsubscribe = this.db.subscribeToParty(id, p => this.updateState(p));
     }
   }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  unsubscribe = () => {};
 
   updateState(party) {
     const { id, players } = party;

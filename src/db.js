@@ -63,7 +63,7 @@ class Db {
   }
 
   subscribeToParty(id, callback) {
-    this.db
+    return this.db
       .collection('parties')
       .doc(id)
       .onSnapshot((d) => {
