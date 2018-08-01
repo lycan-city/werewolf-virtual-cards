@@ -8,6 +8,9 @@
     "slug": "wwvc",
     "android": {
       "package": "com.lycancity.wwvc"
+    },
+    "ios": {
+      "bundleIdentifier": "com.lycancity.wwvc"
     }
   }
 }
