@@ -7,16 +7,48 @@ import {
 } from 'native-base';
 import QRCode from 'react-native-qrcode';
 import styles from './styles';
+import Db from '../../db';
 
 class Lobby extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.party.name,
   });
 
+  constructor() {
+    super();
+    this.state = {
+      id: '',
+      players: [],
+    };
+
+    this.db = Db.get();
+  }
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    const { party = {} } = navigation.state.params;
+    if (party) {
+      const { id, players } = party;
+      this.setState({ id, players: Object.keys(players) });
+      this.unsubscribe = this.db.subscribeToParty(id, p => this.updateState(p));
+    }
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  unsubscribe = () => {};
+
+  updateState(party) {
+    const { id, players } = party;
+    this.setState({ id, players: Object.keys(players) });
+  }
+
   render() {
     const { navigation } = this.props;
-    const { id, players } = navigation.state.params.party;
-    const currentPlayers = Object.values(players);
+    const { id, players } = this.state;
+    const currentPlayers = players.map(k => <Text key={k}>{k}</Text>);
 
     return (
       <Container>
@@ -33,7 +65,7 @@ class Lobby extends Component {
           <Separator bordered>
             <Text>Players</Text>
           </Separator>
-          {currentPlayers}
+          <View>{currentPlayers}</View>
           <Button
             block
             bordered

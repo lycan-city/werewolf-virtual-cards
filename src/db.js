@@ -43,6 +43,33 @@ class Db {
       .then(ref => ref.data())
       .catch(() => null);
   }
+
+  async joinParty(party) {
+    const { deviceId } = Constants;
+    const joinedAt = Date.now();
+    const updatedParty = {
+      ...party,
+      players: {
+        ...party.players,
+        [deviceId]: { joinedAt },
+      },
+    };
+
+    await this.db
+      .collection('parties')
+      .doc(party.id)
+      .set(updatedParty);
+    return updatedParty;
+  }
+
+  subscribeToParty(id, callback) {
+    return this.db
+      .collection('parties')
+      .doc(id)
+      .onSnapshot((d) => {
+        callback(d.data());
+      });
+  }
 }
 
 export default {

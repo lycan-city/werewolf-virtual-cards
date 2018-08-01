@@ -73,10 +73,11 @@ class Join extends Component {
     const party = await this.db.getPartyById(partyId);
 
     if (!party) {
-      // alert(`No party with id ${partyId}`);
+      Alert.alert(`No party with id ${partyId}`);
       return;
     }
 
+    await this.db.joinParty(party);
     navigation.navigate('Lobby', { party });
   };
 
@@ -84,8 +85,9 @@ class Join extends Component {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
 
     if (status !== 'granted') {
-      // eslint-disable-next-line no-alert
-      alert('Camera permissions have been denied. Go into your settings and allow camera access.');
+      Alert.alert(
+        'Camera permissions have been denied. Go into your settings and allow camera access.'
+      );
     }
 
     this.setState({
