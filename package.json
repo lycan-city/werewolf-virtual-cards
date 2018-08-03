@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^6.3.1",
-    "expo": "^27.0.1",
+    "expo": "27.1.1",
     "firebase": "^5.2.0",
     "native-base": "^2.4.4",
     "prop-types": "^15.6.2",
