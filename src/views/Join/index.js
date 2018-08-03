@@ -17,6 +17,7 @@ class Join extends Component {
     super();
     this.state = {
       partyId: '',
+      name: '',
       openCamera: false,
       invalidCameraState: false,
     };
@@ -27,10 +28,8 @@ class Join extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     const { params = {} } = navigation.state;
-    if (params.partyId) {
-      const { partyId } = navigation.state.params;
-      this.setState({ partyId }, () => this.getParty);
-    }
+    const { name = '', partyId = '' } = params;
+    this.setState({ partyId, name }, () => this.getParty);
   }
 
   onChangeText = (partyId) => {
@@ -68,7 +67,7 @@ class Join extends Component {
   };
 
   getParty = async () => {
-    const { partyId } = this.state;
+    const { partyId, name } = this.state;
     const { navigation } = this.props;
     const party = await this.db.getPartyById(partyId);
 
@@ -77,7 +76,7 @@ class Join extends Component {
       return;
     }
 
-    await this.db.joinParty(party);
+    await this.db.joinParty(party, name);
     navigation.navigate('Lobby', { party });
   };
 

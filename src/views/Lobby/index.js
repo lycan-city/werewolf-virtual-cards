@@ -28,8 +28,9 @@ class Lobby extends Component {
     const { navigation } = this.props;
     const { party = {} } = navigation.state.params;
     if (party) {
-      const { id, players } = party;
-      this.setState({ id, players: Object.keys(players) });
+      const { id, players = {} } = party;
+      const playersNames = Object.keys(players).map(p => players[p].name);
+      this.setState({ id, players: playersNames });
       this.unsubscribe = this.db.subscribeToParty(id, p => this.updateState(p));
     }
   }
@@ -41,14 +42,14 @@ class Lobby extends Component {
   unsubscribe = () => {};
 
   updateState(party) {
-    const { id, players } = party;
-    this.setState({ id, players: Object.keys(players) });
+    const { id, players = {} } = party;
+    this.setState({ id, players });
   }
 
   render() {
     const { navigation } = this.props;
     const { id, players } = this.state;
-    const currentPlayers = players.map(k => <Text key={k}>{k}</Text>);
+    const currentPlayers = Object.keys(players).map(k => <Text key={k}>{players[k].name}</Text>);
 
     return (
       <Container>

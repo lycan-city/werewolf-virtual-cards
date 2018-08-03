@@ -27,7 +27,8 @@ class Home extends Component {
 
   onJoin = () => {
     const { navigation } = this.props;
-    navigation.navigate('Join');
+    const { name } = this.state;
+    navigation.navigate('Join', { name });
   };
 
   createParty = async () => {
