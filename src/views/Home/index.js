@@ -14,27 +14,31 @@ class Home extends Component {
 
   constructor() {
     super();
-    this.state = {
-      name: '',
-    };
-
+    this.store = {};
     this.db = Db.get();
   }
 
+  componentWillMount() {
+    const { store } = this.context;
+    this.store = store;
+  }
+
   onNameChange = (name) => {
-    this.setState({ name });
+    this.store.dispatch({
+      type: 'SET_USER',
+      username: name,
+    });
   };
 
   onJoin = () => {
     const { navigation } = this.props;
-    const { name } = this.state;
-    navigation.navigate('Join', { name });
+    navigation.navigate('Join');
   };
 
   createParty = async () => {
-    const { name } = this.state;
+    const { username } = this.store.getState();
     const { navigation } = this.props;
-    const party = await this.db.createParty(name);
+    const party = await this.db.createParty(`${username}'s party`);
     navigation.navigate('Lobby', { party });
   };
 
@@ -57,6 +61,12 @@ class Home extends Component {
     );
   }
 }
+
+Home.contextTypes = {
+  store: propTypes.shape({
+    dispatch: propTypes.func,
+  }),
+};
 
 Home.propTypes = {
   navigation: propTypes.shape({

@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { Linking } from 'react-native';
 import Expo from 'expo';
-
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import { createStackNavigator, NavigationActions } from 'react-navigation';
+
+// Views
 import Card from './src/views/Card';
 import Game from './src/views/Game';
 import Home from './src/views/Home';
 import Join from './src/views/Join';
 import Lobby from './src/views/Lobby';
 import Prepare from './src/views/Prepare';
+
+// Reducers
+import user from './src/reducers/user';
 
 const Root = createStackNavigator(
   {
@@ -69,11 +75,13 @@ export default class App extends Component {
     const { fontsLoaded } = this.state;
     if (!fontsLoaded) return null;
     return (
-      <Root
-        ref={(navigatorRef) => {
-          this.navigatorRef = navigatorRef;
-        }}
-      />
+      <Provider store={createStore(user)}>
+        <Root
+          ref={(navigatorRef) => {
+            this.navigatorRef = navigatorRef;
+          }}
+        />
+      </Provider>
     );
   }
 }
