@@ -3,10 +3,13 @@ import { Linking, Camera, Permissions } from 'expo';
 import {
   Container, Content, Item, Input, Label, Button, Text, Icon, View
 } from 'native-base';
+import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { TouchableOpacity, Alert } from 'react-native';
 import styles from './styles';
 import Db from '../../db';
+
+const mapStateToProps = state => ({ username: state.username });
 
 class Join extends Component {
   static navigationOptions = {
@@ -15,7 +18,6 @@ class Join extends Component {
 
   constructor() {
     super();
-    this.store = {};
     this.state = {
       partyId: '',
       openCamera: false,
@@ -23,11 +25,6 @@ class Join extends Component {
     };
 
     this.db = Db.get();
-  }
-
-  componentWillMount() {
-    const { store } = this.context;
-    this.store = store;
   }
 
   componentDidMount() {
@@ -73,9 +70,9 @@ class Join extends Component {
 
   getParty = async () => {
     const { partyId } = this.state;
-    const { navigation } = this.props;
-    const name = this.store.getState().username;
-    const party = await this.db.getPartyById(partyId);
+    const { navigation, username } = this.props;
+    const name = username;
+    const party = await this.db.getPartyById(partyId.toUpperCase());
 
     if (!party) {
       Alert.alert(`No party with id ${partyId}`);
@@ -166,16 +163,10 @@ class Join extends Component {
   }
 }
 
-Join.contextTypes = {
-  store: propTypes.shape({
-    dispatch: propTypes.func,
-  }),
-};
-
 Join.propTypes = {
   navigation: propTypes.shape({
     navigate: propTypes.func,
   }).isRequired,
 };
 
-export default Join;
+export default connect(mapStateToProps)(Join);

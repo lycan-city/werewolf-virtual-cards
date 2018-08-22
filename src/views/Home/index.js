@@ -2,10 +2,19 @@ import React, { Component } from 'react';
 import {
   Container, Content, Item, Input, Label, Button, Text
 } from 'native-base';
+import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import styles from './styles';
-
 import Db from '../../db';
+import setUsername from '../../actions/user';
+
+const mapStateToProps = (state = {}) => ({ username: state.username });
+
+const mapDispatchToProps = dispatch => ({
+  onNameChange: (name) => {
+    dispatch(setUsername(name));
+  },
+});
 
 class Home extends Component {
   static navigationOptions = {
@@ -14,21 +23,8 @@ class Home extends Component {
 
   constructor() {
     super();
-    this.store = {};
     this.db = Db.get();
   }
-
-  componentWillMount() {
-    const { store } = this.context;
-    this.store = store;
-  }
-
-  onNameChange = (name) => {
-    this.store.dispatch({
-      type: 'SET_USER',
-      username: name,
-    });
-  };
 
   onJoin = () => {
     const { navigation } = this.props;
@@ -36,19 +32,19 @@ class Home extends Component {
   };
 
   createParty = async () => {
-    const { username } = this.store.getState();
-    const { navigation } = this.props;
+    const { navigation, username } = this.props;
     const party = await this.db.createParty(`${username}'s party`);
     navigation.navigate('Lobby', { party });
   };
 
   render() {
+    const { onNameChange } = this.props;
     return (
       <Container>
         <Content contentContainerStyle={styles.content} scrollEnabled={false}>
           <Item floatingLabel>
             <Label>Name</Label>
-            <Input onChangeText={this.onNameChange} />
+            <Input onChangeText={onNameChange} />
           </Item>
           <Button block bordered success style={styles.button} onPress={this.createParty}>
             <Text>Create</Text>
@@ -62,16 +58,14 @@ class Home extends Component {
   }
 }
 
-Home.contextTypes = {
-  store: propTypes.shape({
-    dispatch: propTypes.func,
-  }),
-};
-
 Home.propTypes = {
   navigation: propTypes.shape({
     navigate: propTypes.func,
   }).isRequired,
+  onNameChange: propTypes.func.isRequired,
 };
 
-export default Home;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);
