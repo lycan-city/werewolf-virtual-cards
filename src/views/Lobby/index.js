@@ -8,8 +8,11 @@ import {
 } from 'native-base';
 import QRCode from 'react-native-qrcode';
 import styles from './styles';
+import * as Actions from '../../actions';
 
-const Lobby = ({ navigation, id, players }) => {
+const Lobby = ({
+  navigation, unsubscribe, id, players
+}) => {
   const currentPlayers = Object.keys(players).map(k => <Text key={k}>{players[k].name}</Text>);
 
   return (
@@ -41,7 +44,13 @@ const Lobby = ({ navigation, id, players }) => {
         >
           <Text>Start</Text>
         </Button>
-        <Button block bordered danger style={styles.button} onPress={() => navigation.goBack()}>
+        <Button
+          block
+          bordered
+          danger
+          style={styles.button}
+          onPress={() => unsubscribe() && navigation.goBack()}
+        >
           <Text>Flee</Text>
         </Button>
       </Content>
@@ -56,11 +65,16 @@ Lobby.propTypes = {
   }).isRequired,
   id: propTypes.string.isRequired,
   players: propTypes.shape().isRequired,
+  unsubscribe: propTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ party: { id, players = {} } }) => ({
   id,
   players,
 });
+const mapDispatchToProps = { unsubscribe: Actions.unsubscribe };
 
-export default connect(mapStateToProps)(Lobby);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Lobby);

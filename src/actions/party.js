@@ -5,12 +5,22 @@ import Db from '../db';
 import NavigationService from '../navigation';
 
 // TODO: Subscribe/Unsubscribe to party
-let unsubscribeParty;
+const noop = () => {};
+
+let unsubscribeParty = noop;
 
 export const setParty = party => ({
   type: types.party.set,
   party,
 });
+
+export const unsubscribe = () => {
+  unsubscribeParty();
+  return {
+    type: types.party.set,
+    party: {},
+  };
+};
 
 export const setJoinPartyFailed = () => ({
   // TODO: Notify the error message
