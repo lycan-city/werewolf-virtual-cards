@@ -6,15 +6,7 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import styles from './styles';
 import Db from '../../db';
-import setUsername from '../../actions/user';
-
-const mapStateToProps = (state = {}) => ({ username: state.username });
-
-const mapDispatchToProps = dispatch => ({
-  onNameChange: (name) => {
-    dispatch(setUsername(name));
-  },
-});
+import { setUsername } from '../../actions';
 
 class Home extends Component {
   static navigationOptions = {
@@ -63,6 +55,12 @@ Home.propTypes = {
     navigate: propTypes.func,
   }).isRequired,
   onNameChange: propTypes.func.isRequired,
+};
+
+const mapStateToProps = (state = {}) => ({ username: state.username });
+
+const mapDispatchToProps = {
+  onNameChange: setUsername,
 };
 
 export default connect(

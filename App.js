@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { Linking } from 'react-native';
 import Expo from 'expo';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { createStackNavigator, NavigationActions } from 'react-navigation';
+import logger from 'redux-logger';
+import thunk from 'redux-thunk';
+import { createStackNavigator } from 'react-navigation';
+import reducer from './src/reducers';
+import NavigationService from './src/navigation';
 
 // Views
 import Card from './src/views/Card';
@@ -12,9 +16,6 @@ import Home from './src/views/Home';
 import Join from './src/views/Join';
 import Lobby from './src/views/Lobby';
 import Prepare from './src/views/Prepare';
-
-// Reducers
-import user from './src/reducers/user';
 
 const Root = createStackNavigator(
   {
@@ -28,9 +29,9 @@ const Root = createStackNavigator(
   { initialRouteName: 'Home' }
 );
 
-export default class App extends Component {
-  navigatorRef = null;
+const store = createStore(reducer, applyMiddleware(logger, thunk));
 
+export default class App extends Component {
   state = {
     fontsLoaded: false,
   };
@@ -60,12 +61,7 @@ export default class App extends Component {
     }
 
     setTimeout(() => {
-      this.navigatorRef.dispatch(
-        NavigationActions.navigate({
-          routeName: 'Join',
-          params: { partyId },
-        })
-      );
+      NavigationService.navigate('Join', { partyId });
     }, 500);
 
     return null;
@@ -75,10 +71,10 @@ export default class App extends Component {
     const { fontsLoaded } = this.state;
     if (!fontsLoaded) return null;
     return (
-      <Provider store={createStore(user)}>
+      <Provider store={store}>
         <Root
           ref={(navigatorRef) => {
-            this.navigatorRef = navigatorRef;
+            NavigationService.setTopLevelNavigator(navigatorRef);
           }}
         />
       </Provider>

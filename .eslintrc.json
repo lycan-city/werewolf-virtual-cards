@@ -6,9 +6,14 @@
     "react-native/react-native": true
   },
   "rules": {
-    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
+    "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx"] }],
     "comma-dangle": ["error", "only-multiline"],
     "global-require": "off",
+    "react/destructuring-assignment": [
+      1,
+      "always",
+      { "ignoreClassFields": true }
+    ],
     "react/jsx-one-expression-per-line": 0
   }
 }

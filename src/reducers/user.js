@@ -1,6 +1,8 @@
-const user = (state, action) => {
+import types from '../actions';
+
+const user = (state = {}, action) => {
   switch (action.type) {
-    case 'SET_USER':
+    case types.user.set.name:
       return { ...state, username: action.username };
     default:
       return state;
