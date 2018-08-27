@@ -3,7 +3,7 @@ import types from '../actions';
 const party = (state = {}, action) => {
   switch (action.type) {
     case types.party.set:
-      return Object.assign({}, state, action.party);
+      return action.party;
     default:
       return state;
   }

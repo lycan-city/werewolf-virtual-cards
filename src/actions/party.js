@@ -4,7 +4,6 @@ import types from './types';
 import Db from '../db';
 import NavigationService from '../navigation';
 
-// TODO: Subscribe/Unsubscribe to party
 const noop = () => {};
 
 let unsubscribeParty = noop;
@@ -16,6 +15,7 @@ export const setParty = party => ({
 
 export const unsubscribe = () => {
   unsubscribeParty();
+  unsubscribeParty = noop;
   return {
     type: types.party.set,
     party: {},
