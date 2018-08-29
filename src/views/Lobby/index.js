@@ -49,7 +49,7 @@ const Lobby = ({
           bordered
           danger
           style={styles.button}
-          onPress={() => unsubscribe() && navigation.goBack()}
+          onPress={() => navigation.goBack() && unsubscribe()}
         >
           <Text>Flee</Text>
         </Button>

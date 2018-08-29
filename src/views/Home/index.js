@@ -18,7 +18,6 @@ class Home extends Component {
     this.state = {
       username: '',
     };
-
     this.db = Db.get();
   }
 
@@ -30,9 +29,9 @@ class Home extends Component {
   };
 
   createParty = async () => {
-    const { navigation, username } = this.props;
-    const party = await this.db.createParty(`${username}'s party`);
-    navigation.navigate('Lobby', { party });
+    const { navigation, createParty } = this.props;
+    await createParty();
+    navigation.navigate('Lobby');
   };
 
   onNameChange = username => this.setState({ username });
@@ -68,6 +67,7 @@ const mapStateToProps = (state = {}) => ({ username: state.username });
 
 const mapDispatchToProps = {
   setUsername: Actions.setUsername,
+  createParty: Actions.createParty,
 };
 
 export default connect(

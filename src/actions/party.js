@@ -36,6 +36,16 @@ export const clearAlert = () => ({
   message: '',
 });
 
+export const createParty = () => async (dispatch, getState) => {
+  const db = Db.get();
+  const {
+    user: { username },
+  } = getState();
+
+  const party = await db.createParty(`${username}'s party`);
+  dispatch(setParty(party));
+};
+
 export const joinParty = partyId => async (dispatch, getState) => {
   const db = Db.get();
   let party = await db.getPartyById(partyId.toUpperCase().trim());
