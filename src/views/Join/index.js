@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { TouchableOpacity, Alert } from 'react-native';
 import styles from './styles';
-import { joinParty } from '../../actions';
+import * as Actions from '../../actions';
 
 class Join extends Component {
   static navigationOptions = {
@@ -83,7 +83,10 @@ class Join extends Component {
 
   render() {
     const { openCamera, type, partyId } = this.state;
-    const { navigation } = this.props;
+    const { navigation, alert, clearAlert } = this.props;
+    if (alert.show) {
+      Alert.alert(alert.title, alert.message, [{ text: 'OK', onPress: clearAlert }]);
+    }
     if (openCamera) {
       return (
         <Camera
@@ -151,11 +154,13 @@ Join.propTypes = {
   navigation: propTypes.shape({
     navigate: propTypes.func,
   }).isRequired,
+  alert: propTypes.shape().isRequired,
   joinParty: propTypes.func.isRequired,
+  clearAlert: propTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({ user: state.user });
-const mapDispatchToProps = { joinParty };
+const mapStateToProps = state => ({ user: state.user, alert: state.alert });
+const mapDispatchToProps = { joinParty: Actions.joinParty, clearAlert: Actions.clearAlert };
 
 export default connect(
   mapStateToProps,

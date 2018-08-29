@@ -7,7 +7,8 @@ export default {
   party: {
     set: 'party.set',
     join: 'party.join',
-    failed: 'party.failed',
+  },
+  alert: {
+    set: 'alert.set',
   },
 };
-// TODO: make a more sense structure

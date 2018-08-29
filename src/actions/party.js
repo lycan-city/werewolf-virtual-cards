@@ -8,9 +8,16 @@ const noop = () => {};
 
 let unsubscribeParty = noop;
 
-export const setParty = party => ({
+const setParty = party => ({
   type: types.party.set,
   party,
+});
+
+const joinPartyFailed = partyId => ({
+  type: types.alert.set,
+  show: true,
+  title: 'Join failed',
+  message: `No party with id ${partyId}`,
 });
 
 export const unsubscribe = () => {
@@ -22,9 +29,11 @@ export const unsubscribe = () => {
   };
 };
 
-export const setJoinPartyFailed = () => ({
-  // TODO: Notify the error message
-  type: types.party.failed,
+export const clearAlert = () => ({
+  type: types.alert.set,
+  show: false,
+  title: '',
+  message: '',
 });
 
 export const joinParty = partyId => async (dispatch, getState) => {
@@ -32,7 +41,8 @@ export const joinParty = partyId => async (dispatch, getState) => {
   let party = await db.getPartyById(partyId.toUpperCase().trim());
 
   if (!party) {
-    dispatch(setJoinPartyFailed());
+    dispatch(joinPartyFailed(partyId.toUpperCase().trim()));
+    return;
   }
 
   const {
@@ -42,6 +52,6 @@ export const joinParty = partyId => async (dispatch, getState) => {
   party = await db.joinParty(party, username);
   dispatch(setParty(party));
 
-  unsubscribeParty = db.subscribeToParty(partyId.toUpperCase(), p => dispatch(setParty(p)));
+  unsubscribeParty = db.subscribeToParty(partyId.toUpperCase().trim(), p => dispatch(setParty(p)));
   NavigationService.navigate('Lobby');
 };
