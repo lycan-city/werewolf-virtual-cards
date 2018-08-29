@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import styles from './styles';
 import Db from '../../db';
-import { setUsername } from '../../actions';
+import * as Actions from '../../actions';
 
 class Home extends Component {
   static navigationOptions = {
@@ -15,11 +15,17 @@ class Home extends Component {
 
   constructor() {
     super();
+    this.state = {
+      username: '',
+    };
+
     this.db = Db.get();
   }
 
   onJoin = () => {
-    const { navigation } = this.props;
+    const { navigation, setUsername } = this.props;
+    const { username } = this.state;
+    setUsername(username);
     navigation.navigate('Join');
   };
 
@@ -29,14 +35,15 @@ class Home extends Component {
     navigation.navigate('Lobby', { party });
   };
 
+  onNameChange = username => this.setState({ username });
+
   render() {
-    const { onNameChange } = this.props;
     return (
       <Container>
         <Content contentContainerStyle={styles.content} scrollEnabled={false}>
           <Item floatingLabel>
             <Label>Name</Label>
-            <Input onChangeText={onNameChange} />
+            <Input onChangeText={this.onNameChange} />
           </Item>
           <Button block bordered success style={styles.button} onPress={this.createParty}>
             <Text>Create</Text>
@@ -54,13 +61,13 @@ Home.propTypes = {
   navigation: propTypes.shape({
     navigate: propTypes.func,
   }).isRequired,
-  onNameChange: propTypes.func.isRequired,
+  setUsername: propTypes.func.isRequired,
 };
 
 const mapStateToProps = (state = {}) => ({ username: state.username });
 
 const mapDispatchToProps = {
-  onNameChange: setUsername,
+  setUsername: Actions.setUsername,
 };
 
 export default connect(
