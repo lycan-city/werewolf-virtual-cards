@@ -44,14 +44,14 @@ class Db {
       .catch(() => null);
   }
 
-  async joinParty(party) {
+  async joinParty(party, name) {
     const { deviceId } = Constants;
     const joinedAt = Date.now();
     const updatedParty = {
       ...party,
       players: {
         ...party.players,
-        [deviceId]: { joinedAt },
+        [deviceId]: { joinedAt, name },
       },
     };
 

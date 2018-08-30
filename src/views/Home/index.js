@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import {
   Container, Content, Item, Input, Label, Button, Text
 } from 'native-base';
+import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import styles from './styles';
-
 import Db from '../../db';
+import * as Actions from '../../actions';
 
 class Home extends Component {
   static navigationOptions = {
@@ -15,27 +16,25 @@ class Home extends Component {
   constructor() {
     super();
     this.state = {
-      name: '',
+      username: '',
     };
-
     this.db = Db.get();
   }
 
-  onNameChange = (name) => {
-    this.setState({ name });
-  };
-
   onJoin = () => {
-    const { navigation } = this.props;
+    const { navigation, setUsername } = this.props;
+    const { username } = this.state;
+    setUsername(username);
     navigation.navigate('Join');
   };
 
   createParty = async () => {
-    const { name } = this.state;
-    const { navigation } = this.props;
-    const party = await this.db.createParty(name);
-    navigation.navigate('Lobby', { party });
+    const { navigation, createParty } = this.props;
+    await createParty();
+    navigation.navigate('Lobby');
   };
+
+  onNameChange = username => this.setState({ username });
 
   render() {
     return (
@@ -61,6 +60,17 @@ Home.propTypes = {
   navigation: propTypes.shape({
     navigate: propTypes.func,
   }).isRequired,
+  setUsername: propTypes.func.isRequired,
 };
 
-export default Home;
+const mapStateToProps = (state = {}) => ({ username: state.username });
+
+const mapDispatchToProps = {
+  setUsername: Actions.setUsername,
+  createParty: Actions.createParty,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);

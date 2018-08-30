@@ -3,10 +3,11 @@ import { Linking, Camera, Permissions } from 'expo';
 import {
   Container, Content, Item, Input, Label, Button, Text, Icon, View
 } from 'native-base';
+import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { TouchableOpacity, Alert } from 'react-native';
 import styles from './styles';
-import Db from '../../db';
+import * as Actions from '../../actions';
 
 class Join extends Component {
   static navigationOptions = {
@@ -20,17 +21,14 @@ class Join extends Component {
       openCamera: false,
       invalidCameraState: false,
     };
-
-    this.db = Db.get();
   }
 
   componentDidMount() {
     const { navigation } = this.props;
     const { params = {} } = navigation.state;
-    if (params.partyId) {
-      const { partyId } = navigation.state.params;
-      this.setState({ partyId }, () => this.getParty);
-    }
+    const { partyId = '' } = params;
+    this.setState({ partyId });
+    if (partyId) this.join();
   }
 
   onChangeText = (partyId) => {
@@ -63,22 +61,8 @@ class Join extends Component {
         partyId,
         openCamera: false,
       },
-      () => this.getParty()
+      () => this.join()
     );
-  };
-
-  getParty = async () => {
-    const { partyId } = this.state;
-    const { navigation } = this.props;
-    const party = await this.db.getPartyById(partyId);
-
-    if (!party) {
-      Alert.alert(`No party with id ${partyId}`);
-      return;
-    }
-
-    await this.db.joinParty(party);
-    navigation.navigate('Lobby', { party });
   };
 
   openCamera = async () => {
@@ -95,9 +79,14 @@ class Join extends Component {
     });
   };
 
+  join = () => this.props.joinParty(this.state.partyId);
+
   render() {
     const { openCamera, type, partyId } = this.state;
-    const { navigation } = this.props;
+    const { navigation, alert, clearAlert } = this.props;
+    if (alert.show) {
+      Alert.alert(alert.title, alert.message, [{ text: 'OK', onPress: clearAlert }]);
+    }
     if (openCamera) {
       return (
         <Camera
@@ -150,7 +139,7 @@ class Join extends Component {
               <Icon name="arrow-back" />
               <Text>Back</Text>
             </Button>
-            <Button iconRight bordered success style={styles.button} onPress={this.getParty}>
+            <Button iconRight bordered success style={styles.button} onPress={this.join}>
               <Text>Join</Text>
               <Icon name="add" />
             </Button>
@@ -165,6 +154,15 @@ Join.propTypes = {
   navigation: propTypes.shape({
     navigate: propTypes.func,
   }).isRequired,
+  alert: propTypes.shape().isRequired,
+  joinParty: propTypes.func.isRequired,
+  clearAlert: propTypes.func.isRequired,
 };
 
-export default Join;
+const mapStateToProps = state => ({ user: state.user, alert: state.alert });
+const mapDispatchToProps = { joinParty: Actions.joinParty, clearAlert: Actions.clearAlert };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Join);
