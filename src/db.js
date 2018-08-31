@@ -76,6 +76,25 @@ class Db {
     return updatedParty;
   }
 
+  async fleeParty(party) {
+    const { deviceId } = Constants;
+    const updatedPlayers = Object.assign({}, party.players);
+    delete updatedPlayers[deviceId];
+    const updatedParty = {
+      ...party,
+      players: updatedPlayers,
+    };
+
+    await this.db
+      .collection('parties')
+      .doc(party.id)
+      .set(updatedParty);
+
+    this.unsubscribeParty();
+    this.unsubscribeParty = this.noop;
+
+    return updatedParty;
+  }
 }
 
 export default {
