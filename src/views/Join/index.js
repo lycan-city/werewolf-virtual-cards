@@ -79,7 +79,11 @@ class Join extends Component {
     });
   };
 
-  join = () => this.props.joinParty(this.state.partyId);
+  join = () => {
+    const { joinParty } = this.props;
+    const { partyId } = this.state;
+    joinParty(partyId);
+  };
 
   render() {
     const { openCamera, type, partyId } = this.state;

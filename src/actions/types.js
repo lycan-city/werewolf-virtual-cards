@@ -6,7 +6,6 @@ export default {
   },
   party: {
     set: 'party.set',
-    join: 'party.join',
   },
   alert: {
     set: 'alert.set',
