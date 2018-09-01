@@ -5,7 +5,7 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import { TouchableOpacity, Alert } from 'react-native';
+import { TouchableOpacity, Alert, KeyboardAvoidingView } from 'react-native';
 import styles from './styles';
 import * as Actions from '../../actions';
 
@@ -79,7 +79,11 @@ class Join extends Component {
     });
   };
 
-  join = () => this.props.joinParty(this.state.partyId);
+  join = () => {
+    const { joinParty } = this.props;
+    const { partyId } = this.state;
+    joinParty(partyId);
+  };
 
   render() {
     const { openCamera, type, partyId } = this.state;
@@ -112,39 +116,41 @@ class Join extends Component {
 
     return (
       <Container>
-        <Content scrollEnabled={false} contentContainerStyle={styles.content}>
-          <Item floatingLabel>
-            <Label>Party Code</Label>
-            <Input value={partyId} onChangeText={this.onChangeText} required />
-          </Item>
-          <Button
-            iconRight
-            block
-            bordered
-            info
-            style={styles.buttonBlock}
-            onPress={this.openCamera}
-          >
-            <Text>Scan</Text>
-            <Icon name="md-qr-scanner" />
-          </Button>
-          <View style={styles.row}>
+        <KeyboardAvoidingView style={styles.keyboardAvoidingView} behavior="padding" enabled>
+          <Content scrollEnabled={false} contentContainerStyle={styles.content}>
+            <Item floatingLabel>
+              <Label>Party Code</Label>
+              <Input value={partyId} onChangeText={this.onChangeText} required />
+            </Item>
             <Button
-              iconLeft
+              iconRight
+              block
               bordered
-              dark
-              style={styles.button}
-              onPress={() => navigation.goBack()}
+              info
+              style={styles.buttonBlock}
+              onPress={this.openCamera}
             >
-              <Icon name="arrow-back" />
-              <Text>Back</Text>
+              <Text>Scan</Text>
+              <Icon name="md-qr-scanner" />
             </Button>
-            <Button iconRight bordered success style={styles.button} onPress={this.join}>
-              <Text>Join</Text>
-              <Icon name="add" />
-            </Button>
-          </View>
-        </Content>
+            <View style={styles.row}>
+              <Button
+                iconLeft
+                bordered
+                dark
+                style={styles.button}
+                onPress={() => navigation.goBack()}
+              >
+                <Icon name="arrow-back" />
+                <Text>Back</Text>
+              </Button>
+              <Button iconRight bordered success style={styles.button} onPress={this.join}>
+                <Text>Join</Text>
+                <Icon name="add" />
+              </Button>
+            </View>
+          </Content>
+        </KeyboardAvoidingView>
       </Container>
     );
   }

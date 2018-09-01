@@ -12,6 +12,17 @@ class Db {
     this.db.settings({
       timestampsInSnapshots: true,
     });
+    const noop = () => {};
+    this.unsubscribeParty = noop;
+  }
+
+  subscribeParty(id, callback) {
+    return this.db
+      .collection('parties')
+      .doc(id)
+      .onSnapshot((d) => {
+        callback(d.data());
+      });
   }
 
   async createParty(name) {
@@ -44,7 +55,7 @@ class Db {
       .catch(() => null);
   }
 
-  async joinParty(party, name) {
+  async joinParty(party, name, callback) {
     const { deviceId } = Constants;
     const joinedAt = Date.now();
     const updatedParty = {
@@ -59,16 +70,29 @@ class Db {
       .collection('parties')
       .doc(party.id)
       .set(updatedParty);
+
+    this.unsubscribeParty = this.subscribeParty(party.id, callback);
+
     return updatedParty;
   }
 
-  subscribeToParty(id, callback) {
-    return this.db
+  async fleeParty(party) {
+    const { deviceId } = Constants;
+    const { [deviceId]: playerToRemove, ...updatedPlayers } = party.players;
+    const updatedParty = {
+      ...party,
+      players: updatedPlayers,
+    };
+
+    await this.db
       .collection('parties')
-      .doc(id)
-      .onSnapshot((d) => {
-        callback(d.data());
-      });
+      .doc(party.id)
+      .set(updatedParty);
+
+    this.unsubscribeParty();
+    this.unsubscribeParty = this.noop;
+
+    return updatedParty;
   }
 }
 

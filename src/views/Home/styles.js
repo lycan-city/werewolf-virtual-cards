@@ -12,4 +12,7 @@ export default StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
   },
+  keyboardAvoidingView: {
+    flex: 1,
+  },
 });

@@ -1,12 +1,6 @@
-/* eslint-disable import/prefer-default-export */
-
 import types from './types';
 import Db from '../db';
 import NavigationService from '../navigation';
-
-const noop = () => {};
-
-let unsubscribeParty = noop;
 
 const setParty = party => ({
   type: types.party.set,
@@ -20,13 +14,13 @@ const joinPartyFailed = partyId => ({
   message: `No party with id ${partyId}`,
 });
 
-export const unsubscribe = () => {
-  unsubscribeParty();
-  unsubscribeParty = noop;
-  return {
-    type: types.party.set,
-    party: {},
-  };
+export const flee = () => (dispatch, getState) => {
+  const db = Db.get();
+  const { party } = getState();
+
+  NavigationService.navigate('Home');
+  db.fleeParty(party);
+  return setParty({});
 };
 
 export const clearAlert = () => ({
@@ -59,9 +53,8 @@ export const joinParty = partyId => async (dispatch, getState) => {
     user: { username },
   } = getState();
 
-  party = await db.joinParty(party, username);
+  party = await db.joinParty(party, username, p => dispatch(setParty(p)));
   dispatch(setParty(party));
 
-  unsubscribeParty = db.subscribeToParty(partyId.toUpperCase().trim(), p => dispatch(setParty(p)));
   NavigationService.navigate('Lobby');
 };
