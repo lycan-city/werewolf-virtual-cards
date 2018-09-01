@@ -78,8 +78,7 @@ class Db {
 
   async fleeParty(party) {
     const { deviceId } = Constants;
-    const updatedPlayers = Object.assign({}, party.players);
-    delete updatedPlayers[deviceId];
+    const { [deviceId]: playerToRemove, ...updatedPlayers } = party.players;
     const updatedParty = {
       ...party,
       players: updatedPlayers,
