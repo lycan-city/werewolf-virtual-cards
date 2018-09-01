@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Container, Content, Item, Input, Label, Button, Text
 } from 'native-base';
+import { KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import styles from './styles';
@@ -39,18 +40,20 @@ class Home extends Component {
   render() {
     return (
       <Container>
-        <Content contentContainerStyle={styles.content} scrollEnabled={false}>
-          <Item floatingLabel>
-            <Label>Name</Label>
-            <Input onChangeText={this.onNameChange} />
-          </Item>
-          <Button block bordered success style={styles.button} onPress={this.createParty}>
-            <Text>Create</Text>
-          </Button>
-          <Button block bordered info style={styles.button} onPress={this.onJoin}>
-            <Text>Join</Text>
-          </Button>
-        </Content>
+        <KeyboardAvoidingView style={styles.keyboardAvoidingView} behavior="padding" enabled>
+          <Content contentContainerStyle={styles.content} scrollEnabled={false}>
+            <Item floatingLabel>
+              <Label>Name</Label>
+              <Input onChangeText={this.onNameChange} />
+            </Item>
+            <Button block bordered success style={styles.button} onPress={this.createParty}>
+              <Text>Create</Text>
+            </Button>
+            <Button block bordered info style={styles.button} onPress={this.onJoin}>
+              <Text>Join</Text>
+            </Button>
+          </Content>
+        </KeyboardAvoidingView>
       </Container>
     );
   }

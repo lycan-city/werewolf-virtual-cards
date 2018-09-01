@@ -14,7 +14,7 @@ const joinPartyFailed = partyId => ({
   message: `No party with id ${partyId}`,
 });
 
-export const flee = () => async (dispatch, getState) => {
+export const flee = () => (dispatch, getState) => {
   const db = Db.get();
   const { party } = getState();
 
