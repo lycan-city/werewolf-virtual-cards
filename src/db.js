@@ -25,7 +25,7 @@ class Db {
       });
   }
 
-  async createParty(name) {
+  async createParty(name, callback) {
     const createdAt = new Date();
 
     const id = (createdAt.getTime() % (1000 * 60 * 60 * 24)).toString(36).toUpperCase();
@@ -42,6 +42,8 @@ class Db {
       .collection('parties')
       .doc(id)
       .set(party);
+
+    this.unsubscribeParty = this.subscribeParty(party.id, callback);
 
     return party;
   }
