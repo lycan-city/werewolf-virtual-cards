@@ -38,26 +38,26 @@ const Lobby = ({
       <Footer>
         <FooterTab>
           {moderator && (
-            <View>
-              <Button
-                block
-                bordered
-                warning
-                style={styles.button}
-                onPress={() => navigation.navigate('Prepare')}
-              >
-                <Text>Prepare</Text>
-              </Button>
-              <Button
-                block
-                bordered
-                success
-                style={styles.button}
-                onPress={() => navigation.navigate('Game')}
-              >
-                <Text>Start</Text>
-              </Button>
-            </View>
+            <Button
+              block
+              bordered
+              warning
+              style={styles.button}
+              onPress={() => navigation.navigate('Prepare')}
+            >
+              <Text>Prepare</Text>
+            </Button>
+          )}
+          {moderator && (
+            <Button
+              block
+              bordered
+              success
+              style={styles.button}
+              onPress={() => navigation.navigate('Game')}
+            >
+              <Text>Start</Text>
+            </Button>
           )}
           {!moderator && (
             <Button block bordered danger style={styles.button} onPress={() => flee()}>
