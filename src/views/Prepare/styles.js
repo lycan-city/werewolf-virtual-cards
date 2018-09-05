@@ -13,6 +13,14 @@ export default StyleSheet.create({
     marginLeft: 5,
     marginBottom: 10,
   },
+  footerButton: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    marginTop: 10,
+    marginRight: 5,
+    marginLeft: 5,
+    marginBottom: 10,
+  },
   row: {
     flexDirection: 'row',
   },

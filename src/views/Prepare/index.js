@@ -14,6 +14,8 @@ import {
   Left,
   Right,
   Switch,
+  Footer,
+  FooterTab,
 } from 'native-base';
 import propTypes from 'prop-types';
 import styles from './styles';
@@ -76,20 +78,9 @@ class Prepare extends Component {
       template, lang, mode, deck
     } = this.state;
     return (
-      <Container>
-        <Content contentContainerStyle={styles.content}>
+      <Container style={styles.content}>
+        <Content>
           <Form>
-            <Button
-              iconLeft
-              block
-              bordered
-              success
-              style={styles.button}
-              onPress={() => navigation.goBack()}
-            >
-              <Icon name="arrow-back" />
-              <Text> Done </Text>
-            </Button>
             <View style={styles.row}>
               <View style={styles.center}>
                 <Text style={styles.templateText}> Start from template: </Text>
@@ -99,7 +90,7 @@ class Prepare extends Component {
                 mode="dropdown"
                 inlineLabel
                 selectedValue={template}
-                onValueChange={() => this.onTemplateChange()}
+                onValueChange={t => this.onTemplateChange(t)}
               >
                 <Picker.Item label="All" value="all" />
                 <Picker.Item label="Amateur" value="amateur" />
@@ -120,7 +111,7 @@ class Prepare extends Component {
                 mode="dropdown"
                 inlineLabel
                 selectedValue={lang}
-                onValueChange={() => this.onLangChange()}
+                onValueChange={l => this.onLangChange(l)}
               >
                 <Picker.Item label="English" value="en" />
                 <Picker.Item label="Spanish" value="es" />
@@ -267,6 +258,20 @@ class Prepare extends Component {
             </List>
           </Form>
         </Content>
+        <Footer>
+          <FooterTab>
+            <Button
+              block
+              bordered
+              success
+              style={styles.footerButton}
+              onPress={() => navigation.goBack()}
+            >
+              <Icon name="arrow-back" />
+              <Text> Done </Text>
+            </Button>
+          </FooterTab>
+        </Footer>
       </Container>
     );
   }
