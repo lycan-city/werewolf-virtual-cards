@@ -9,7 +9,11 @@ const user = (state = defaultUser, action) => {
     case types.user.set.name:
       return { ...state, username: action.username };
     case types.user.set.as.moderator:
-      return { username: action.username, attributes: { ...state.attributes, moderator: true } };
+      return {
+        ...state,
+        username: action.username,
+        attributes: { ...state.attributes, moderator: true },
+      };
     default:
       return state;
   }
