@@ -6,8 +6,7 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 15,
-    marginBottom: 15,
+    marginTop: 5,
   },
   content: {
     backgroundColor: '#fff',
@@ -16,7 +15,14 @@ export default StyleSheet.create({
     fontSize: 20,
     marginBottom: 5,
   },
+  titleContainer: {
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 15,
+  },
   button: {
+    backgroundColor: '#fff',
     marginTop: 10,
     marginLeft: 5,
     marginRight: 5,

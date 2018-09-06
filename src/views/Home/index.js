@@ -6,7 +6,6 @@ import { KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import styles from './styles';
-import Db from '../../db';
 import * as Actions from '../../actions';
 
 class Home extends Component {
@@ -19,7 +18,6 @@ class Home extends Component {
     this.state = {
       username: '',
     };
-    this.db = Db.get();
   }
 
   onJoin = () => {
@@ -30,7 +28,9 @@ class Home extends Component {
   };
 
   createParty = async () => {
-    const { navigation, createParty } = this.props;
+    const { navigation, createParty, setModerator } = this.props;
+    const { username } = this.state;
+    setModerator(username);
     await createParty();
     navigation.navigate('Lobby');
   };
@@ -70,6 +70,7 @@ const mapStateToProps = (state = {}) => ({ username: state.username });
 
 const mapDispatchToProps = {
   setUsername: Actions.setUsername,
+  setModerator: Actions.setModerator,
   createParty: Actions.createParty,
 };
 
