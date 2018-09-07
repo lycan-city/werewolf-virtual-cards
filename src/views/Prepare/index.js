@@ -29,6 +29,7 @@ class Prepare extends Component {
   constructor(props) {
     super(props);
     this.decks = brain.getDecks();
+    this.languages = [{ key: 'en', value: 'English' }, { key: 'es', value: 'Spanish' }];
     this.state = {
       template: 'basic',
       lang: 'en',
@@ -39,13 +40,20 @@ class Prepare extends Component {
   }
 
   onTemplateChange(template) {
+    const { lang } = this.state;
     const deck = this.decks[template];
-    const detailedDeck = brain.translateDeck(deck);
+    const detailedDeck = brain
+      .translateDeck(deck, lang)
+      .sort((a, b) => a.role.localeCompare(b.role));
     this.setState({ template, deck, detailedDeck });
   }
 
   onLangChange(lang) {
-    this.setState({ lang });
+    const { deck } = this.state;
+    const detailedDeck = brain
+      .translateDeck(deck, lang)
+      .sort((a, b) => a.role.localeCompare(b.role));
+    this.setState({ lang, detailedDeck });
   }
 
   setModeTo(mode) {
@@ -77,6 +85,9 @@ class Prepare extends Component {
       template, lang, mode, deck, detailedDeck
     } = this.state;
     const decks = Object.keys(this.decks).map(d => <Picker.Item key={d} label={d} value={d} />);
+    const languages = this.languages.map(l => (
+      <Picker.Item key={l.key} label={l.value} value={l.key} />
+    ));
     const currentDeck = detailedDeck.map(c => (
       <ListItem icon key={c.key}>
         <Left>
@@ -125,8 +136,7 @@ class Prepare extends Component {
                 selectedValue={lang}
                 onValueChange={l => this.onLangChange(l)}
               >
-                <Picker.Item label="English" value="en" />
-                <Picker.Item label="Spanish" value="es" />
+                {languages}
               </Picker>
             </View>
             <View style={styles.row}>
