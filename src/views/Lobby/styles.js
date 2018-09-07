@@ -20,6 +20,9 @@ export default StyleSheet.create({
   title: {
     fontSize: 15,
   },
+  footer: {
+    marginBottom: 20,
+  },
   button: {
     backgroundColor: '#fff',
     marginTop: 10,

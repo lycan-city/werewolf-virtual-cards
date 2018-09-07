@@ -172,7 +172,7 @@ class Prepare extends Component {
             </List>
           </Form>
         </Content>
-        <Footer>
+        <Footer style={styles.footer}>
           <FooterTab>
             <Button
               block
