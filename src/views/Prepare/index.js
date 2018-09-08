@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   Container,
   Body,
@@ -20,6 +21,7 @@ import {
 import brain from 'werewolf-brain';
 import propTypes from 'prop-types';
 import styles from './styles';
+import * as Actions from '../../actions';
 
 class Prepare extends Component {
   static navigationOptions = {
@@ -30,30 +32,48 @@ class Prepare extends Component {
     super(props);
     this.decks = brain.getDecks();
     this.languages = [{ key: 'en', value: 'English' }, { key: 'es', value: 'Spanish' }];
+
+    const {
+      deckName, language, mode, deck
+    } = this.props;
+    const initialDeck = Object.keys(deck).length ? deck : this.decks.basic;
+    const detailedDeck = Object.keys(deck).length
+      ? brain.translateDeck(deck)
+      : brain.translateDeck(this.decks.basic);
+
     this.state = {
-      template: 'basic',
-      lang: 'en',
-      mode: 'normal',
-      deck: this.decks.basic,
-      detailedDeck: brain.translateDeck(this.decks.basic),
+      deckName: deckName || 'basic',
+      language: language || 'en',
+      mode: mode || 'normal',
+      deck: initialDeck,
+      detailedDeck,
     };
   }
 
-  onTemplateChange(template) {
-    const { lang } = this.state;
-    const deck = this.decks[template];
+  onTemplateChange(deckName) {
+    if (deckName === 'custom') {
+      this.setState({ deckName });
+      return;
+    }
+
+    const { language } = this.state;
+    const deck = this.decks[deckName];
     const detailedDeck = brain
-      .translateDeck(deck, lang)
+      .translateDeck(deck, language)
       .sort((a, b) => a.role.localeCompare(b.role));
-    this.setState({ template, deck, detailedDeck });
+    this.setState({
+      deckName,
+      deck,
+      detailedDeck,
+    });
   }
 
-  onLangChange(lang) {
+  onLangChange(language) {
     const { deck } = this.state;
     const detailedDeck = brain
-      .translateDeck(deck, lang)
+      .translateDeck(deck, language)
       .sort((a, b) => a.role.localeCompare(b.role));
-    this.setState({ lang, detailedDeck });
+    this.setState({ language, detailedDeck });
   }
 
   setModeTo(mode) {
@@ -63,31 +83,48 @@ class Prepare extends Component {
   increaseCard(card) {
     const { deck } = this.state;
     if (deck[card] > 0) deck[card] += 1;
-    this.setState({ deck });
+    this.setState({ deck, deckName: 'custom' });
   }
 
   decreaseCard(card) {
     const { deck } = this.state;
     if (deck[card] > 1) deck[card] -= 1;
-    this.setState({ deck });
+    this.setState({ deck, deckName: 'custom' });
   }
 
   cardToggle(card) {
     const { deck } = this.state;
     if (deck[card] > 0) deck[card] = 0;
     else deck[card] = 1;
-    this.setState({ deck });
+    this.setState({ deck, deckName: 'custom' });
+  }
+
+  preparedGame() {
+    const {
+      language, mode, deck, deckName
+    } = this.state;
+    return {
+      language,
+      mode,
+      deckName,
+      deck,
+    };
   }
 
   render() {
-    const { navigation } = this.props;
+    const { prepareGame } = this.props;
     const {
-      template, lang, mode, deck, detailedDeck
+      deckName, language, mode, deck, detailedDeck
     } = this.state;
-    const decks = Object.keys(this.decks).map(d => <Picker.Item key={d} label={d} value={d} />);
+
+    const decks = Object.keys(this.decks)
+      .concat(['custom'])
+      .map(d => <Picker.Item key={d} label={d} value={d} />);
+
     const languages = this.languages.map(l => (
       <Picker.Item key={l.key} label={l.value} value={l.key} />
     ));
+
     const currentDeck = detailedDeck.map(c => (
       <ListItem icon key={c.key}>
         <Left>
@@ -107,6 +144,7 @@ class Prepare extends Component {
         </Right>
       </ListItem>
     ));
+
     return (
       <Container style={styles.content}>
         <Content>
@@ -119,7 +157,7 @@ class Prepare extends Component {
                 iosHeader="Template"
                 mode="dropdown"
                 inlineLabel
-                selectedValue={template}
+                selectedValue={deckName}
                 onValueChange={t => this.onTemplateChange(t)}
               >
                 {decks}
@@ -133,7 +171,7 @@ class Prepare extends Component {
                 iosHeader="Template"
                 mode="dropdown"
                 inlineLabel
-                selectedValue={lang}
+                selectedValue={language}
                 onValueChange={l => this.onLangChange(l)}
               >
                 {languages}
@@ -179,7 +217,7 @@ class Prepare extends Component {
               bordered
               success
               style={styles.footerButton}
-              onPress={() => navigation.goBack()}
+              onPress={() => prepareGame(this.preparedGame())}
             >
               <Icon name="arrow-back" />
               <Text> Done </Text>
@@ -192,9 +230,27 @@ class Prepare extends Component {
 }
 
 Prepare.propTypes = {
-  navigation: propTypes.shape({
-    navigate: propTypes.func,
-  }).isRequired,
+  prepareGame: propTypes.func.isRequired,
+  deckName: propTypes.string.isRequired,
+  language: propTypes.string.isRequired,
+  mode: propTypes.string.isRequired,
+  deck: propTypes.shape().isRequired,
 };
 
-export default Prepare;
+const mapStateToProps = ({
+  game: {
+    deckName = '', language = '', mode = '', deck = {}
+  }
+}) => ({
+  deckName,
+  language,
+  mode,
+  deck,
+});
+
+const mapDispatchToProps = { prepareGame: Actions.prepareGame };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Prepare);
