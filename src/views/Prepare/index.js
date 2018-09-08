@@ -31,21 +31,18 @@ class Prepare extends Component {
   constructor(props) {
     super(props);
     this.decks = brain.getDecks();
-    this.languages = [{ key: 'en', value: 'English' }, { key: 'es', value: 'Spanish' }];
+    this.languages = brain.getLanguages();
 
     const {
       deckName, language, mode, deck
     } = this.props;
-    const initialDeck = Object.keys(deck).length ? deck : this.decks.basic;
-    const detailedDeck = Object.keys(deck).length
-      ? brain.translateDeck(deck)
-      : brain.translateDeck(this.decks.basic);
+    const detailedDeck = brain.translateDeck(deck, language);
 
     this.state = {
-      deckName: deckName || 'basic',
-      language: language || 'en',
-      mode: mode || 'normal',
-      deck: initialDeck,
+      deckName,
+      language,
+      mode,
+      deck,
       detailedDeck,
     };
   }
@@ -238,9 +235,9 @@ Prepare.propTypes = {
 };
 
 const mapStateToProps = ({
-  game: {
-    deckName = '', language = '', mode = '', deck = {}
-  }
+  settings: {
+    deckName, language, mode, deck
+  },
 }) => ({
   deckName,
   language,

@@ -4,4 +4,4 @@ export default types;
 
 export * from './user';
 export * from './party';
-export * from './game';
+export * from './settings';

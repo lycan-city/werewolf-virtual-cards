@@ -2,12 +2,12 @@
 import types from './types';
 import NavigationService from '../navigation';
 
-const setGame = settings => ({
-  type: types.game.set,
+const setSettings = settings => ({
+  type: types.settings.set,
   settings,
 });
 
 export const prepareGame = settings => (dispatch) => {
-  dispatch(setGame(settings));
+  dispatch(setSettings(settings));
   NavigationService.navigate('Lobby');
 };
