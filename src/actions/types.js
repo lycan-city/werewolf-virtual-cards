@@ -13,4 +13,7 @@ export default {
   alert: {
     set: 'alert.set',
   },
+  game: {
+    set: 'game.set',
+  },
 };

@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 import types from './types';
 
 export const setUsername = username => ({
