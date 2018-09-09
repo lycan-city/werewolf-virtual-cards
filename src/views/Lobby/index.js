@@ -35,7 +35,7 @@ const Lobby = ({
         </ListItem>
         <View>{currentPlayers}</View>
       </Content>
-      <Footer>
+      <Footer style={styles.footer}>
         <FooterTab>
           {moderator && (
             <Button

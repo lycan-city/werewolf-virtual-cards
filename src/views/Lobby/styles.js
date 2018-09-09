@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   qrContainer: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 5,
@@ -20,6 +19,9 @@ export default StyleSheet.create({
   },
   title: {
     fontSize: 15,
+  },
+  footer: {
+    marginBottom: 20,
   },
   button: {
     backgroundColor: '#fff',
