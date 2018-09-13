@@ -39,6 +39,13 @@ export const createGame = () => (dispatch, getState) => {
 
   const game = brain.getGame(Object.keys(players).length, settings);
   const playersWithCards = assignCardsToPlayers(game.deck, players);
-  dispatch(setGame(game));
+  dispatch(
+    setGame(
+      Object.assign({}, game, {
+        deck: playersWithCards,
+        screenplay: brain.getScriptFromDeck(game.deck, settings.language),
+      })
+    )
+  );
   NavigationService.navigate('Game');
 };
