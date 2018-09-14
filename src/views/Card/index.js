@@ -19,14 +19,14 @@ export default class Card extends Component {
             <NativeBaseCard>
               <CardItem style={styles.card}>
                 <Body>
-                  <Image source={require('../../assets/back.jpg')} style={styles.cardImage} />
+                  <Image source={require('../../assets/back.jpeg')} style={styles.cardImage} />
                 </Body>
               </CardItem>
             </NativeBaseCard>
             <NativeBaseCard>
               <CardItem style={styles.card}>
                 <Body>
-                  <Image source={require('../../assets/prince.jpeg')} style={styles.cardImage} />
+                  <Image source={require('../../assets/villager.jpeg')} style={styles.cardImage} />
                 </Body>
               </CardItem>
             </NativeBaseCard>
