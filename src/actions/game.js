@@ -2,6 +2,12 @@
 import brain from 'werewolf-brain';
 import types from './types';
 import NavigationService from '../navigation';
+import Db from '../db';
+
+const setGamePrep = game => ({
+  type: types.gamePrep.set,
+  game,
+});
 
 const setGame = game => ({
   type: types.game.set,
@@ -28,24 +34,37 @@ const assignCardsToPlayers = (deck, players) => {
     [cards[i], cards[j]] = [cards[j], cards[i]];
   }
 
-  return Object.assign({}, ...Object.keys(players).map(k => ({ [k]: cards.pop() })));
+  return Object.assign(
+    {},
+    ...Object.keys(players).map(k => ({ [k]: { card: cards.pop(), alive: true } }))
+  );
 };
 
-export const createGame = () => (dispatch, getState) => {
+export const createGame = () => async (dispatch, getState) => {
   const {
-    party: { players },
+    party: { id, players },
     settings,
   } = getState();
 
   const game = brain.getGame(Object.keys(players).length, settings);
   const playersWithCards = assignCardsToPlayers(game.deck, players);
+
   dispatch(
-    setGame(
+    setGamePrep(
       Object.assign({}, game, {
         deck: playersWithCards,
         screenplay: brain.getScriptFromDeck(game.deck, settings.language),
       })
     )
   );
+
+  const db = Db.get();
+  await db.createGame(id, playersWithCards, g => dispatch(setGame(g)));
   NavigationService.navigate('Game');
+};
+
+export const joinGame = id => async (dispatch) => {
+  const db = Db.get();
+  await db.joinGame(id, g => dispatch(setGame(g)));
+  NavigationService.navigate('Card');
 };

@@ -1,6 +1,7 @@
 import types from './types';
 import Db from '../db';
 import NavigationService from '../navigation';
+import { joinGame } from './game';
 
 const setParty = party => ({
   type: types.party.set,
@@ -42,7 +43,7 @@ export const createParty = () => async (dispatch, getState) => {
 
 export const joinParty = partyId => async (dispatch, getState) => {
   const db = Db.get();
-  let party = await db.getPartyById(partyId.toUpperCase().trim());
+  const party = await db.getPartyById(partyId.toUpperCase().trim());
 
   if (!party) {
     dispatch(joinPartyFailed(partyId.toUpperCase().trim()));
@@ -53,8 +54,21 @@ export const joinParty = partyId => async (dispatch, getState) => {
     user: { username },
   } = getState();
 
-  party = await db.joinParty(party, username, p => dispatch(setParty(p)));
-  dispatch(setParty(party));
+  const player = await db.joinParty(party.id, username, (p) => {
+    const {
+      party: { gameInProgress },
+    } = getState();
+
+    if (gameInProgress !== p.gameInProgress) {
+      if (p.gameInProgress) {
+        dispatch(joinGame(p.id));
+      } else {
+        NavigationService.navigate('Lobby');
+      }
+    }
+    dispatch(setParty(p));
+  });
+  dispatch(setParty({ ...party, players: Object.assign({}, party.players, player) }));
 
   NavigationService.navigate('Lobby');
 };
