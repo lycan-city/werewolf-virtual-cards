@@ -4,6 +4,7 @@ import party from './party';
 import alert from './alert';
 import settings from './settings';
 import game from './game';
+import gamePrep from './gamePrep';
 
 export default combineReducers({
   user,
@@ -11,4 +12,5 @@ export default combineReducers({
   alert,
   settings,
   game,
+  gamePrep,
 });

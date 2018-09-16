@@ -19,4 +19,7 @@ export default {
   game: {
     set: 'game.set',
   },
+  gamePrep: {
+    set: 'gamePrep.set',
+  },
 };
