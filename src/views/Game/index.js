@@ -31,7 +31,7 @@ class Game extends Component {
         <Body>
           <Text style={styles.name}>{players[p].name}</Text>
           <Text style={styles.role} note>
-            {deck[p].role}
+            {deck[p].card.role}
           </Text>
         </Body>
         <Right>
@@ -76,7 +76,10 @@ Game.propTypes = {
   ).isRequired,
 };
 
-const mapStateToProps = ({ party: { players = {} }, game: { deck = {}, screenplay = [] } }) => ({
+const mapStateToProps = ({
+  party: { players = {} },
+  gamePrep: { deck = {}, screenplay = [] },
+}) => ({
   players,
   deck,
   screenplay,

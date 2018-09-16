@@ -1,38 +1,54 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
 import {
-  Container, Content, Card as NativeBaseCard, CardItem, Body
+  Container, Content, Card as NativeBaseCard, CardItem, Body, Text
 } from 'native-base';
 import FlipCard from 'react-native-flip-card';
+import { connect } from 'react-redux';
+import { Constants } from 'expo';
+import propTypes from 'prop-types';
 import styles from './styles';
 
-export default class Card extends Component {
+class Card extends Component {
   static navigationOptions = {
     title: 'Virtual Cards',
   };
 
   render() {
+    const { card, alive } = this.props;
+    const back = require('../../assets/back.jpeg');
+    const front = require('../../assets/villager.jpeg');
     return (
       <Container>
-        <Content scrollEnabled={false}>
-          <FlipCard flipHorizontal flipVertical={false}>
+        <Content>
+          <FlipCard flipHorizontal flipVertical={false} clickable={alive} flip={!alive}>
             <NativeBaseCard>
               <CardItem style={styles.card}>
                 <Body>
-                  <Image source={require('../../assets/back.jpeg')} style={styles.cardImage} />
+                  <Image source={back} style={styles.cardImage} />
                 </Body>
               </CardItem>
             </NativeBaseCard>
             <NativeBaseCard>
               <CardItem style={styles.card}>
                 <Body>
-                  <Image source={require('../../assets/villager.jpeg')} style={styles.cardImage} />
+                  <Image source={front} style={styles.cardImage} />
                 </Body>
               </CardItem>
             </NativeBaseCard>
           </FlipCard>
+          <Text>{JSON.stringify(card)}</Text>
         </Content>
       </Container>
     );
   }
 }
+
+Card.propTypes = {
+  card: propTypes.shape().isRequired,
+  alive: propTypes.bool.isRequired,
+};
+
+const mapStateToProps = ({ game }) => game[Constants.deviceId] || {};
+
+export default connect(mapStateToProps)(Card);
