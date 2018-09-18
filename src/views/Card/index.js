@@ -15,7 +15,7 @@ export default class Card extends Component {
     return (
       <Container>
         <Content scrollEnabled={false}>
-          <FlipCard flipHorizontal flipVertical={false}>
+          <FlipCard flipHorizontal flipVertical={false} perspective={1000}>
             <NativeBaseCard>
               <CardItem style={styles.card}>
                 <Body>
