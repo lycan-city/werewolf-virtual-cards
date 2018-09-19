@@ -1,6 +1,7 @@
 import types from '../actions';
 
 const defaultUser = {
+  name: 'Guest',
   attributes: { moderator: false },
 };
 

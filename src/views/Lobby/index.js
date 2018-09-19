@@ -19,7 +19,7 @@ import styles from './styles';
 import * as Actions from '../../actions';
 
 const Lobby = ({
-  navigation, flee, id, name, players, moderator
+  navigation, flee, createGame, id, name, players, moderator
 }) => {
   const currentPlayers = Object.keys(players).map(k => <Text key={k}> {players[k].name} </Text>);
 
@@ -49,13 +49,7 @@ const Lobby = ({
             </Button>
           )}
           {moderator && (
-            <Button
-              block
-              bordered
-              success
-              style={styles.button}
-              onPress={() => navigation.navigate('Game')}
-            >
+            <Button block bordered success style={styles.button} onPress={() => createGame()}>
               <Text>Start</Text>
             </Button>
           )}
@@ -80,6 +74,7 @@ Lobby.propTypes = {
   moderator: propTypes.bool.isRequired,
   players: propTypes.shape().isRequired,
   flee: propTypes.func.isRequired,
+  createGame: propTypes.func.isRequired,
 };
 
 const mapStateToProps = ({
@@ -93,7 +88,7 @@ const mapStateToProps = ({
   players,
   moderator,
 });
-const mapDispatchToProps = { flee: Actions.flee };
+const mapDispatchToProps = { flee: Actions.flee, createGame: Actions.createGame };
 
 export default connect(
   mapStateToProps,
