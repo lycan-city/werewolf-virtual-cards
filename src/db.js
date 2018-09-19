@@ -2,12 +2,12 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { Constants } from 'expo';
 
-import envVars from './.env.json';
+import config from './config';
 
 let instance = null;
 class Db {
   constructor() {
-    firebase.initializeApp(envVars.firebase);
+    firebase.initializeApp(config.firebase);
     this.db = firebase.firestore();
     this.db.settings({
       timestampsInSnapshots: true,
