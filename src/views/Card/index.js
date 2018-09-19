@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
 import {
-  Container, Content, Card as NativeBaseCard, CardItem, Body, Text
+  Container, Content, Card as NativeBaseCard, CardItem, Body
 } from 'native-base';
 import FlipCard from 'react-native-flip-card';
 import { connect } from 'react-redux';
@@ -44,7 +44,6 @@ class Card extends Component {
               </CardItem>
             </NativeBaseCard>
           </FlipCard>
-          <Text>{JSON.stringify(card)}</Text>
         </Content>
       </Container>
     );

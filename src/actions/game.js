@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import brain from 'werewolf-brain';
 import types from './types';
 import NavigationService from '../navigation';
