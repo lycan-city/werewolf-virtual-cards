@@ -9,6 +9,8 @@ import { Constants } from 'expo';
 import propTypes from 'prop-types';
 import styles from './styles';
 
+const back = require('../../assets/back.jpeg');
+
 class Card extends Component {
   static navigationOptions = {
     title: 'Virtual Cards',
@@ -16,8 +18,7 @@ class Card extends Component {
 
   render() {
     const { card, alive } = this.props;
-    const back = require('../../assets/back.jpeg');
-    const front = require('../../assets/villager.jpeg');
+
     return (
       <Container>
         <Content>
@@ -38,7 +39,7 @@ class Card extends Component {
             <NativeBaseCard>
               <CardItem style={styles.card}>
                 <Body>
-                  <Image source={front} style={styles.cardImage} />
+                  <Image source={{ uri: card.url }} style={styles.cardImage} />
                 </Body>
               </CardItem>
             </NativeBaseCard>

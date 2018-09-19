@@ -1,5 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/storage';
+import 'firebase/auth';
 import { Constants } from 'expo';
 
 import envVars from './.env.json';
@@ -8,13 +10,22 @@ let instance = null;
 class Db {
   constructor() {
     firebase.initializeApp(envVars.firebase);
+    firebase.auth().signInAnonymously();
     this.db = firebase.firestore();
     this.db.settings({
       timestampsInSnapshots: true,
     });
+    this.storageRef = firebase.storage().ref();
     const noop = () => {};
     this.unsubscribeParty = noop;
     this.unsubscribeGame = noop;
+  }
+
+  async getCardUrl(key) {
+    return this.storageRef
+      .child(`cards/${key}.jpeg`)
+      .getDownloadURL()
+      .then(url => url);
   }
 
   subscribeGame(id, callback) {

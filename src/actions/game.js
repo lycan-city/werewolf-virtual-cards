@@ -23,6 +23,7 @@ const assignCardsToPlayers = (deck, players) => {
           description: c.description,
           key: c.key,
           role: c.role,
+          url: c.url,
         });
       }
       return deckCards;
@@ -45,9 +46,18 @@ export const createGame = () => async (dispatch, getState) => {
     party: { id, players },
     settings,
   } = getState();
+  const db = Db.get();
 
   const game = brain.getGame(Object.keys(players).length, settings);
-  const playersWithCards = assignCardsToPlayers(game.deck, players);
+
+  const deckWithUrl = await Promise.all(
+    game.deck.map(async r => ({
+      ...r,
+      url: await db.getCardUrl(r.key),
+    }))
+  );
+
+  const playersWithCards = assignCardsToPlayers(deckWithUrl, players);
 
   dispatch(
     setGamePrep(
@@ -58,7 +68,6 @@ export const createGame = () => async (dispatch, getState) => {
     )
   );
 
-  const db = Db.get();
   await db.createGame(id, playersWithCards, g => dispatch(setGame(g)));
   NavigationService.navigate('Game');
 };
