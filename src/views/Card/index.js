@@ -21,7 +21,13 @@ class Card extends Component {
     return (
       <Container>
         <Content>
-          <FlipCard flipHorizontal flipVertical={false} clickable={alive} flip={!alive}>
+          <FlipCard
+            flipHorizontal
+            flipVertical={false}
+            clickable={alive}
+            flip={!alive}
+            perspective={1000}
+          >
             <NativeBaseCard>
               <CardItem style={styles.card}>
                 <Body>
