@@ -19,6 +19,6 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
 
-      - run: npx exp login --username $EXPO_USERNAME --password $EXPO_PASSWORD
+      - run: npx exp login --username $EXPO_USERNAME --password $EXPO_PASSWORD --non-interactive
 
-      - run: npx exp build:android
+      - run: npx exp build:android --non-interactive
