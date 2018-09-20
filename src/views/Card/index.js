@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
 import {
-  Container, Content, Card as NativeBaseCard, CardItem, Body
+  Container, Content, Card as NativeBaseCard, CardItem, Body, Text
 } from 'native-base';
 import FlipCard from 'react-native-flip-card';
 import { connect } from 'react-redux';
@@ -40,6 +40,8 @@ class Card extends Component {
               <CardItem style={styles.card}>
                 <Body>
                   <Image source={{ uri: card.url }} style={styles.cardImage} />
+                  <Text style={styles.role}>{card.role}</Text>
+                  <Text style={styles.description}>{card.description}</Text>
                 </Body>
               </CardItem>
             </NativeBaseCard>
@@ -55,6 +57,6 @@ Card.propTypes = {
   alive: propTypes.bool.isRequired,
 };
 
-const mapStateToProps = ({ game }) => game[Constants.deviceId] || {};
+const mapStateToProps = ({ game }) => game[Constants.deviceId] || { card: {}, alive: true };
 
 export default connect(mapStateToProps)(Card);
