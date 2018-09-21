@@ -12,14 +12,40 @@ import {
   Right,
   Text,
 } from 'native-base';
+import { connect } from 'react-redux';
+import propTypes from 'prop-types';
 import styles from './styles';
 
-export default class Game extends Component {
+class Game extends Component {
   static navigationOptions = {
     title: 'Virtual Cards',
   };
 
   render() {
+    const { players, deck, screenplay } = this.props;
+    const playersList = Object.keys(deck).map(p => (
+      <ListItem avatar key={p}>
+        <Left>
+          <Thumbnail source={require('../../assets/full-moon.jpg')} />
+        </Left>
+        <Body>
+          <Text style={styles.name}>{players[p].name}</Text>
+          <Text style={styles.role} note>
+            {deck[p].card.role}
+          </Text>
+        </Body>
+        <Right>
+          <Button bordered danger>
+            <Icon type="Foundation" name="skull" style={styles.icon} />
+          </Button>
+        </Right>
+      </ListItem>
+    ));
+    const script = screenplay.map(c => (
+      <ListItem key={c.key}>
+        <Text>{c.call}</Text>
+      </ListItem>
+    ));
     return (
       <Container>
         <Content contentContainerStyle={styles.content}>
@@ -27,101 +53,36 @@ export default class Game extends Component {
             <ListItem itemHeader first>
               <Text>Players</Text>
             </ListItem>
-            <ListItem avatar>
-              <Left>
-                <Thumbnail source={require('../../assets/full-moon.jpg')} />
-              </Left>
-              <Body>
-                <Text style={styles.name}>Steve</Text>
-                <Text style={styles.role} note>
-                  Villager
-                </Text>
-              </Body>
-              <Right>
-                <Button bordered danger>
-                  <Icon type="Foundation" name="skull" style={styles.icon} />
-                </Button>
-              </Right>
-            </ListItem>
-            <ListItem avatar>
-              <Left>
-                <Thumbnail source={require('../../assets/full-moon.jpg')} />
-              </Left>
-              <Body>
-                <Text style={styles.name}>Jane</Text>
-                <Text style={styles.role} note>
-                  Seer
-                </Text>
-              </Body>
-              <Right>
-                <Button bordered danger>
-                  <Icon type="Foundation" name="skull" style={styles.icon} />
-                </Button>
-              </Right>
-            </ListItem>
-            <ListItem avatar>
-              <Left>
-                <Thumbnail source={require('../../assets/full-moon.jpg')} />
-              </Left>
-              <Body>
-                <Text style={styles.name}>Bill</Text>
-                <Text style={styles.role} note>
-                  Bodyguard
-                </Text>
-              </Body>
-              <Right>
-                <Button bordered danger>
-                  <Icon type="Foundation" name="skull" style={styles.icon} />
-                </Button>
-              </Right>
-            </ListItem>
-            <ListItem avatar>
-              <Left>
-                <Thumbnail source={require('../../assets/full-moon.jpg')} />
-              </Left>
-              <Body>
-                <Text style={styles.name}>Mike</Text>
-                <Text style={styles.role} note>
-                  Werewolf
-                </Text>
-              </Body>
-              <Right>
-                <Button bordered danger>
-                  <Icon type="Foundation" name="skull" style={styles.icon} />
-                </Button>
-              </Right>
-            </ListItem>
-            <ListItem avatar>
-              <Left>
-                <Thumbnail source={require('../../assets/full-moon.jpg')} />
-              </Left>
-              <Body>
-                <Text style={styles.name}>Paco</Text>
-                <Text style={styles.role} note>
-                  Villager
-                </Text>
-              </Body>
-              <Right>
-                <Button bordered danger>
-                  <Icon type="Foundation" name="skull" style={styles.icon} />
-                </Button>
-              </Right>
-            </ListItem>
+            {playersList}
             <ListItem itemHeader>
               <Text>Script</Text>
             </ListItem>
-            <ListItem>
-              <Text>Wake up Bodyguard, choose a player to protect.</Text>
-            </ListItem>
-            <ListItem>
-              <Text>Werewolves, choose a player to kill.</Text>
-            </ListItem>
-            <ListItem>
-              <Text>Wake up Seer, check a player.</Text>
-            </ListItem>
+            {script}
           </List>
         </Content>
       </Container>
     );
   }
 }
+
+Game.propTypes = {
+  players: propTypes.shape().isRequired,
+  deck: propTypes.shape().isRequired,
+  screenplay: propTypes.arrayOf(
+    propTypes.shape({
+      key: propTypes.string,
+      call: propTypes.string,
+    })
+  ).isRequired,
+};
+
+const mapStateToProps = ({
+  party: { players = {} },
+  gamePrep: { deck = {}, screenplay = [] },
+}) => ({
+  players,
+  deck,
+  screenplay,
+});
+
+export default connect(mapStateToProps)(Game);

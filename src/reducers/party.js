@@ -1,6 +1,8 @@
 import types from '../actions';
 
-const party = (state = {}, action) => {
+const defaultParty = { gameInProgress: false };
+
+const party = (state = defaultParty, action) => {
   switch (action.type) {
     case types.party.set:
       return action.party;

@@ -1,5 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/storage';
+import 'firebase/auth';
 import { Constants } from 'expo';
 
 import config from './config';
@@ -8,12 +10,31 @@ let instance = null;
 class Db {
   constructor() {
     firebase.initializeApp(config.firebase);
+    firebase.auth().signInAnonymously();
     this.db = firebase.firestore();
     this.db.settings({
       timestampsInSnapshots: true,
     });
+    this.storageRef = firebase.storage().ref();
     const noop = () => {};
     this.unsubscribeParty = noop;
+    this.unsubscribeGame = noop;
+  }
+
+  async getCardUrl(key) {
+    return this.storageRef
+      .child(`cards/${key}.jpeg`)
+      .getDownloadURL()
+      .then(url => url);
+  }
+
+  subscribeGame(id, callback) {
+    return this.db
+      .collection('games')
+      .doc(id)
+      .onSnapshot((d) => {
+        callback(d.data());
+      });
   }
 
   subscribeParty(id, callback) {
@@ -23,6 +44,33 @@ class Db {
       .onSnapshot((d) => {
         callback(d.data());
       });
+  }
+
+  async createGame(id, game, callback) {
+    await this.db
+      .collection('games')
+      .doc(id)
+      .set(game);
+
+    this.unsubscribeGame = this.subscribeGame(id, callback);
+
+    await this.db
+      .collection('parties')
+      .doc(id)
+      .update({ gameInProgress: true });
+  }
+
+  async joinGame(id, callback) {
+    const game = await this.db
+      .collection('games')
+      .doc(id)
+      .get()
+      .then(d => d.data())
+      .catch(() => null);
+
+    callback(game);
+
+    this.unsubscribeGame = this.subscribeGame(id, callback);
   }
 
   async createParty(name, callback) {
@@ -57,25 +105,22 @@ class Db {
       .catch(() => null);
   }
 
-  async joinParty(party, name, callback) {
+  async joinParty(id, name, callback) {
     const { deviceId } = Constants;
     const joinedAt = Date.now();
-    const updatedParty = {
-      ...party,
-      players: {
-        ...party.players,
-        [deviceId]: { joinedAt, name },
-      },
-    };
+
+    const join = { joinedAt, name };
 
     await this.db
       .collection('parties')
-      .doc(party.id)
-      .set(updatedParty);
+      .doc(id)
+      .update({
+        [`players.${deviceId}`]: join,
+      });
 
-    this.unsubscribeParty = this.subscribeParty(party.id, callback);
+    this.unsubscribeParty = this.subscribeParty(id, callback);
 
-    return updatedParty;
+    return { [deviceId]: join };
   }
 
   async fleeParty(party) {
