@@ -4,6 +4,9 @@ jobs:
     docker:
       - image: circleci/node
 
+    branches:
+      only: master
+
     working_directory: ~/repo
 
     steps:
