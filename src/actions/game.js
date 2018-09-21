@@ -76,3 +76,11 @@ export const joinGame = id => async (dispatch) => {
   await db.joinGame(id, g => dispatch(setGame(g)));
   NavigationService.navigate('Card');
 };
+
+export const killPlayer = playerId => (dispatch, getState) => {
+  const db = Db.get();
+  const {
+    party: { id },
+  } = getState();
+  db.killPlayer(id, playerId);
+};

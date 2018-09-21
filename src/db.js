@@ -105,6 +105,13 @@ class Db {
       .catch(() => null);
   }
 
+  killPlayer(gameId, playerId) {
+    this.db
+      .collection('games')
+      .doc(gameId)
+      .update({ [`${playerId}.alive`]: false });
+  }
+
   async joinParty(id, name, callback) {
     const { deviceId } = Constants;
     const joinedAt = Date.now();
