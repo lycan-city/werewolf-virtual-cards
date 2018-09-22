@@ -15,6 +15,7 @@ import {
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import styles from './styles';
+import * as Actions from '../../actions';
 
 class Game extends Component {
   static navigationOptions = {
@@ -22,7 +23,9 @@ class Game extends Component {
   };
 
   render() {
-    const { players, deck, screenplay } = this.props;
+    const {
+      players, deck, screenplay, killPlayer
+    } = this.props;
     const playersList = Object.keys(deck).map(p => (
       <ListItem avatar key={p}>
         <Left>
@@ -35,7 +38,7 @@ class Game extends Component {
           </Text>
         </Body>
         <Right>
-          <Button bordered danger>
+          <Button bordered danger onPress={() => killPlayer(p)}>
             <Icon type="Foundation" name="skull" style={styles.icon} />
           </Button>
         </Right>
@@ -74,6 +77,7 @@ Game.propTypes = {
       call: propTypes.string,
     })
   ).isRequired,
+  killPlayer: propTypes.func.isRequired,
 };
 
 const mapStateToProps = ({
@@ -85,4 +89,9 @@ const mapStateToProps = ({
   screenplay,
 });
 
-export default connect(mapStateToProps)(Game);
+const mapDispatchToProps = { killPlayer: Actions.killPlayer };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Game);
