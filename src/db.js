@@ -4,12 +4,12 @@ import 'firebase/storage';
 import 'firebase/auth';
 import { Constants } from 'expo';
 
-import envVars from './.env.json';
+import config from './config';
 
 let instance = null;
 class Db {
   constructor() {
-    firebase.initializeApp(envVars.firebase);
+    firebase.initializeApp(config.firebase);
     firebase.auth().signInAnonymously();
     this.db = firebase.firestore();
     this.db.settings({

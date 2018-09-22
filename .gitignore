@@ -203,8 +203,6 @@ gradle-app.setting
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
-.env.json
-
 .vs
 .expo
 
