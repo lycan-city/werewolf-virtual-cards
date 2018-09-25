@@ -75,13 +75,14 @@ class Db {
 
   async createParty(name, callback) {
     const createdAt = new Date();
+    const { deviceId: playerId } = Constants;
 
     const id = (createdAt.getTime() % (1000 * 60 * 60 * 24)).toString(36).toUpperCase();
 
     const party = {
       id,
       name,
-      moderator: Constants.deviceId,
+      moderator: playerId,
       createdAt,
       players: {},
     };
@@ -91,7 +92,12 @@ class Db {
       .doc(id)
       .set(party);
 
-    this.unsubscribeParty = this.subscribeParty(party.id, callback);
+    const keepaliveIntervalId = await this.startKeepAlive(id, playerId);
+
+    this.unsubscribeParty = () => {
+      clearInterval(keepaliveIntervalId);
+      return this.subscribeParty(id, callback);
+    };
 
     return party;
   }
@@ -125,9 +131,25 @@ class Db {
         [`players.${deviceId}`]: join,
       });
 
-    this.unsubscribeParty = this.subscribeParty(id, callback);
+    const keepaliveIntervalId = await this.startKeepAlive(id, deviceId);
+
+    this.unsubscribeParty = () => {
+      clearInterval(keepaliveIntervalId);
+      return this.subscribeParty(id, callback);
+    };
 
     return { [deviceId]: join };
+  }
+
+  async startKeepAlive(partyId, playerId) {
+    return setInterval(() => {
+      this.db
+        .collection('parties')
+        .doc(partyId)
+        .update({
+          keepalive: { [playerId]: new Date() },
+        });
+    }, config.playerKeepAliveTimeInMs);
   }
 
   async fleeParty(party) {
