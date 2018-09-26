@@ -29,7 +29,7 @@ const Root = createStackNavigator(
   { initialRouteName: 'Home' }
 );
 
-const store = createStore(reducer, applyMiddleware(logger, thunk));
+const store = createStore(reducer, applyMiddleware(thunk, logger));
 
 export default class App extends Component {
   state = {
