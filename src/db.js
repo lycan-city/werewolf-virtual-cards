@@ -19,6 +19,7 @@ class Db {
     const noop = () => {};
     this.unsubscribeParty = noop;
     this.unsubscribeGame = noop;
+    this.clearInterval = noop;
   }
 
   async getCardUrl(key) {
@@ -93,11 +94,8 @@ class Db {
       .set(party);
 
     const keepaliveIntervalId = await this.startKeepAlive(id, playerId);
-
-    this.unsubscribeParty = () => {
-      clearInterval(keepaliveIntervalId);
-      return this.subscribeParty(id, callback);
-    };
+    this.clearInterval = () => clearInterval(keepaliveIntervalId);
+    this.unsubscribeParty = this.subscribeParty(id, callback);
 
     return party;
   }
@@ -132,11 +130,8 @@ class Db {
       });
 
     const keepaliveIntervalId = await this.startKeepAlive(id, deviceId);
-
-    this.unsubscribeParty = () => {
-      clearInterval(keepaliveIntervalId);
-      return this.subscribeParty(id, callback);
-    };
+    this.clearInterval = () => clearInterval(keepaliveIntervalId);
+    this.unsubscribeParty = this.subscribeParty(id, callback);
 
     return { [deviceId]: join };
   }
@@ -147,7 +142,7 @@ class Db {
         .collection('parties')
         .doc(partyId)
         .update({
-          keepalive: { [playerId]: new Date() },
+          [`keepalive.${playerId}`]: new Date(),
         });
     }, config.playerKeepAliveTimeInMs);
   }
@@ -165,7 +160,9 @@ class Db {
       .doc(party.id)
       .set(updatedParty);
 
+    this.clearInterval();
     this.unsubscribeParty();
+    this.clearInterval = this.noop;
     this.unsubscribeParty = this.noop;
 
     return updatedParty;
