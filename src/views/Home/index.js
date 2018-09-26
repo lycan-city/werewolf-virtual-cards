@@ -28,9 +28,9 @@ class Home extends Component {
   };
 
   createParty = async () => {
-    const { navigation, createParty, setModerator } = this.props;
+    const { navigation, createParty, setUsername } = this.props;
     const { username } = this.state;
-    setModerator(username);
+    setUsername(username);
     await createParty();
     navigation.navigate('Lobby');
   };
@@ -70,7 +70,6 @@ const mapStateToProps = (state = {}) => ({ username: state.username });
 
 const mapDispatchToProps = {
   setUsername: Actions.setUsername,
-  setModerator: Actions.setModerator,
   createParty: Actions.createParty,
 };
 

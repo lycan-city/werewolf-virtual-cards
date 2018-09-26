@@ -79,13 +79,13 @@ class Db {
     const { deviceId: playerId } = Constants;
 
     const id = (createdAt.getTime() % (1000 * 60 * 60 * 24)).toString(36).toUpperCase();
+    const moderator = { joinedAt: createdAt, name, moderator: true };
 
     const party = {
       id,
-      name,
-      moderator: playerId,
+      name: `${name}'s party`,
       createdAt,
-      players: {},
+      players: { [playerId]: moderator },
     };
 
     await this.db

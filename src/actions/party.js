@@ -37,7 +37,7 @@ export const createParty = () => async (dispatch, getState) => {
     user: { username },
   } = getState();
 
-  const party = await db.createParty(`${username}'s party`, p => dispatch(setParty(p)));
+  const party = await db.createParty(username, p => dispatch(setParty(p)));
   dispatch(setParty(party));
 };
 

@@ -2,9 +2,6 @@ export default {
   user: {
     set: {
       name: 'user.set.name',
-      as: {
-        moderator: 'user.set.as.moderator',
-      },
     },
   },
   party: {
