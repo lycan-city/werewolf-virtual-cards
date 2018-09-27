@@ -1,5 +1,5 @@
 import React from 'react';
-import { Linking } from 'expo';
+import { Constants, Linking } from 'expo';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -77,16 +77,11 @@ Lobby.propTypes = {
   createGame: propTypes.func.isRequired,
 };
 
-const mapStateToProps = ({
-  party: { id, name, players = {} },
-  user: {
-    attributes: { moderator },
-  },
-}) => ({
+const mapStateToProps = ({ party: { id, name, players = {} } }) => ({
   id,
   name,
   players,
-  moderator,
+  moderator: !!players[Constants.deviceId].moderator,
 });
 const mapDispatchToProps = { flee: Actions.flee, createGame: Actions.createGame };
 

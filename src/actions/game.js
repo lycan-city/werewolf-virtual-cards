@@ -1,4 +1,5 @@
 import brain from 'werewolf-brain';
+import { Constants } from 'expo';
 import types from './types';
 import NavigationService from '../navigation';
 import Db from '../db';
@@ -42,7 +43,10 @@ const assignCardsToPlayers = (deck, players) => {
 
 export const createGame = () => async (dispatch, getState) => {
   const {
-    party: { id, players },
+    party: {
+      id,
+      players: { [Constants.deviceId]: moderator, ...players },
+    },
     settings,
   } = getState();
   const db = Db.get();

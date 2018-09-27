@@ -19,6 +19,7 @@ class Db {
     const noop = () => {};
     this.unsubscribeParty = noop;
     this.unsubscribeGame = noop;
+    this.clearInterval = noop;
   }
 
   async getCardUrl(key) {
@@ -73,18 +74,18 @@ class Db {
     this.unsubscribeGame = this.subscribeGame(id, callback);
   }
 
-  async createParty(name, callback) {
+  async createParty(username, callback) {
     const createdAt = new Date();
     const { deviceId: playerId } = Constants;
 
     const id = (createdAt.getTime() % (1000 * 60 * 60 * 24)).toString(36).toUpperCase();
+    const moderator = { joinedAt: createdAt, name: username, moderator: true };
 
     const party = {
       id,
-      name,
-      moderator: playerId,
+      name: `${username}'s party`,
       createdAt,
-      players: {},
+      players: { [playerId]: moderator },
     };
 
     await this.db
@@ -93,11 +94,8 @@ class Db {
       .set(party);
 
     const keepaliveIntervalId = await this.startKeepAlive(id, playerId);
-
-    this.unsubscribeParty = () => {
-      clearInterval(keepaliveIntervalId);
-      return this.subscribeParty(id, callback);
-    };
+    this.clearInterval = () => clearInterval(keepaliveIntervalId);
+    this.unsubscribeParty = this.subscribeParty(id, callback);
 
     return party;
   }
@@ -132,11 +130,8 @@ class Db {
       });
 
     const keepaliveIntervalId = await this.startKeepAlive(id, deviceId);
-
-    this.unsubscribeParty = () => {
-      clearInterval(keepaliveIntervalId);
-      return this.subscribeParty(id, callback);
-    };
+    this.clearInterval = () => clearInterval(keepaliveIntervalId);
+    this.unsubscribeParty = this.subscribeParty(id, callback);
 
     return { [deviceId]: join };
   }
@@ -147,7 +142,7 @@ class Db {
         .collection('parties')
         .doc(partyId)
         .update({
-          keepalive: { [playerId]: new Date() },
+          [`keepalive.${playerId}`]: new Date(),
         });
     }, config.playerKeepAliveTimeInMs);
   }
@@ -165,7 +160,9 @@ class Db {
       .doc(party.id)
       .set(updatedParty);
 
+    this.clearInterval();
     this.unsubscribeParty();
+    this.clearInterval = this.noop;
     this.unsubscribeParty = this.noop;
 
     return updatedParty;
