@@ -74,16 +74,16 @@ class Db {
     this.unsubscribeGame = this.subscribeGame(id, callback);
   }
 
-  async createParty(name, callback) {
+  async createParty(username, callback) {
     const createdAt = new Date();
     const { deviceId: playerId } = Constants;
 
     const id = (createdAt.getTime() % (1000 * 60 * 60 * 24)).toString(36).toUpperCase();
-    const moderator = { joinedAt: createdAt, name, moderator: true };
+    const moderator = { joinedAt: createdAt, name: username, moderator: true };
 
     const party = {
       id,
-      name: `${name}'s party`,
+      name: `${username}'s party`,
       createdAt,
       players: { [playerId]: moderator },
     };
