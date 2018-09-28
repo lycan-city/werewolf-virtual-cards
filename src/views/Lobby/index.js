@@ -10,6 +10,7 @@ import {
   Button,
   Text,
   View,
+  List,
   ListItem,
   Footer,
   FooterTab,
@@ -21,7 +22,11 @@ import * as Actions from '../../actions';
 const Lobby = ({
   navigation, flee, createGame, id, name, players, moderator
 }) => {
-  const currentPlayers = Object.keys(players).map(k => <Text key={k}> {players[k].name} </Text>);
+  const currentPlayers = Object.keys(players).map(k => (
+    <ListItem key={k} selected={Constants.deviceId === k}>
+      <Text>{players[k].name}</Text>
+    </ListItem>
+  ));
 
   return (
     <Container style={styles.content}>
@@ -33,7 +38,7 @@ const Lobby = ({
         <ListItem itemHeader style={styles.titleContainer}>
           <Label style={styles.qrLabel}>{name}</Label>
         </ListItem>
-        <View>{currentPlayers}</View>
+        <List>{currentPlayers}</List>
       </Content>
       <Footer style={styles.footer}>
         <FooterTab>
