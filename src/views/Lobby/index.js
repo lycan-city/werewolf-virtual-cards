@@ -81,7 +81,7 @@ const mapStateToProps = ({ party: { id, name, players = {} } }) => ({
   id,
   name,
   players,
-  moderator: !!players[Constants.deviceId].moderator,
+  moderator: players[Constants.deviceId] ? !!players[Constants.deviceId].moderator : false,
 });
 const mapDispatchToProps = { flee: Actions.flee, createGame: Actions.createGame };
 
