@@ -12,7 +12,10 @@ import {
   View,
   List,
   ListItem,
+  Left,
   Footer,
+  Right,
+  Icon,
   FooterTab,
 } from 'native-base';
 import QRCode from 'react-native-qrcode';
@@ -24,7 +27,14 @@ const Lobby = ({
 }) => {
   const currentPlayers = Object.keys(players).map(k => (
     <ListItem key={k} selected={Constants.deviceId === k}>
-      <Text>{players[k].name}</Text>
+      <Left>
+        <Text>{players[k].name}</Text>
+      </Left>
+      {moderator && (
+        <Right>
+          <Icon type="Foundation" style={styles.crown} name="crown" />
+        </Right>
+      )}
     </ListItem>
   ));
 
