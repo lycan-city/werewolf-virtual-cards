@@ -72,3 +72,11 @@ export const joinParty = partyId => async (dispatch, getState) => {
 
   NavigationService.navigate('Lobby');
 };
+
+export const promote = (moderatorId, playerId) => (dispatch, getState) => {
+  const db = Db.get();
+  const {
+    party: { id },
+  } = getState();
+  db.promote(moderatorId, playerId, id);
+};

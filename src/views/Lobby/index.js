@@ -23,17 +23,23 @@ import styles from './styles';
 import * as Actions from '../../actions';
 
 const Lobby = ({
-  navigation, flee, createGame, id, name, players, moderator
+  navigation, flee, createGame, id, name, players, moderator, promote
 }) => {
   const currentPlayers = Object.keys(players).map(k => (
     <ListItem key={k} selected={Constants.deviceId === k}>
       <Left>
         <Text>{players[k].name}</Text>
       </Left>
-      {moderator && (
-        <Right>
-          <Icon type="Foundation" style={styles.crown} name="crown" />
-        </Right>
+      {moderator
+        && Constants.deviceId !== k && (
+          <Right>
+            <Icon
+              type="Foundation"
+              style={styles.crown}
+              name="crown"
+              onPress={() => promote(Constants.deviceId, k)}
+            />
+          </Right>
       )}
     </ListItem>
   ));
@@ -90,6 +96,7 @@ Lobby.propTypes = {
   players: propTypes.shape().isRequired,
   flee: propTypes.func.isRequired,
   createGame: propTypes.func.isRequired,
+  promote: propTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ party: { id, name, players = {} } }) => ({
@@ -98,7 +105,11 @@ const mapStateToProps = ({ party: { id, name, players = {} } }) => ({
   players,
   moderator: players[Constants.deviceId] ? !!players[Constants.deviceId].moderator : false,
 });
-const mapDispatchToProps = { flee: Actions.flee, createGame: Actions.createGame };
+const mapDispatchToProps = {
+  flee: Actions.flee,
+  createGame: Actions.createGame,
+  promote: Actions.promote,
+};
 
 export default connect(
   mapStateToProps,
