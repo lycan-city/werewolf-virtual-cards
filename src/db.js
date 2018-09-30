@@ -139,11 +139,16 @@ class Db {
   async startKeepAlive(partyId, playerId) {
     return setInterval(() => {
       this.db
-        .collection('parties')
+        .collection('keepAlive')
         .doc(partyId)
-        .update({
-          [`keepalive.${playerId}`]: new Date(),
-        });
+        .set(
+          {
+            [playerId]: new Date(),
+          },
+          {
+            merge: true,
+          }
+        );
     }, config.playerKeepAliveTimeInMs);
   }
 
