@@ -33,13 +33,13 @@ const Lobby = ({
       {moderator
         && Constants.deviceId !== k && (
           <Right>
-            <Icon
-              type="Foundation"
-              style={styles.crown}
-              name="crown"
-              onPress={() => promote(Constants.deviceId, k)}
-            />
+            <Icon type="Foundation" name="crown" onPress={() => promote(Constants.deviceId, k)} />
           </Right>
+      )}
+      {players[k].moderator && (
+        <Right>
+          <Icon type="Foundation" name="crown" style={styles.activeCrown} />
+        </Right>
       )}
     </ListItem>
   ));

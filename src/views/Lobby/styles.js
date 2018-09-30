@@ -10,7 +10,7 @@ export default StyleSheet.create({
   content: {
     backgroundColor: '#fff',
   },
-  crown: {
+  activeCrown: {
     color: 'gold',
   },
   qrLabel: {
