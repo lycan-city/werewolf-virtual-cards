@@ -10,8 +10,12 @@ import {
   Button,
   Text,
   View,
+  List,
   ListItem,
+  Left,
   Footer,
+  Right,
+  Icon,
   FooterTab,
 } from 'native-base';
 import QRCode from 'react-native-qrcode';
@@ -19,9 +23,26 @@ import styles from './styles';
 import * as Actions from '../../actions';
 
 const Lobby = ({
-  navigation, flee, createGame, id, name, players, moderator
+  navigation, flee, createGame, id, name, players, moderator, promote
 }) => {
-  const currentPlayers = Object.keys(players).map(k => <Text key={k}> {players[k].name} </Text>);
+  const currentPlayers = Object.keys(players).map(k => (
+    <ListItem key={k} selected={Constants.deviceId === k}>
+      <Left>
+        <Text>{players[k].name}</Text>
+      </Left>
+      {moderator
+        && Constants.deviceId !== k && (
+          <Right>
+            <Icon type="Foundation" name="crown" onPress={() => promote(Constants.deviceId, k)} />
+          </Right>
+      )}
+      {players[k].moderator && (
+        <Right>
+          <Icon type="Foundation" name="crown" style={styles.activeCrown} />
+        </Right>
+      )}
+    </ListItem>
+  ));
 
   return (
     <Container style={styles.content}>
@@ -33,7 +54,7 @@ const Lobby = ({
         <ListItem itemHeader style={styles.titleContainer}>
           <Label style={styles.qrLabel}>{name}</Label>
         </ListItem>
-        <View>{currentPlayers}</View>
+        <List>{currentPlayers}</List>
       </Content>
       <Footer style={styles.footer}>
         <FooterTab>
@@ -75,15 +96,20 @@ Lobby.propTypes = {
   players: propTypes.shape().isRequired,
   flee: propTypes.func.isRequired,
   createGame: propTypes.func.isRequired,
+  promote: propTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ party: { id, name, players = {} } }) => ({
   id,
   name,
   players,
-  moderator: !!players[Constants.deviceId].moderator,
+  moderator: players[Constants.deviceId] ? !!players[Constants.deviceId].moderator : false,
 });
-const mapDispatchToProps = { flee: Actions.flee, createGame: Actions.createGame };
+const mapDispatchToProps = {
+  flee: Actions.flee,
+  createGame: Actions.createGame,
+  promote: Actions.promote,
+};
 
 export default connect(
   mapStateToProps,

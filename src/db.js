@@ -116,6 +116,16 @@ class Db {
       .update({ [`${playerId}.alive`]: false });
   }
 
+  promote(moderatorId, playerId, partyId) {
+    this.db
+      .collection('parties')
+      .doc(partyId)
+      .update({
+        [`players.${moderatorId}.moderator`]: false,
+        [`players.${playerId}.moderator`]: true,
+      });
+  }
+
   async joinParty(id, name, callback) {
     const { deviceId } = Constants;
     const joinedAt = Date.now();

@@ -1,3 +1,4 @@
+import { Constants } from 'expo';
 import types from './types';
 import Db from '../db';
 import NavigationService from '../navigation';
@@ -14,6 +15,24 @@ const joinPartyFailed = partyId => ({
   title: 'Join failed',
   message: `No party with id ${partyId}`,
 });
+
+const handlePartyUpdates = p => (dispatch, getState) => {
+  const {
+    party: { gameInProgress },
+  } = getState();
+
+  dispatch(setParty(p));
+
+  if (!p.players[Constants.deviceId] || p.players[Constants.deviceId].moderator) return;
+
+  if (gameInProgress !== p.gameInProgress) {
+    if (p.gameInProgress) {
+      dispatch(joinGame(p.id));
+    } else {
+      NavigationService.navigate('Lobby');
+    }
+  }
+};
 
 export const flee = () => (dispatch, getState) => {
   const db = Db.get();
@@ -37,7 +56,7 @@ export const createParty = () => async (dispatch, getState) => {
     user: { username },
   } = getState();
 
-  const party = await db.createParty(username, p => dispatch(setParty(p)));
+  const party = await db.createParty(username, p => dispatch(handlePartyUpdates(p)));
   dispatch(setParty(party));
 };
 
@@ -54,21 +73,16 @@ export const joinParty = partyId => async (dispatch, getState) => {
     user: { username },
   } = getState();
 
-  const player = await db.joinParty(party.id, username, (p) => {
-    const {
-      party: { gameInProgress },
-    } = getState();
-
-    if (gameInProgress !== p.gameInProgress) {
-      if (p.gameInProgress) {
-        dispatch(joinGame(p.id));
-      } else {
-        NavigationService.navigate('Lobby');
-      }
-    }
-    dispatch(setParty(p));
-  });
+  const player = await db.joinParty(party.id, username, p => dispatch(handlePartyUpdates(p)));
   dispatch(setParty({ ...party, players: Object.assign({}, party.players, player) }));
 
   NavigationService.navigate('Lobby');
+};
+
+export const promote = (moderatorId, playerId) => (dispatch, getState) => {
+  const db = Db.get();
+  const {
+    party: { id },
+  } = getState();
+  db.promote(moderatorId, playerId, id);
 };
