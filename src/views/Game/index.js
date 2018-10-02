@@ -33,12 +33,12 @@ class Game extends Component {
         </Left>
         <Body>
           <Text style={styles.name}>{players[p].name}</Text>
-          <Text style={styles.role} note>
+          <Text style={players[p].alive ? styles.roleAlive : styles.roleDead} note>
             {deck[p].card.role}
           </Text>
         </Body>
         <Right>
-          <Button bordered danger onPress={() => killPlayer(p)}>
+          <Button bordered={players[p].alive} danger onPress={() => killPlayer(p)}>
             <Icon type="Foundation" name="skull" style={styles.icon} />
           </Button>
         </Right>

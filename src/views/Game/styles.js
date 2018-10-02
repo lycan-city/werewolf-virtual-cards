@@ -12,7 +12,12 @@ export default StyleSheet.create({
   name: {
     fontSize: 22,
   },
-  role: {
+  roleAlive: {
     fontSize: 17,
+  },
+  roleDead: {
+    fontSize: 17,
+    textDecorationLine: 'line-through',
+    textDecorationColor: 'red',
   },
 });
