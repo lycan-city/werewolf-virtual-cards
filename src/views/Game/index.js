@@ -11,6 +11,8 @@ import {
   Icon,
   Right,
   Text,
+  Footer,
+  FooterTab,
 } from 'native-base';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
@@ -23,7 +25,9 @@ class Game extends Component {
   };
 
   render() {
-    const { players, screenplay, killPlayer } = this.props;
+    const {
+      players, screenplay, killPlayer, gameOver
+    } = this.props;
     const playersList = Object.keys(players).map(p => (
       <ListItem avatar key={p}>
         <Left>
@@ -67,6 +71,13 @@ class Game extends Component {
             {script}
           </List>
         </Content>
+        <Footer style={styles.footer}>
+          <FooterTab>
+            <Button block bordered danger style={styles.button} onPress={() => gameOver()}>
+              <Text>Game Over</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
       </Container>
     );
   }
@@ -81,6 +92,7 @@ Game.propTypes = {
     })
   ).isRequired,
   killPlayer: propTypes.func.isRequired,
+  gameOver: propTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ gamePrep: { screenplay = [] }, game: { players } }) => ({
@@ -88,7 +100,7 @@ const mapStateToProps = ({ gamePrep: { screenplay = [] }, game: { players } }) =
   players,
 });
 
-const mapDispatchToProps = { killPlayer: Actions.killPlayer };
+const mapDispatchToProps = { killPlayer: Actions.killPlayer, gameOver: Actions.gameOver };
 
 export default connect(
   mapStateToProps,

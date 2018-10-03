@@ -47,6 +47,18 @@ class Db {
       });
   }
 
+  gameOver(id) {
+    this.db
+      .collection('games')
+      .doc(id)
+      .update({ gameOver: true });
+
+    this.db
+      .collection('parties')
+      .doc(id)
+      .update({ gameInProgress: false });
+  }
+
   async createGame(id, players, callback) {
     const game = {
       gameOver: false,
