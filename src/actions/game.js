@@ -43,6 +43,16 @@ const assignCardsToPlayers = (deck, players) => {
   );
 };
 
+const handleGameUpdates = g => (dispatch) => {
+  const { gameOver } = g;
+
+  dispatch(setGame(g));
+
+  if (gameOver) {
+    NavigationService.navigate('Lobby');
+  }
+};
+
 export const createGame = () => async (dispatch, getState) => {
   const {
     party: {
@@ -73,13 +83,13 @@ export const createGame = () => async (dispatch, getState) => {
     )
   );
 
-  await db.createGame(id, playersWithCards, g => dispatch(setGame(g)));
+  await db.createGame(id, playersWithCards, g => dispatch(handleGameUpdates(g)));
   NavigationService.navigate('Game');
 };
 
 export const joinGame = id => async (dispatch) => {
   const db = Db.get();
-  await db.joinGame(id, g => dispatch(setGame(g)));
+  await db.joinGame(id, g => dispatch(handleGameUpdates(g)));
   NavigationService.navigate('Card');
 };
 
