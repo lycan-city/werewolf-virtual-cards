@@ -37,7 +37,9 @@ const assignCardsToPlayers = (deck, players) => {
 
   return Object.assign(
     {},
-    ...Object.keys(players).map(k => ({ [k]: { card: cards.pop(), alive: true } }))
+    ...Object.keys(players).map(k => ({
+      [k]: { name: players[k].name, card: cards.pop(), alive: true },
+    }))
   );
 };
 
