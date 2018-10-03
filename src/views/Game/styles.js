@@ -9,7 +9,11 @@ export default StyleSheet.create({
   icon: {
     fontSize: 34,
   },
-  name: {
+  nameAlive: {
+    fontSize: 22,
+  },
+  nameDead: {
+    color: 'darkred',
     fontSize: 22,
   },
   roleAlive: {
