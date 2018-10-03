@@ -9,10 +9,19 @@ export default StyleSheet.create({
   icon: {
     fontSize: 34,
   },
-  name: {
+  nameAlive: {
     fontSize: 22,
   },
-  role: {
+  nameDead: {
+    color: 'darkred',
+    fontSize: 22,
+  },
+  roleAlive: {
     fontSize: 17,
+  },
+  roleDead: {
+    fontSize: 17,
+    textDecorationLine: 'line-through',
+    textDecorationColor: 'red',
   },
 });

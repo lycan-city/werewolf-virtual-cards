@@ -23,22 +23,24 @@ class Game extends Component {
   };
 
   render() {
-    const {
-      players, deck, screenplay, killPlayer
-    } = this.props;
-    const playersList = Object.keys(deck).map(p => (
+    const { game, screenplay, killPlayer } = this.props;
+    const playersList = Object.keys(game).map(p => (
       <ListItem avatar key={p}>
         <Left>
           <Thumbnail source={require('../../assets/full-moon.jpg')} />
         </Left>
         <Body>
-          <Text style={styles.name}>{players[p].name}</Text>
-          <Text style={styles.role} note>
-            {deck[p].card.role}
+          <Text style={game[p].alive ? styles.nameAlive : styles.nameDead}>{game[p].name}</Text>
+          <Text style={game[p].alive ? styles.roleAlive : styles.roleDead} note>
+            {game[p].card.role}
           </Text>
         </Body>
         <Right>
-          <Button bordered danger onPress={() => killPlayer(p)}>
+          <Button
+            bordered={game[p].alive}
+            danger
+            onPress={game[p].alive ? () => killPlayer(p) : null}
+          >
             <Icon type="Foundation" name="skull" style={styles.icon} />
           </Button>
         </Right>
@@ -69,8 +71,7 @@ class Game extends Component {
 }
 
 Game.propTypes = {
-  players: propTypes.shape().isRequired,
-  deck: propTypes.shape().isRequired,
+  game: propTypes.shape().isRequired,
   screenplay: propTypes.arrayOf(
     propTypes.shape({
       key: propTypes.string,
@@ -80,13 +81,9 @@ Game.propTypes = {
   killPlayer: propTypes.func.isRequired,
 };
 
-const mapStateToProps = ({
-  party: { players = {} },
-  gamePrep: { deck = {}, screenplay = [] },
-}) => ({
-  players,
-  deck,
+const mapStateToProps = ({ gamePrep: { screenplay = [] }, game }) => ({
   screenplay,
+  game,
 });
 
 const mapDispatchToProps = { killPlayer: Actions.killPlayer };
