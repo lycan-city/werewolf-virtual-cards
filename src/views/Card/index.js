@@ -57,6 +57,15 @@ Card.propTypes = {
   alive: propTypes.bool.isRequired,
 };
 
-const mapStateToProps = ({ game }) => game[Constants.deviceId] || { card: {}, alive: true };
+const mapStateToProps = ({
+  game: {
+    players: {
+      [Constants.deviceId]: { card = {}, alive = true },
+    },
+  },
+}) => ({
+  card,
+  alive,
+});
 
 export default connect(mapStateToProps)(Card);

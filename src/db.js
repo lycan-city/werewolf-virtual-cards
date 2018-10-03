@@ -47,7 +47,12 @@ class Db {
       });
   }
 
-  async createGame(id, game, callback) {
+  async createGame(id, players, callback) {
+    const game = {
+      gameOver: false,
+      players,
+    };
+
     await this.db
       .collection('games')
       .doc(id)
@@ -113,7 +118,7 @@ class Db {
     this.db
       .collection('games')
       .doc(gameId)
-      .update({ [`${playerId}.alive`]: false });
+      .update({ [`players.${playerId}.alive`]: false });
   }
 
   promote(moderatorId, playerId, partyId) {
