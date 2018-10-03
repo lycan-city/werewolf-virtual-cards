@@ -36,7 +36,11 @@ class Game extends Component {
           </Text>
         </Body>
         <Right>
-          <Button bordered={game[p].alive} danger onPress={() => killPlayer(p)}>
+          <Button
+            bordered={game[p].alive}
+            danger
+            onPress={game[p].alive ? () => killPlayer(p) : null}
+          >
             <Icon type="Foundation" name="skull" style={styles.icon} />
           </Button>
         </Right>
