@@ -28,6 +28,7 @@ class Card extends Component {
             clickable={alive}
             flip={!alive}
             perspective={1000}
+            useNativeDriver
           >
             <NativeBaseCard>
               <CardItem style={styles.card}>
@@ -39,7 +40,10 @@ class Card extends Component {
             <NativeBaseCard>
               <CardItem style={styles.card}>
                 <Body>
-                  <Image source={{ uri: card.url }} style={styles.cardImage} />
+                  <Image
+                    source={{ uri: card.url, cache: 'force-cache' }}
+                    style={styles.cardImage}
+                  />
                   <Text style={styles.role}>{card.role}</Text>
                   <Text style={styles.description}>{card.description}</Text>
                 </Body>
