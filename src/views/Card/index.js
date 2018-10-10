@@ -5,19 +5,50 @@ import {
 } from 'native-base';
 import FlipCard from 'react-native-flip-card';
 import { connect } from 'react-redux';
-import { Constants } from 'expo';
+import { AppLoading, Asset, Constants } from 'expo';
 import propTypes from 'prop-types';
 import styles from './styles';
+import back from '../../assets/back.jpeg';
 
-const back = require('../../assets/back.jpeg');
+function cacheImages(images) {
+  return images.map((image) => {
+    if (typeof image === 'string') {
+      return Image.prefetch(image);
+    }
+    return Asset.fromModule(image).downloadAsync();
+  });
+}
 
 class Card extends Component {
   static navigationOptions = {
     title: 'Virtual Cards',
   };
 
+  constructor() {
+    super();
+    this.state = {
+      isReady: false,
+    };
+  }
+
+  loadAssetsAsync = async (front) => {
+    const imageAssets = cacheImages([front, back]);
+
+    await Promise.all([...imageAssets]);
+  };
+
   render() {
     const { card, alive } = this.props;
+    const { isReady } = this.state;
+
+    if (!isReady) {
+      return (
+        <AppLoading
+          startAsync={this.loadAssetsAsync(card.url)}
+          onFinish={() => this.setState({ isReady: true })}
+        />
+      );
+    }
 
     return (
       <Container>
@@ -28,6 +59,7 @@ class Card extends Component {
             clickable={alive}
             flip={!alive}
             perspective={1000}
+            useNativeDriver
           >
             <NativeBaseCard>
               <CardItem style={styles.card}>
