@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Linking } from 'react-native';
 import Expo from 'expo';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
-import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import { createStackNavigator } from 'react-navigation';
 import reducer from './src/reducers';
@@ -29,7 +28,9 @@ const Root = createStackNavigator(
   { initialRouteName: 'Home' }
 );
 
-const store = createStore(reducer, applyMiddleware(thunk, logger));
+// eslint-disable-next-line no-underscore-dangle
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
 export default class App extends Component {
   state = {
