@@ -59,9 +59,7 @@ Card.propTypes = {
 
 const mapStateToProps = ({
   game: {
-    players: {
-      [Constants.deviceId]: { card = {}, alive = true },
-    },
+    [Constants.deviceId]: { card = {}, alive = true },
   },
 }) => ({
   card,

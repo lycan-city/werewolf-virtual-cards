@@ -55,15 +55,10 @@ class Db {
   }
 
   async createGame(id, players, callback) {
-    const game = {
-      gameOver: false,
-      players,
-    };
-
     await this.db
       .collection('games')
       .doc(id)
-      .set(game);
+      .set(players);
 
     this.unsubscribeGame = this.subscribeGame(id, callback);
 

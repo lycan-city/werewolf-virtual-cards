@@ -23,10 +23,10 @@ const handlePartyUpdates = p => (dispatch, getState) => {
 
   dispatch(setParty(p));
 
-  if (!p.players[Constants.deviceId] || p.players[Constants.deviceId].moderator) return;
+  if (!p.players[Constants.deviceId]) return;
 
   if (gameInProgress !== p.gameInProgress) {
-    if (p.gameInProgress) {
+    if (p.gameInProgress && !p.players[Constants.deviceId].moderator) {
       dispatch(joinGame(p.id));
     } else {
       NavigationService.navigate('Lobby');
