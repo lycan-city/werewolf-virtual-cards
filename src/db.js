@@ -47,11 +47,18 @@ class Db {
       });
   }
 
-  async createGame(id, game, callback) {
+  gameOver(id) {
+    this.db
+      .collection('parties')
+      .doc(id)
+      .update({ gameInProgress: false });
+  }
+
+  async createGame(id, players, callback) {
     await this.db
       .collection('games')
       .doc(id)
-      .set(game);
+      .set(players);
 
     this.unsubscribeGame = this.subscribeGame(id, callback);
 
@@ -113,7 +120,7 @@ class Db {
     this.db
       .collection('games')
       .doc(gameId)
-      .update({ [`${playerId}.alive`]: false });
+      .update({ [`players.${playerId}.alive`]: false });
   }
 
   promote(moderatorId, playerId, partyId) {

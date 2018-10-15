@@ -1,7 +1,7 @@
 import types from '../actions';
 
 const defaultUser = {
-  name: 'Guest',
+  username: 'Guest',
 };
 
 const user = (state = defaultUser, action) => {

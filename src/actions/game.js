@@ -77,6 +77,14 @@ export const createGame = () => async (dispatch, getState) => {
   NavigationService.navigate('Game');
 };
 
+export const gameOver = () => (dispatch, getState) => {
+  const db = Db.get();
+  const {
+    party: { id },
+  } = getState();
+  db.gameOver(id);
+};
+
 export const joinGame = id => async (dispatch) => {
   const db = Db.get();
   await db.joinGame(id, g => dispatch(setGame(g)));

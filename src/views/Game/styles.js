@@ -24,4 +24,10 @@ export default StyleSheet.create({
     textDecorationLine: 'line-through',
     textDecorationColor: 'red',
   },
+  button: {
+    backgroundColor: '#fff',
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
+  },
 });
