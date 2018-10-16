@@ -82,7 +82,12 @@ class Join extends Component {
   join = () => {
     const { joinParty } = this.props;
     const { partyId } = this.state;
-    joinParty(partyId);
+
+    if (!partyId) {
+      Alert.alert('Join failed', "Can't join party without code.");
+    } else {
+      joinParty(partyId);
+    }
   };
 
   render() {
