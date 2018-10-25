@@ -31,7 +31,7 @@ class Card extends Component {
     };
   }
 
-  loadAssetsAsync = async (front) => {
+  loadAssetsAsync = front => async () => {
     const imageAssets = cacheImages([front, back]);
 
     await Promise.all([...imageAssets]);
