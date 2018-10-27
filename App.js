@@ -5,6 +5,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStackNavigator } from 'react-navigation';
+import { Root } from 'native-base';
 import reducer from './src/reducers';
 import NavigationService from './src/navigation';
 
@@ -16,7 +17,7 @@ import Join from './src/views/Join';
 import Lobby from './src/views/Lobby';
 import Prepare from './src/views/Prepare';
 
-const Root = createStackNavigator(
+const AppNavigator = createStackNavigator(
   {
     Card,
     Game,
@@ -73,11 +74,13 @@ export default class App extends Component {
     if (!fontsLoaded) return null;
     return (
       <Provider store={store}>
-        <Root
-          ref={(navigatorRef) => {
-            NavigationService.setTopLevelNavigator(navigatorRef);
-          }}
-        />
+        <Root>
+          <AppNavigator
+            ref={(navigatorRef) => {
+              NavigationService.setTopLevelNavigator(navigatorRef);
+            }}
+          />
+        </Root>
       </Provider>
     );
   }
