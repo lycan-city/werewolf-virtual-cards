@@ -2,7 +2,7 @@ import React from 'react';
 import { Constants, Linking } from 'expo';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import * as Animatable from 'react-native-animatable';
 import {
   Container,
   Content,
@@ -28,7 +28,7 @@ const Lobby = ({
   const currentPlayers = Object.keys(players).map(k => (
     <ListItem key={k} selected={Constants.deviceId === k}>
       <Left>
-        <Text>{players[k].name}</Text>
+        <Animatable.Text animation="lightSpeedIn">{players[k].name}</Animatable.Text>
       </Left>
       {moderator
         && Constants.deviceId !== k && (
