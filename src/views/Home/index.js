@@ -23,14 +23,14 @@ class Home extends Component {
   onJoin = () => {
     const { navigation, setUsername } = this.props;
     const { username } = this.state;
-    setUsername(username);
+    if (username) setUsername(username);
     navigation.navigate('Join');
   };
 
   createParty = async () => {
     const { navigation, createParty, setUsername } = this.props;
     const { username } = this.state;
-    setUsername(username);
+    if (username) setUsername(username);
     await createParty();
     navigation.navigate('Lobby');
   };
