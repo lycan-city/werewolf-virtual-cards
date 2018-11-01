@@ -5,6 +5,9 @@ export default StyleSheet.create({
     width: '100%',
     height: 600,
   },
+  imageHidden: {
+    display: 'none',
+  },
   card: {
     backgroundColor: '#101f21',
   },
