@@ -7,6 +7,10 @@ export default StyleSheet.create({
     justifyContent: 'center',
     marginTop: 5,
   },
+  currentPlayer: {
+    color: 'mediumblue',
+    fontWeight: 'bold',
+  },
   content: {
     backgroundColor: '#fff',
   },
