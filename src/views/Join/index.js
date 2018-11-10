@@ -27,8 +27,9 @@ class Join extends Component {
     const { navigation } = this.props;
     const { params = {} } = navigation.state;
     const { partyId = '' } = params;
-    this.setState({ partyId });
-    if (partyId) this.join();
+    this.setState({ partyId }, () => {
+      if (partyId) this.join();
+    });
   }
 
   onChangeText = (partyId) => {
