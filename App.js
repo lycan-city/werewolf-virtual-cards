@@ -58,13 +58,9 @@ export default class App extends Component {
   handleOpenURL = (url) => {
     const partyId = Expo.Linking.parse(url).queryParams.id;
 
-    if (!partyId) {
-      return null;
-    }
-
-    setTimeout(() => {
+    if (partyId) {
       NavigationService.navigate('Join', { partyId });
-    }, 500);
+    }
 
     return null;
   };
