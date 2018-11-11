@@ -26,9 +26,14 @@ const Lobby = ({
   navigation, flee, createGame, id, name, players, moderator, promote
 }) => {
   const currentPlayers = Object.keys(players).map(k => (
-    <ListItem key={k} selected={Constants.deviceId === k}>
+    <ListItem key={k}>
       <Left>
-        <Animatable.Text animation="lightSpeedIn">{players[k].name}</Animatable.Text>
+        <Animatable.Text
+          style={Constants.deviceId === k ? styles.currentPlayer : {}}
+          animation="lightSpeedIn"
+        >
+          {players[k].name}
+        </Animatable.Text>
       </Left>
       {moderator
         && Constants.deviceId !== k && (
