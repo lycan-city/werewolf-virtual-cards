@@ -120,7 +120,7 @@ class Db {
     this.db
       .collection('games')
       .doc(gameId)
-      .update({ [`players.${playerId}.alive`]: false });
+      .update({ [`${playerId}.alive`]: false });
   }
 
   promote(moderatorId, playerId, partyId) {
