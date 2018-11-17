@@ -63,6 +63,11 @@ const Lobby = ({
       </Content>
       <Footer style={styles.footer}>
         <FooterTab>
+          {(!moderator || currentPlayers.length === 1) && (
+            <Button block bordered danger style={styles.button} onPress={() => flee()}>
+              <Text>Flee</Text>
+            </Button>
+          )}
           {moderator && (
             <Button
               block
@@ -77,11 +82,6 @@ const Lobby = ({
           {moderator && (
             <Button block bordered success style={styles.button} onPress={() => createGame()}>
               <Text>Start</Text>
-            </Button>
-          )}
-          {!moderator && (
-            <Button block bordered danger style={styles.button} onPress={() => flee()}>
-              <Text>Flee</Text>
             </Button>
           )}
         </FooterTab>
