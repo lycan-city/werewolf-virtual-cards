@@ -157,10 +157,12 @@ class Db {
     return setInterval(() => {
       this.db
         .collection('keepAlive')
-        .doc(partyId)
+        .doc(playerId)
         .set(
           {
-            [playerId]: new Date(),
+            lastSeenAt: new Date(),
+            playerId,
+            partyId,
           },
           {
             merge: true,
