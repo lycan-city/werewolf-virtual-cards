@@ -28,7 +28,7 @@
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
     "test": "jest",
-    "setup:env": "node ./tools/foo"
+    "setup:env": "node ./tools/importFirebaseConfig"
   },
   "jest": {
     "preset": "jest-expo"
