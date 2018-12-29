@@ -16,10 +16,8 @@
     "firebase-tools": "^6.2.2",
     "jest-expo": "~27.0.0",
     "prettier-eslint": "^8.8.2",
-    "promptly": "^3.0.3",
     "react-native-scripts": "1.14.0",
-    "react-test-renderer": "16.3.1",
-    "select-shell": "^1.1.2"
+    "react-test-renderer": "16.3.1"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
