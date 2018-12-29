@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "ansi-colors": "^3.2.3",
     "babel-eslint": "^8.2.6",
     "babel-plugin-inline-dotenv": "^1.1.2",
     "enquirer": "^2.3.0",
@@ -33,7 +34,6 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^6.3.1",
-    "ansi-colors": "^3.2.3",
     "expo": "27.1.1",
     "firebase": "^5.2.0",
     "native-base": "^2.4.4",
