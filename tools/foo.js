@@ -1,8 +1,13 @@
 const client = require('firebase-tools');
 const fs = require('fs');
 const { prompt } = require('enquirer');
+const { bold } = require('ansi-colors');
 
-async function run() {
+(async () => {
+  const { email } = await client.login();
+
+  if (email) console.info(`Logged in as ${bold(email)}`);
+
   const { project, file, confirmed } = await prompt([
     {
       type: 'select',
@@ -31,11 +36,9 @@ async function run() {
     },
   ]);
 
-  console.log({ project, file, confirmed });
-
   if (!confirmed) throw new Error('Operation canceled');
 
-  console.log('Fetching configuration');
+  console.info('Fetching configuration');
 
   const config = await client.setup.web({ project });
 
@@ -51,13 +54,10 @@ async function run() {
   await new Promise((resolve, reject) => fs.appendFile(`${__dirname}/../${file}`, `\n${output}`, err => (err ? reject(err) : resolve())));
 
   return 'Success!';
-}
-
-run()
+})()
   .then((a) => {
-    console.log(a);
+    console.info(a);
   })
   .catch((r) => {
-    console.error((r && r.message) || r || 'Failed');
-    process.exitCode = 1;
+    console.error(r.message || 'Failed');
   });
