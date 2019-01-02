@@ -19,7 +19,6 @@ class Db {
     const noop = () => {};
     this.unsubscribeParty = noop;
     this.unsubscribeGame = noop;
-    this.clearInterval = noop;
   }
 
   async getCardUrl(key) {
@@ -77,7 +76,6 @@ class Db {
       .catch(() => null);
 
     callback(game);
-
     this.unsubscribeGame = this.subscribeGame(id, callback);
   }
 
@@ -100,10 +98,7 @@ class Db {
       .doc(id)
       .set(party);
 
-    const keepaliveIntervalId = await this.startKeepAlive(id, playerId);
-    this.clearInterval = () => clearInterval(keepaliveIntervalId);
     this.unsubscribeParty = this.subscribeParty(id, callback);
-
     return party;
   }
 
@@ -146,29 +141,8 @@ class Db {
         [`players.${deviceId}`]: join,
       });
 
-    const keepaliveIntervalId = await this.startKeepAlive(id, deviceId);
-    this.clearInterval = () => clearInterval(keepaliveIntervalId);
     this.unsubscribeParty = this.subscribeParty(id, callback);
-
     return { [deviceId]: join };
-  }
-
-  async startKeepAlive(partyId, playerId) {
-    return setInterval(() => {
-      this.db
-        .collection('keepAlive')
-        .doc(playerId)
-        .set(
-          {
-            lastSeenAt: new Date(),
-            playerId,
-            partyId,
-          },
-          {
-            merge: true,
-          }
-        );
-    }, config.playerKeepAliveTimeInMs);
   }
 
   async fleeParty(party) {
@@ -184,11 +158,8 @@ class Db {
       .doc(party.id)
       .set(updatedParty);
 
-    this.clearInterval();
     this.unsubscribeParty();
-    this.clearInterval = this.noop;
     this.unsubscribeParty = this.noop;
-
     return updatedParty;
   }
 }
