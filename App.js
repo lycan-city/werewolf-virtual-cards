@@ -26,7 +26,13 @@ const AppNavigator = createStackNavigator(
     Lobby,
     Prepare,
   },
-  { initialRouteName: 'Home' }
+  {
+    initialRouteName: 'Home',
+    defaultNavigationOptions: {
+      gesturesEnabled: false,
+      headerLeft: null,
+    },
+  }
 );
 const AppContainer = createAppContainer(AppNavigator);
 
