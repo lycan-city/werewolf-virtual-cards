@@ -4,7 +4,7 @@ import Expo from 'expo';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { Root } from 'native-base';
 import reducer from './src/reducers';
 import NavigationService from './src/navigation';
@@ -28,6 +28,7 @@ const AppNavigator = createStackNavigator(
   },
   { initialRouteName: 'Home' }
 );
+const AppContainer = createAppContainer(AppNavigator);
 
 // eslint-disable-next-line no-underscore-dangle
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -71,7 +72,7 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <Root>
-          <AppNavigator
+          <AppContainer
             ref={(navigatorRef) => {
               NavigationService.setTopLevelNavigator(navigatorRef);
             }}
