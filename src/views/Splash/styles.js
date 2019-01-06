@@ -3,16 +3,8 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   content: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  button: {
-    marginTop: 10,
-    marginLeft: 5,
-    marginRight: 5,
-  },
-  keyboardAvoidingView: {
-    flex: 1,
   },
 });

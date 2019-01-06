@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Linking } from 'react-native';
 import Expo from 'expo';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
@@ -12,7 +11,8 @@ import NavigationService from './src/navigation';
 // Views
 import Card from './src/views/Card';
 import Game from './src/views/Game';
-import Home from './src/views/Home';
+import Splash from './src/views/Splash';
+import Party from './src/views/Party';
 import Join from './src/views/Join';
 import Lobby from './src/views/Lobby';
 import Prepare from './src/views/Prepare';
@@ -21,13 +21,14 @@ const AppNavigator = createStackNavigator(
   {
     Card,
     Game,
-    Home,
+    Splash,
+    Party,
     Join,
     Lobby,
     Prepare,
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Splash',
     defaultNavigationOptions: {
       gesturesEnabled: false,
       headerLeft: null,
@@ -52,25 +53,6 @@ export default class App extends Component {
     });
     this.setState({ fontsLoaded: true });
   }
-
-  componentDidMount() {
-    Linking.addEventListener('url', ({ url }) => this.handleOpenURL(url));
-    Linking.getInitialURL().then(this.handleOpenURL);
-  }
-
-  componentWillUnmount() {
-    Linking.removeEventListener('url', this.handleOpenURL);
-  }
-
-  handleOpenURL = (url) => {
-    const partyId = Expo.Linking.parse(url).queryParams.id;
-
-    if (partyId) {
-      NavigationService.navigate('Join', { partyId });
-    }
-
-    return null;
-  };
 
   render() {
     const { fontsLoaded } = this.state;

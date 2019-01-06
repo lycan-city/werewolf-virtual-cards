@@ -9,5 +9,5 @@ const setSettings = settings => ({
 
 export const prepareGame = settings => (dispatch) => {
   dispatch(setSettings(settings));
-  NavigationService.navigate('Lobby');
+  NavigationService.navigate('Party');
 };

@@ -29,7 +29,7 @@ const handlePartyUpdates = p => (dispatch, getState) => {
     if (p.gameInProgress && !p.players[Constants.deviceId].moderator) {
       dispatch(joinGame(p.id));
     } else {
-      NavigationService.navigate('Lobby');
+      NavigationService.navigate('Party');
     }
   }
 };
@@ -38,7 +38,7 @@ export const flee = () => (dispatch, getState) => {
   const db = Db.get();
   const { party } = getState();
 
-  NavigationService.navigate('Home');
+  NavigationService.navigate('Lobby');
   db.fleeParty(party);
   return setParty({});
 };
@@ -76,7 +76,7 @@ export const joinParty = partyId => async (dispatch, getState) => {
   const player = await db.joinParty(party.id, username, p => dispatch(handlePartyUpdates(p)));
   dispatch(setParty({ ...party, players: Object.assign({}, party.players, player) }));
 
-  NavigationService.navigate('Lobby');
+  NavigationService.navigate('Party');
 };
 
 export const promote = (moderatorId, playerId) => (dispatch, getState) => {
