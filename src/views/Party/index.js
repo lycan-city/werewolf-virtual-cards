@@ -22,7 +22,7 @@ import QRCode from 'react-native-qrcode';
 import styles from './styles';
 import * as Actions from '../../actions';
 
-const Lobby = ({
+const Party = ({
   navigation, flee, createGame, id, name, players, moderator, promote
 }) => {
   const currentPlayers = Object.keys(players).map(k => (
@@ -90,7 +90,7 @@ const Lobby = ({
   );
 };
 
-Lobby.propTypes = {
+Party.propTypes = {
   navigation: propTypes.shape({
     navigate: propTypes.func,
     state: propTypes.object,
@@ -119,4 +119,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Lobby);
+)(Party);

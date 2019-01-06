@@ -8,7 +8,7 @@ import propTypes from 'prop-types';
 import styles from './styles';
 import * as Actions from '../../actions';
 
-class Home extends Component {
+class Lobby extends Component {
   static navigationOptions = {
     title: 'Virtual Cards',
   };
@@ -59,7 +59,7 @@ class Home extends Component {
   }
 }
 
-Home.propTypes = {
+Lobby.propTypes = {
   navigation: propTypes.shape({
     navigate: propTypes.func,
   }).isRequired,
@@ -76,4 +76,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home);
+)(Lobby);

@@ -38,7 +38,7 @@ export const flee = () => (dispatch, getState) => {
   const db = Db.get();
   const { party } = getState();
 
-  NavigationService.navigate('Home');
+  NavigationService.navigate('Lobby');
   db.fleeParty(party);
   return setParty({});
 };
