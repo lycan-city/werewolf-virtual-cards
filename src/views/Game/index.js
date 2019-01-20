@@ -57,7 +57,7 @@ class Game extends Component {
     ));
     return (
       <Container>
-        <Content contentContainerStyle={styles.content}>
+        <Content>
           <List>
             <ListItem itemHeader first>
               <Text>Players</Text>
