@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Expo from 'expo';
+import { Font } from 'expo';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -25,14 +25,14 @@ const AppNavigator = createStackNavigator(
     Party,
     Join,
     Lobby,
-    Prepare,
+    Prepare
   },
   {
     initialRouteName: 'Splash',
     defaultNavigationOptions: {
       gesturesEnabled: false,
-      headerLeft: null,
-    },
+      headerLeft: null
+    }
   }
 );
 const AppContainer = createAppContainer(AppNavigator);
@@ -43,13 +43,13 @@ const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
 export default class App extends Component {
   state = {
-    fontsLoaded: false,
+    fontsLoaded: false
   };
 
   async componentWillMount() {
-    await Expo.Font.loadAsync({
+    await Font.loadAsync({
       Roboto: require('native-base/Fonts/Roboto.ttf'),
-      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf')
     });
     this.setState({ fontsLoaded: true });
   }
@@ -61,7 +61,7 @@ export default class App extends Component {
       <Provider store={store}>
         <Root>
           <AppContainer
-            ref={(navigatorRef) => {
+            ref={navigatorRef => {
               NavigationService.setTopLevelNavigator(navigatorRef);
             }}
           />
