@@ -12,9 +12,6 @@ class Db {
     firebase.initializeApp(config.firebase);
     firebase.auth().signInAnonymously();
     this.db = firebase.firestore();
-    // this.db.settings({
-    //   timestampsInSnapshots: true
-    // });
     this.storageRef = firebase.storage().ref();
     const noop = () => {};
     this.unsubscribeParty = noop;
