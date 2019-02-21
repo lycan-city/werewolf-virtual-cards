@@ -1,8 +1,15 @@
+import {
+  FIREBASE_API_KEY,
+  FIREBASE_DATABASE_URL,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET
+} from 'react-native-dotenv';
+
 export default {
   firebase: {
-    apiKey: process.env.FIREBASE_API_KEY,
-    databaseURL: process.env.FIREBASE_DATABASE_URL,
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  },
+    apiKey: FIREBASE_API_KEY,
+    databaseURL: FIREBASE_DATABASE_URL,
+    projectId: FIREBASE_PROJECT_ID,
+    storageBucket: FIREBASE_STORAGE_BUCKET
+  }
 };

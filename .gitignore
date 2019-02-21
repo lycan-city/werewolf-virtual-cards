@@ -1,13 +1,3 @@
-
-# Created by https://www.gitignore.io/api/reactnative
-
-### ReactNative ###
-# React Native Stack Base
-### ReactNative.Xcode Stack ###
-# Xcode
-#
-# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
-
 ## Build generated
 build/
 DerivedData/
@@ -206,4 +196,8 @@ gradle-app.setting
 .vs
 .expo
 
-# End of https://www.gitignore.io/api/reactnative
+# Aditional from Expo-cli
+*.jks
+*.p12
+*.key
+*.mobileprovision
