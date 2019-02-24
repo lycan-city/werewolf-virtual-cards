@@ -63,6 +63,7 @@ Lobby.propTypes = {
   navigation: propTypes.shape({
     navigate: propTypes.func,
   }).isRequired,
+  createParty: propTypes.func.isRequired,
   setUsername: propTypes.func.isRequired,
 };
 

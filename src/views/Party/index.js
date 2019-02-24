@@ -35,11 +35,10 @@ const Party = ({
           {players[k].name}
         </Animatable.Text>
       </Left>
-      {moderator
-        && Constants.deviceId !== k && (
-          <Right>
-            <Icon type="Foundation" name="crown" onPress={() => promote(Constants.deviceId, k)} />
-          </Right>
+      {moderator && Constants.deviceId !== k && (
+        <Right>
+          <Icon type="Foundation" name="crown" onPress={() => promote(Constants.deviceId, k)} />
+        </Right>
       )}
       {players[k].moderator && (
         <Right>
