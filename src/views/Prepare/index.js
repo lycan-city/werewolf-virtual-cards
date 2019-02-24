@@ -237,7 +237,7 @@ Prepare.propTypes = {
 const mapStateToProps = ({
   settings: {
     deckName, language, mode, deck
-  },
+  }
 }) => ({
   deckName,
   language,

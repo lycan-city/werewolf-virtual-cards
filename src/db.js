@@ -29,7 +29,7 @@ class Db {
     return this.db
       .collection('games')
       .doc(id)
-      .onSnapshot(d => {
+      .onSnapshot((d) => {
         callback(d.data());
       });
   }
@@ -38,7 +38,7 @@ class Db {
     return this.db
       .collection('parties')
       .doc(id)
-      .onSnapshot(d => {
+      .onSnapshot((d) => {
         callback(d.data());
       });
   }
@@ -80,16 +80,14 @@ class Db {
     const createdAt = new Date();
     const { deviceId: playerId } = Constants;
 
-    const id = (createdAt.getTime() % (1000 * 60 * 60 * 24))
-      .toString(36)
-      .toUpperCase();
+    const id = (createdAt.getTime() % (1000 * 60 * 60 * 24)).toString(36).toUpperCase();
     const moderator = { joinedAt: createdAt, name: username, moderator: true };
 
     const party = {
       id,
       name: `${username}'s party`,
       createdAt,
-      players: { [playerId]: moderator }
+      players: { [playerId]: moderator },
     };
 
     await this.db
@@ -123,7 +121,7 @@ class Db {
       .doc(partyId)
       .update({
         [`players.${moderatorId}.moderator`]: false,
-        [`players.${playerId}.moderator`]: true
+        [`players.${playerId}.moderator`]: true,
       });
   }
 
@@ -137,7 +135,7 @@ class Db {
       .collection('parties')
       .doc(id)
       .update({
-        [`players.${deviceId}`]: join
+        [`players.${deviceId}`]: join,
       });
 
     this.unsubscribeParty = this.subscribeParty(id, callback);
@@ -149,7 +147,7 @@ class Db {
     const { [deviceId]: playerToRemove, ...updatedPlayers } = party.players;
     const updatedParty = {
       ...party,
-      players: updatedPlayers
+      players: updatedPlayers,
     };
 
     await this.db
@@ -170,5 +168,5 @@ export default {
     }
 
     return instance;
-  }
+  },
 };

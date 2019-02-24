@@ -18,7 +18,7 @@ class Splash extends Component {
     Linking.removeEventListener('url', this.handleOpenURL);
   }
 
-  handleOpenURL = url => {
+  handleOpenURL = (url) => {
     const { joinParty } = this.props;
     const partyId = ExpoLink.parse(url).queryParams.id;
 
@@ -44,9 +44,9 @@ class Splash extends Component {
 
 Splash.propTypes = {
   navigation: propTypes.shape({
-    navigate: propTypes.func
+    navigate: propTypes.func,
   }).isRequired,
-  joinParty: propTypes.func.isRequired
+  joinParty: propTypes.func.isRequired,
 };
 
 const mapDispatchToProps = { joinParty: Actions.joinParty };
