@@ -43,3 +43,5 @@ Once the game started players see their roles touching the card to flip it, the 
 script for the calls at night and the kills the players according to game actions (killed by
 werewolves or lynched during the day) with the option in the bottom end the game to send everybody
 to the Party View.
+
+![demo](https://user-images.githubusercontent.com/6082977/53316847-c48c5f00-389f-11e9-82d9-f3db20c51293.gif)
