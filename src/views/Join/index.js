@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Linking, Camera, Permissions } from 'expo';
+import { Linking, BarCodeScanner, Permissions } from 'expo';
 import {
   Container, Content, Item, Input, Label, Button, Text, Icon, View
 } from 'native-base';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import { TouchableOpacity, Alert, KeyboardAvoidingView } from 'react-native';
+import { Alert, KeyboardAvoidingView } from 'react-native';
 import styles from './styles';
 import * as Actions from '../../actions';
 
@@ -92,32 +92,13 @@ class Join extends Component {
   };
 
   render() {
-    const { openCamera, type, partyId } = this.state;
+    const { openCamera, partyId } = this.state;
     const { navigation, alert, clearAlert } = this.props;
     if (alert.show) {
       Alert.alert(alert.title, alert.message, [{ text: 'OK', onPress: clearAlert }]);
     }
     if (openCamera) {
-      return (
-        <Camera
-          type={Camera.Constants.Type.back}
-          style={{ flex: 1 }}
-          onBarCodeRead={this.onBarCodeRead}
-        >
-          <View>
-            <TouchableOpacity
-              onPress={() => {
-                this.setState({
-                  type:
-                    type === Camera.Constants.Type.back
-                      ? Camera.Constants.Type.front
-                      : Camera.Constants.Type.back,
-                });
-              }}
-            />
-          </View>
-        </Camera>
-      );
+      return <BarCodeScanner style={styles.camera} onBarCodeScanned={this.onBarCodeRead} />;
     }
 
     return (
