@@ -11,7 +11,7 @@ import NavigationService from './src/navigation';
 // Views
 import Card from './src/views/Card';
 import Game from './src/views/Game';
-import Splash from './src/views/Splash';
+import DeepLinkManager from './src/views/DeepLinkManager';
 import Party from './src/views/Party';
 import Join from './src/views/Join';
 import Lobby from './src/views/Lobby';
@@ -21,14 +21,14 @@ const AppNavigator = createStackNavigator(
   {
     Card,
     Game,
-    Splash,
+    DeepLinkManager,
     Party,
     Join,
     Lobby,
     Prepare,
   },
   {
-    initialRouteName: 'Splash',
+    initialRouteName: 'DeepLinkManager',
     defaultNavigationOptions: {
       gesturesEnabled: false,
       headerLeft: null,

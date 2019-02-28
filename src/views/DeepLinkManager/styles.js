@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  content: {
+  img: {
     flex: 1,
-    backgroundColor: '#000',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: null,
+    height: null,
+    resizeMode: 'contain',
   },
 });
