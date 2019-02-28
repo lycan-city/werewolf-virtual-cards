@@ -24,4 +24,7 @@ export default StyleSheet.create({
   keyboardAvoidingView: {
     flex: 1,
   },
+  camera: {
+    flex: 1,
+  },
 });
