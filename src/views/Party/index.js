@@ -12,9 +12,7 @@ import {
   View,
   List,
   ListItem,
-  Left,
   Footer,
-  Right,
   Icon,
   FooterTab,
 } from 'native-base';
@@ -27,24 +25,25 @@ const Party = ({
 }) => {
   const currentPlayers = Object.keys(players).map(k => (
     <ListItem key={k}>
-      <Left>
-        <Animatable.Text
-          style={Constants.deviceId === k ? styles.currentPlayer : {}}
-          animation="lightSpeedIn"
-        >
-          {players[k].name}
-        </Animatable.Text>
-      </Left>
-      {moderator && Constants.deviceId !== k && (
-        <Right>
-          <Icon type="Foundation" name="crown" onPress={() => promote(Constants.deviceId, k)} />
-        </Right>
-      )}
-      {players[k].moderator && (
-        <Right>
-          <Icon type="Foundation" name="crown" style={styles.activeCrown} />
-        </Right>
-      )}
+      <Animatable.View animation="lightSpeedIn" style={styles.listItem}>
+        <Text style={Constants.deviceId === k ? styles.currentPlayer : {}}>{players[k].name}</Text>
+        {moderator && Constants.deviceId !== k && (
+          <View style={styles.options}>
+            <Icon
+              type="Foundation"
+              name="crown"
+              style={styles.inactiveCrown}
+              onPress={() => promote(Constants.deviceId, k)}
+            />
+            <Icon type="Entypo" name="block" style={styles.kick} />
+          </View>
+        )}
+        {players[k].moderator && (
+          <View style={styles.options}>
+            <Icon type="Foundation" name="crown" style={styles.activeCrown} />
+          </View>
+        )}
+      </Animatable.View>
     </ListItem>
   ));
 
