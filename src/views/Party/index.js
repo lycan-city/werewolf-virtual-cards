@@ -21,7 +21,7 @@ import styles from './styles';
 import * as Actions from '../../actions';
 
 const Party = ({
-  navigation, flee, createGame, id, name, players, moderator, promote
+  navigation, flee, createGame, id, name, players, moderator, promote, kick
 }) => {
   const currentPlayers = Object.keys(players).map(k => (
     <ListItem key={k}>
@@ -35,7 +35,7 @@ const Party = ({
               style={styles.inactiveCrown}
               onPress={() => promote(Constants.deviceId, k)}
             />
-            <Icon type="Entypo" name="block" style={styles.kick} />
+            <Icon type="Entypo" name="block" style={styles.kick} onPress={() => kick(k)} />
           </View>
         )}
         {players[k].moderator && (
@@ -100,6 +100,7 @@ Party.propTypes = {
   flee: propTypes.func.isRequired,
   createGame: propTypes.func.isRequired,
   promote: propTypes.func.isRequired,
+  kick: propTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ party: { id, name, players = {} } }) => ({
@@ -112,6 +113,7 @@ const mapDispatchToProps = {
   flee: Actions.flee,
   createGame: Actions.createGame,
   promote: Actions.promote,
+  kick: Actions.kick,
 };
 
 export default connect(

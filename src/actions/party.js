@@ -16,6 +16,24 @@ const joinPartyFailed = partyId => ({
   message: `No party with id ${partyId}`,
 });
 
+const kickedFromParty = () => ({
+  type: types.alert.set,
+  show: true,
+  title: 'Player kicked ',
+  message: 'The moderator kicked you!',
+});
+
+export const flee = () => (dispatch, getState) => {
+  const db = Db.get();
+  const {
+    party: { id },
+  } = getState();
+
+  NavigationService.navigate('Lobby');
+  db.fleeParty(id);
+  return setParty({});
+};
+
 const handlePartyUpdates = p => (dispatch, getState) => {
   const {
     party: { gameInProgress },
@@ -23,7 +41,14 @@ const handlePartyUpdates = p => (dispatch, getState) => {
 
   dispatch(setParty(p));
 
-  if (!p.players[Constants.deviceId]) return;
+  if (!p.players[Constants.deviceId]) {
+    return;
+  }
+
+  if (p.players[Constants.deviceId].kick) {
+    dispatch(kickedFromParty());
+    dispatch(flee());
+  }
 
   if (gameInProgress !== p.gameInProgress) {
     if (p.gameInProgress && !p.players[Constants.deviceId].moderator) {
@@ -32,15 +57,6 @@ const handlePartyUpdates = p => (dispatch, getState) => {
       NavigationService.navigate('Party');
     }
   }
-};
-
-export const flee = () => (dispatch, getState) => {
-  const db = Db.get();
-  const { party } = getState();
-
-  NavigationService.navigate('Lobby');
-  db.fleeParty(party);
-  return setParty({});
 };
 
 export const clearAlert = () => ({
@@ -85,4 +101,12 @@ export const promote = (moderatorId, playerId) => (dispatch, getState) => {
     party: { id },
   } = getState();
   db.promote(moderatorId, playerId, id);
+};
+
+export const kick = playerId => (dispatch, getState) => {
+  const db = Db.get();
+  const {
+    party: { id },
+  } = getState();
+  db.kick(playerId, id);
 };
