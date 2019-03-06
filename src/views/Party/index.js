@@ -12,9 +12,7 @@ import {
   View,
   List,
   ListItem,
-  Left,
   Footer,
-  Right,
   Icon,
   FooterTab,
 } from 'native-base';
@@ -23,28 +21,29 @@ import styles from './styles';
 import * as Actions from '../../actions';
 
 const Party = ({
-  navigation, flee, createGame, id, name, players, moderator, promote
+  navigation, flee, createGame, id, name, players, moderator, promote, kick
 }) => {
   const currentPlayers = Object.keys(players).map(k => (
     <ListItem key={k}>
-      <Left>
-        <Animatable.Text
-          style={Constants.deviceId === k ? styles.currentPlayer : {}}
-          animation="lightSpeedIn"
-        >
-          {players[k].name}
-        </Animatable.Text>
-      </Left>
-      {moderator && Constants.deviceId !== k && (
-        <Right>
-          <Icon type="Foundation" name="crown" onPress={() => promote(Constants.deviceId, k)} />
-        </Right>
-      )}
-      {players[k].moderator && (
-        <Right>
-          <Icon type="Foundation" name="crown" style={styles.activeCrown} />
-        </Right>
-      )}
+      <Animatable.View animation="lightSpeedIn" style={styles.listItem}>
+        <Text style={Constants.deviceId === k ? styles.currentPlayer : {}}>{players[k].name}</Text>
+        {moderator && Constants.deviceId !== k && (
+          <View style={styles.options}>
+            <Icon
+              type="Foundation"
+              name="crown"
+              style={styles.inactiveCrown}
+              onPress={() => promote(Constants.deviceId, k)}
+            />
+            <Icon type="Entypo" name="block" style={styles.kick} onPress={() => kick(k)} />
+          </View>
+        )}
+        {players[k].moderator && (
+          <View style={styles.options}>
+            <Icon type="Foundation" name="crown" style={styles.activeCrown} />
+          </View>
+        )}
+      </Animatable.View>
     </ListItem>
   ));
 
@@ -101,6 +100,7 @@ Party.propTypes = {
   flee: propTypes.func.isRequired,
   createGame: propTypes.func.isRequired,
   promote: propTypes.func.isRequired,
+  kick: propTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ party: { id, name, players = {} } }) => ({
@@ -113,6 +113,7 @@ const mapDispatchToProps = {
   flee: Actions.flee,
   createGame: Actions.createGame,
   promote: Actions.promote,
+  kick: Actions.kick,
 };
 
 export default connect(

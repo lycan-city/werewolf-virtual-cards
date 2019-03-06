@@ -1,6 +1,16 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  listItem: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  options: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
   qrContainer: {
     flex: 1,
     alignItems: 'center',
@@ -16,6 +26,14 @@ export default StyleSheet.create({
   },
   activeCrown: {
     color: 'gold',
+  },
+  inactiveCrown: {
+    color: 'gray',
+  },
+  kick: {
+    color: 'tomato',
+    fontSize: 25,
+    marginLeft: 10,
   },
   qrLabel: {
     fontSize: 20,

@@ -125,6 +125,15 @@ class Db {
       });
   }
 
+  kick(playerId, partyId) {
+    this.db
+      .collection('parties')
+      .doc(partyId)
+      .update({
+        [`players.${playerId}.kick`]: true,
+      });
+  }
+
   async joinParty(id, name, callback) {
     const { deviceId } = Constants;
     const joinedAt = Date.now();
@@ -142,22 +151,18 @@ class Db {
     return { [deviceId]: join };
   }
 
-  async fleeParty(party) {
+  async fleeParty(partyId) {
     const { deviceId } = Constants;
-    const { [deviceId]: playerToRemove, ...updatedPlayers } = party.players;
-    const updatedParty = {
-      ...party,
-      players: updatedPlayers,
-    };
 
-    await this.db
+    this.db
       .collection('parties')
-      .doc(party.id)
-      .set(updatedParty);
+      .doc(partyId)
+      .update({
+        [`players.${deviceId}`]: firebase.firestore.FieldValue.delete(),
+      });
 
     this.unsubscribeParty();
     this.unsubscribeParty = this.noop;
-    return updatedParty;
   }
 }
 
