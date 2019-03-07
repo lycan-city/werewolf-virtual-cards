@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   icon: {
-    fontSize: 34,
+    fontSize: 30,
   },
   nameAlive: {
     fontSize: 22,

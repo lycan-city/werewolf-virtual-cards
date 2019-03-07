@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import {
   Container,
   Body,
-  Content,
   Thumbnail,
   Button,
-  List,
   ListItem,
   Left,
   Icon,
@@ -13,6 +11,8 @@ import {
   Text,
   Footer,
   FooterTab,
+  Tabs,
+  Tab,
 } from 'native-base';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
@@ -57,18 +57,10 @@ class Game extends Component {
     ));
     return (
       <Container>
-        <Content>
-          <List>
-            <ListItem itemHeader first>
-              <Text>Players</Text>
-            </ListItem>
-            {playersList}
-            <ListItem itemHeader>
-              <Text>Script</Text>
-            </ListItem>
-            {script}
-          </List>
-        </Content>
+        <Tabs>
+          <Tab heading="Players">{playersList}</Tab>
+          <Tab heading="Script">{script}</Tab>
+        </Tabs>
         <Footer style={styles.footer}>
           <FooterTab>
             <Button block bordered danger style={styles.button} onPress={() => gameOver()}>
