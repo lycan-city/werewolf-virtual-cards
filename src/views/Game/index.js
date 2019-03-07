@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   Container,
+  Content,
   Body,
   Thumbnail,
   Button,
@@ -58,8 +59,12 @@ class Game extends Component {
     return (
       <Container>
         <Tabs>
-          <Tab heading="Players">{playersList}</Tab>
-          <Tab heading="Script">{script}</Tab>
+          <Tab heading="Players">
+            <Content>{playersList}</Content>
+          </Tab>
+          <Tab heading="Script">
+            <Content>{script}</Content>
+          </Tab>
         </Tabs>
         <Footer style={styles.footer}>
           <FooterTab>
