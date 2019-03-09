@@ -19,6 +19,9 @@ export default StyleSheet.create({
     textDecorationLine: 'line-through',
     textDecorationColor: 'red',
   },
+  footer: {
+    marginBottom: 20,
+  },
   button: {
     backgroundColor: '#fff',
     marginTop: 5,
