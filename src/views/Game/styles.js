@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   icon: {
-    fontSize: 34,
+    fontSize: 30,
   },
   nameAlive: {
     fontSize: 22,
@@ -19,9 +19,12 @@ export default StyleSheet.create({
     textDecorationLine: 'line-through',
     textDecorationColor: 'red',
   },
+  footer: {
+    marginBottom: 20,
+  },
   button: {
     backgroundColor: '#fff',
-    marginTop: 10,
+    marginTop: 5,
     marginLeft: 5,
     marginRight: 5,
   },
